@@ -1,0 +1,69 @@
+.image-section {
+  height: 100vh;
+  overflow: hidden;
+
+  /* width: 50%; */
+}
+.loginInput {
+  padding: 13px;
+  padding-left: 3vw;
+  background-color: #f1f1f1;
+  border: none;
+  border-left: 6px solid #4e4e50;
+  font-size: 20px;
+  outline: none;
+  background-color: #fbfbfb;
+}
+.loginInput:hover {
+  background-color: #efefef;
+}
+.logo-text {
+  font-size: 20px;
+  color: #4e4e50;
+  font-size: 70px;
+  font-family: "Lato", sans-serif;
+  font-weight: 200;
+  word-break: keep-all;
+}
+.detail-text {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.login-button {
+  padding: 0px 40px 0px 40px;
+  font-size: 30px;
+  border-radius: 12px;
+  border: none;
+  background-color: #4e4e50;
+  font-weight: 700;
+}
+.forgotPassword {
+  font-size: 25px;
+}
+.apply {
+  font-size: 22px;
+}
+@media (min-width: 200px) and (max-width: 767px) {
+  .logo-text {
+    font-size: 39px;
+  }
+  .detail-text {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .loginInput {
+    font-size: 15px;
+  }
+  .login-button {
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .forgotPassword {
+    font-size: 15px;
+  }
+  .apply {
+    font-size: 13px;
+  }
+}
