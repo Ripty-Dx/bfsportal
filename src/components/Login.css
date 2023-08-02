@@ -11,7 +11,7 @@
   font-size: 18px;
   outline: none;
   background-color: #fbfbfb;
-  width: 90%;
+  width: 95%;
 }
 .loginInput:hover {
   background-color: #efefef;
@@ -73,6 +73,7 @@
   }
   .loginInput {
     font-size: 15px;
+    background-color: white;
   }
   .login-button {
     font-size: 20px;
@@ -130,6 +131,7 @@
   }
   .loginInput {
     font-size: 15px;
+    /* background-color: white; */
   }
   .login-button {
     font-size: 17px;
