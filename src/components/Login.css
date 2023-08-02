@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
 .image-section {
   height: 100vh;
   overflow: hidden;
@@ -5,25 +6,25 @@
   /* width: 50%; */
 }
 .loginInput {
-  padding: 13px;
+  padding: 15px;
   padding-left: 3vw;
   background-color: #f1f1f1;
   border: none;
   border-left: 6px solid #4e4e50;
-  font-size: 20px;
+  font-size: 18px;
   outline: none;
   background-color: #fbfbfb;
 }
 .loginInput:hover {
   background-color: #efefef;
 }
+
 .logo-text {
-  font-size: 20px;
   color: #4e4e50;
   font-size: 70px;
-  font-family: "Lato", sans-serif;
-  font-weight: 200;
   word-break: keep-all;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 .detail-text {
   font-size: 30px;
@@ -38,6 +39,11 @@
   background-color: #4e4e50;
   font-weight: 700;
 }
+.login-button:hover{
+  border: 1px solid #4e4e50;
+  color: #4e4e50 !important;
+  background-color: white;
+}
 .forgotPassword {
   font-size: 25px;
 }
@@ -46,7 +52,7 @@
 }
 @media (min-width: 200px) and (max-width: 767px) {
   .logo-text {
-    font-size: 39px;
+    font-size: 34px;
   }
   .detail-text {
     font-size: 18px;
@@ -65,5 +71,8 @@
   }
   .apply {
     font-size: 13px;
+  }
+  img{
+    width: 100%;
   }
 }

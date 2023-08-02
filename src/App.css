@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
+ /* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
 html,body,#root{
   height: 100%;
   width: 100%;
 }
-
 .bg-gray{
   background-color: #6b6d6f;
 }
@@ -12,5 +13,5 @@ html,body,#root{
   color: #6b6d6f;
 }
 body{
-  font-family: 'Lato', sans-serif;
-}
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;}
