@@ -43,13 +43,14 @@
   background-color: white;
 }
 .forgotPassword {
-  font-size: 25px;
+  font-size: 23px;
 }
 .apply {
   font-size: 22px;
 }
 .form-part {
   padding: 3rem;
+
   /* background-image: linear-gradient(to bottom right, #fcfcfe,#f0f3fa);   */
 }
 .bg-image {
@@ -105,6 +106,11 @@
     border: 3px solid #6c757d;
     border-radius: 20px;
     background: #f8f9fa;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
   }
   .p-5 {
     padding: 20px;
