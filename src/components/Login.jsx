@@ -29,7 +29,6 @@ const Login = () => {
                 </div>
                 <div className="row mt-4 form-input">
                 <input type="password" className="loginInput" name="password"  placeholder="Password"/>
-
                 </div>
                 <div className="row">
                    <div className="col-md-6  d-flex justify-content-center align-items-center mt-4 p-1">
@@ -40,11 +39,12 @@ const Login = () => {
                    </div>
                 </div>
                 <hr></hr>
-                <div className="d-flex justify-content-center mt-5 apply mb-0">
+                
+              </form>
+              <div className="d-flex justify-content-center mt-5 apply mb-0">
                 Don't have an account? &nbsp;
                 <a href="#1213827" className="text-dark fw-bold">Apply now</a>
                 </div>
-              </form>
             </div>
           </div>
           </div>
