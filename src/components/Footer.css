@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 
+.main{
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+flex-wrap: wrap;
+gap: 3rem;
+}
+/* d-flex flex-direction-column justify-content-around flex-wrap gap-3 */
 .footer-bg-color {
   background-color: #4e4e50;
   color: white;
@@ -50,4 +58,68 @@
   font-size: 12px;
   font-weight: 400;
   padding: 4px 9px;
+}
+#icons{
+  gap: 0.25rem;
+}
+/* small mobile */
+@media only screen and (max-width:360px) {
+   .titles{
+      font-size: small;
+   }
+   .links{
+    font-size: x-small;
+   }
+   .inputEmail{
+    font-size: 11px;
+   }
+   .main{
+    gap: 1rem;
+    justify-content: space-between;
+   }
+
+}
+/* @media only screen and (min-width: 600px) and (max-width: 768px) {
+  .main{
+    gap: 1rem;
+    justify-content: space-between;
+  }
+} */
+@media only screen and (min-width: 361px) and (max-width: 380px) {
+  .main{
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .titles{
+    font-size: small;
+ }
+ .links{
+  font-size: x-small;
+ }
+ #icons{
+ gap: 0.5rem;
+ }
+}
+/* medium mobile */
+@media only screen and (min-width: 381px) and (max-width: 426px) {
+  .main{
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .titles{
+    font-size: small;
+ }
+ .links{
+  font-size: x-small;
+ }
+ #icons{
+ gap: 0.7rem;
+ }
+}
+@media only screen and (min-width: 427px) and (max-width: 968px)  {
+  .main{
+    gap: 1rem;
+    justify-content: space-between;
+  }
+ 
 }
