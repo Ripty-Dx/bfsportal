@@ -9,10 +9,10 @@ import { GrMail } from "react-icons/gr";
 const Footer = () => {
   return (
     <>
-      <div className="fixed-bottom footer-bg-color p-3 fontFamily">
+      <div className="fixed-bottom footer-bg-color  fontFamily ">
         <div className="container-fluid">
           <div className="row ">
-            <div className="main">
+            <div className="main p-3 pt-4">
               {/* for symbols */}
               <div id="follow">
                 <div className="titles mb-1">follow us</div>
