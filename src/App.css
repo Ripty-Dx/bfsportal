@@ -14,4 +14,6 @@ html,body,#root{
 }
 body{
   font-weight: 400;
-  font-family: 'Lato', sans-serif;}
+  font-family: 'Lato', sans-serif;
+background-color: #fafafa;
+}

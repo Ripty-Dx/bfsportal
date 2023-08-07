@@ -5,6 +5,12 @@ import { IoMdCart } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 const Header1 = () => {
+  const showDropDownList = () => {
+    document.getElementById("drop-down-list").classList.remove("d-none");
+  };
+  const hideDropDownList = () => {
+    document.getElementById("drop-down-list").classList.add("d-none");
+  };
   return (
     <>
       <div className="fixed-top header-bg-color  fontFamily">
@@ -28,27 +34,47 @@ const Header1 = () => {
 
               {/* header options */}
               <div className="d-none d-md-flex header-options ">
+                {/* Customer Support */}
                 <div>
                   <a className="links-header fontFamily " href="#12">
                     Customer Support
                   </a>
                 </div>
+                {/* Sales Report */}
                 <div>
                   <a className="links-header fontFamily " href="#12">
                     Sales Report
                   </a>
                 </div>
+                {/* welcome name */}
                 <div>
                   <span className="lightColor ms-3"> Welcome </span> Ripty
                 </div>
+                {/* person logo and dropdown*/}
                 <div>
                   <BsFillPersonFill
+                    onMouseOver={showDropDownList}
+                    onMouseOut={hideDropDownList}
                     className="ms-3"
-                    style={{ fontSize: "28px" }}
+                    style={{ fontSize: "28px",cursor:"pointer" }}
                   />
+                  <div id="drop-down-list" className="list d-none" onMouseOver={showDropDownList} onMouseOut={hideDropDownList}>
+                    <ul className="p-2" >
+                      <li>
+                        <a href="#12">Order List</a>
+                      </li>
+                      <li>
+                        <a href="#12">Reports </a>
+                      </li>
+                      <li>
+                        <a href="#12">LogOut</a>
+                      </li>
+                    </ul>{" "}
+                  </div>
                 </div>
+                {/* cart logo */}
                 <div className="text-dark">
-                  <IoMdCart style={{ fontSize: "28px" }} className="ms-3" />
+                  <IoMdCart style={{ fontSize: "28px" }} className="mx-3" />
                 </div>
               </div>
             </div>
