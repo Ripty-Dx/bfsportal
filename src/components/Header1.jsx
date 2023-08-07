@@ -4,6 +4,7 @@ import logo from "../images/BeautyFashionLogo.png";
 import { IoMdCart } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
+import { RxCross1 } from "react-icons/rx";
 const Header1 = () => {
   const showDropDownList = () => {
     document.getElementById("drop-down-list").classList.remove("d-none");
@@ -11,24 +12,52 @@ const Header1 = () => {
   const hideDropDownList = () => {
     document.getElementById("drop-down-list").classList.add("d-none");
   };
+  const tripleButton = () => {
+    document.getElementById("welcome_name").classList.remove("d-none");
+    document.getElementById("tripleButton").style.display = "none";
+    document.getElementById("crossButton").classList.remove("d-none");
+    document.getElementById("mobile_header_options").classList.remove("d-none");
+  };
+  const crossButton = () => {
+    document.getElementById("welcome_name").classList.add("d-none");
+    document.getElementById("tripleButton").style.display = "block";
+    document.getElementById("crossButton").classList.add("d-none");
+    document.getElementById("mobile_header_options").classList.add("d-none");
+
+  };
   return (
     <>
-      <div className="fixed-top header-bg-color  fontFamily">
+      <div className="fixed-top  fontFamily">
         <div className="container-fluid">
-          <div className="row ">
+          <div className="row header-bg-color ">
             <div className="main-header p-3">
               {/* logo */}
               <div className="col-3 col-md-2 col-lg-1">
                 <img src={logo} alt="logo" width={"100%"}></img>
               </div>
+
               {/* welcome name */}
-              <div className="col-7 d-md-none fs-6 pt-1">
+              <div
+                id="welcome_name"
+                className="col-7 d-none d-md-none fs-6 pt-1"
+              >
                 <span className="lightColor"> Welcome </span> Name
               </div>
               {/* triple button */}
               <div className="d-sm-flex d-md-none col-sm-9 col-1">
-                <button className="tripleButton">
+                <button
+                  id="tripleButton"
+                  className="tripleButton"
+                  onClick={tripleButton}
+                >
                   <AiOutlineMenu />{" "}
+                </button>
+                <button
+                  id="crossButton"
+                  className="tripleButton d-none"
+                  onClick={crossButton}
+                >
+                  <RxCross1 />{" "}
                 </button>
               </div>
 
@@ -56,10 +85,15 @@ const Header1 = () => {
                     onMouseOver={showDropDownList}
                     onMouseOut={hideDropDownList}
                     className="ms-3"
-                    style={{ fontSize: "28px",cursor:"pointer" }}
+                    style={{ fontSize: "28px", cursor: "pointer" }}
                   />
-                  <div id="drop-down-list" className="list d-none" onMouseOver={showDropDownList} onMouseOut={hideDropDownList}>
-                    <ul className="p-2" >
+                  <div
+                    id="drop-down-list"
+                    className="list d-none"
+                    onMouseOver={showDropDownList}
+                    onMouseOut={hideDropDownList}
+                  >
+                    <ul className="p-2">
                       <li>
                         <a href="#12">Order List</a>
                       </li>
@@ -76,6 +110,29 @@ const Header1 = () => {
                 <div className="text-dark">
                   <IoMdCart style={{ fontSize: "28px" }} className="mx-3" />
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div id="mobile_header_options" className="col-12 d-none d-md-none">
+              <div className="">
+                <ul>
+                  <li>
+                    <a href="#123">Customer Support</a>
+                  </li>
+                  <li>
+                    <a href="#123">Sales Report</a>
+                  </li>
+                  <li>
+                    <a href="#123">Order List</a>
+                  </li>
+                  <li>
+                    <a href="#123">Reports</a>
+                  </li>
+                  <li>
+                    <a href="#123">LogOut</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

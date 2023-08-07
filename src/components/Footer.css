@@ -123,5 +123,11 @@ gap: 3rem;
     gap: 1rem;
     justify-content: space-between;
   }
+  .titles{
+    font-size: small;
+ }
+ .links{
+  font-size: x-small;
+ }
  
 }

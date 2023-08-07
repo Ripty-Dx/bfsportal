@@ -49,6 +49,7 @@
 .tripleButton {
   border: none;
   background-color: #f5f5f5;
+  /* position: relative; */
 }
 .lightColor {
   color: #b0b0b1;
@@ -73,9 +74,38 @@
 .links-header:hover {
   color: #b0b0b1;
 }
+#mobile_header_options {
+  height: max-content;
+  padding: 0;
+
+  /* z-index: 2; */
+  /* position: relative; */
+}
+#mobile_header_options ul {
+  list-style: none;
+  padding-left: 0;
+}
+#mobile_header_options ul li {
+  border: 1px solid white;
+  background-color: #b0b0b1;
+  color: #575758;
+  padding: 2px;
+  padding-left: 5px;
+}
+#mobile_header_options ul li a {
+  color: black;
+  text-decoration: none;
+}
+#mobile_header_options ul li a:hover {
+  color: #f5f5f5;
+}
 @media (max-width: 991.98px) {
   .fontFamily {
     font-size: 15px;
     font-weight: 400;
   }
+}
+.tripleButton:hover {
+  transform: scale(1.5);
+  transition: transform 0.5s;
 }
