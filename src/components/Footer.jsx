@@ -16,7 +16,10 @@ const Footer = () => {
               {/* for symbols */}
               <div id="follow">
                 <div className="titles mb-1">follow us</div>
-                <div id="icons" className="d-flex align-items-center justify-content-center flex-wrap">
+                <div
+                  id="icons"
+                  className="d-flex align-items-center justify-content-center flex-wrap"
+                >
                   <button className="bg-lightColor px-2 py-1 rounded-circle text-white size">
                     <MdOutlineFacebook />
                   </button>
@@ -61,10 +64,11 @@ const Footer = () => {
                 <div className="titles mb-1">help</div>
                 <div className="subTitles">
                   <a href="21" className="links">
-                    become <span  style={{textTransform:"lowercase"}}>a</span> partner{" "}
+                    become <span style={{ textTransform: "lowercase" }}>a</span>{" "}
+                    partner{" "}
                   </a>
                   <a href="21" className="links">
-                   Contact Us
+                    Contact Us
                   </a>
                   <a href="21" className="links">
                     privacy policy
@@ -78,13 +82,24 @@ const Footer = () => {
               <div id="subscribe">
                 <div className="titles mb-1">subscribe</div>
                 <div className="subTitles">
-                  <a href="21" className="links" style={{textTransform:"none"}}>
-                    Get the latest <span  style={{textTransform:"uppercase"}}>beauty</span> fashion updates!{" "}
+                  <a
+                    href="21"
+                    className="links"
+                    style={{ textTransform: "none" }}
+                  >
+                    Get the latest{" "}
+                    <span style={{ textTransform: "uppercase" }}>beauty</span>{" "}
+                    fashion updates!{" "}
                   </a>
                   <div className="d-flex gap-2 flex-wrap">
-                    <input  type="email" name="email" placeholder="Email address" className="inputEmail"/>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email address"
+                      className="inputEmail"
+                    />
                     <button className="signUp-button">sign up</button>
-                    </div>
+                  </div>
                 </div>
               </div>
             </div>
