@@ -2,6 +2,7 @@
 .image-section {
   height: 100vh;
   overflow: hidden;
+  /* width: 100%; */
 }
 .loginInput {
   padding: 15px;
@@ -54,7 +55,7 @@
   /* background-image: linear-gradient(to bottom right, #fcfcfe,#f0f3fa);   */
 }
 .bg-image {
-  background: url("../images/BFS-login-page1.jpg");
+  background: url("../images/BFS Portal Site.png");
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -63,7 +64,7 @@
     font-size: 34px;
   }
   .bg-image {
-    background: url("../images/BFS-login-page1.jpg");
+    background: url("../images/BFS Portal Site.png");
     /* background-repeat: no-repeat; */
     background-size: cover;
   }
@@ -160,9 +161,10 @@
     /* display: block; */
     /* position: absolute; */
     height: 100%;
+    /* width: 100%; */
   }
   .bg-image {
-    background: url("../images/BFS-login-page1.jpg");
+    background: url("../images/BFS Portal Site.png");
     /* background-repeat: no-repeat; */
     background-size: cover;
   }

@@ -2,6 +2,7 @@ import React from "react";
 import "./Login.css";
 // import image from "../images/BFS-login-page1.jpg";
 import logo from "../images/BeautyFashionLogo.png";
+// import portal_login_image from "../images/BFS Portal Site.png"
 const Login = () => {
 
   return (

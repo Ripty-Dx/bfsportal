@@ -24,7 +24,7 @@
 }
 .list ul {
   border-radius: 12px;
-  background-color: white;
+  background-color: var(--header_drop_down_list_background_color);
   list-style: none;
   padding-left: 0;
   z-index: 1;
@@ -39,7 +39,7 @@
   min-width: max-content;
 }
 .list ul li:hover {
-  background-color: rgba(194, 217, 249, 0.3);
+  background-color: var(--header_drop_down_list_onHover_background_color);
 }
 .list ul li a {
   text-decoration: none;
@@ -87,7 +87,7 @@
 }
 #mobile_header_options ul li {
   border: 1px solid white;
-  background-color: #eeeeeed1;
+  background-color:var(--header_side_navBar_background_color);
   color: var(--header_font_color);
   padding: 5px;
   padding-left: 2em;
