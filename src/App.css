@@ -1,19 +1,33 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
- /* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
-html,body,#root{
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap");
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap'); */
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
-.bg-gray{
+:root {
+  --main_app_background_color: #fafafa;
+  --footer_background_color: #4e4e50;
+  --footer_font_color: white;
+  --footer_light_color: #717173;
+  --header_background_color: #f5f5f5;
+  --header_font_color: #575758;
+  --header_font_light_color: #b0b0b1;
+  --header_font_family:Roboto, sans-serif;
+}
+.bg-gray {
   background-color: #6b6d6f;
 }
-.c-gray{
+.c-gray {
   color: #6b6d6f;
 }
-body{
+
+body {
   font-weight: 400;
-  font-family: 'Lato', sans-serif;
-background-color: #fafafa;
+  font-family: "Lato", sans-serif;
+  background-color: var(--main_app_background_color);
 }

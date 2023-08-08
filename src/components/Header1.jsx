@@ -130,6 +130,8 @@ const Header1 = () => {
                     <a href="#123">Reports</a>
                   </li>
                   <li>
+                    <a href="#123">Cart</a>
+                  </li><li>
                     <a href="#123">LogOut</a>
                   </li>
                 </ul>
