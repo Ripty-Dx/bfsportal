@@ -9,8 +9,8 @@ gap: 3rem;
 }
 /* d-flex flex-direction-column justify-content-around flex-wrap gap-3 */
 .footer-bg-color {
-  background-color: #4e4e50;
-  color: white;
+  background-color: var(--footer_background_color);
+  color: var(--footer_font_color);
 }
 .titles {
   text-transform: uppercase;
@@ -22,7 +22,7 @@ gap: 3rem;
   font-weight: 500;
 }
 .bg-lightColor {
-  background-color: #717173;
+  background-color: var(--footer_light_color);
 }
 .size {
   font-size: large;
@@ -31,7 +31,7 @@ gap: 3rem;
 .links {
   text-decoration: none;
   text-transform: capitalize;
-  color: white;
+  color: var(--footer_font_color);
   font-size: small;
   font-weight: 400;
 }
@@ -40,8 +40,8 @@ gap: 3rem;
   flex-direction: column;
 }
 .signUp-button {
-  background-color: white;
-  color: #4e4e50;
+  background-color: var(--footer_font_color);
+  color: var(--footer_background_color);
   border-radius: 8px;
   border: none;
   padding: 0px 15px;
@@ -52,11 +52,11 @@ gap: 3rem;
 }
 .inputEmail {
   margin-top: 5px;
-  background-color: #4e4e50;
-  border: 1px solid white;
+  background-color: var(--footer_background_color);
+  border: 1px solid var(--footer_font_color);
   border-radius: 6px;
   height: 20%;
-  color: white;
+  color: var(--footer_font_color);
   font-size: 12px;
   font-weight: 400;
   padding: 4px 9px;
