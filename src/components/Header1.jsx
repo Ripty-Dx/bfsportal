@@ -29,13 +29,13 @@ const Header1 = () => {
   };
   return (
     <>
-      <div className="fixed-top  fontFamily">
+      <div className="header_font_family">
         <div className="container-fluid">
           <div className="row header-bg-color ">
             <div className="main-header p-3">
               {/* logo */}
-              <div className="col-3 col-md-2 col-lg-1">
-                <img src={logo} alt="logo" width={"100%"}></img>
+              <div className="col-3 col-md-2 col-lg-1" id="logo">
+                <img src={logo} alt="logo" width={"100%"} onClick={()=>{window.location.href="/dashboard"}}></img>
               </div>
 
               {/* welcome name */}
@@ -67,13 +67,13 @@ const Header1 = () => {
               <div className="d-none d-md-flex header-options ">
                 {/* Customer Support */}
                 <div>
-                  <a className="links-header fontFamily " href="#12">
+                  <a className="links-header header_font_family " href="#12">
                     Customer Support
                   </a>
                 </div>
                 {/* Sales Report */}
                 <div>
-                  <a className="links-header fontFamily " href="#12">
+                  <a className="links-header header_font_family " href="#12">
                     Sales Report
                   </a>
                 </div>
