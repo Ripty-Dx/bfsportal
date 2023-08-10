@@ -5,11 +5,11 @@
   /* width: 100%; */
 }
 .loginInput {
-  padding: 15px;
+  padding: 10px;
   padding-left: 3vw;
   border: none;
   border-left: 6px solid #4e4e50;
-  font-size: 18px;
+  font-size: 15px;
   outline: none;
   background-color: #fbfbfb;
   width: 95%;
@@ -20,20 +20,20 @@
 
 .logo-text {
   color: #4e4e50;
-  font-size: 70px;
+  font-size: 65px;
   word-break: keep-all;
   font-family: "Lato", sans-serif;
   font-weight: 300;
 }
 .detail-text {
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
 }
 
 .login-button {
-  padding: 0px 40px 0px 40px;
-  font-size: 30px;
-  border-radius: 12px;
+  padding: 3px 40px 3px 40px;
+  font-size: 20px;
+  border-radius: 8px;
   border: none;
   background-color: #4e4e50;
   font-weight: 700;
@@ -44,30 +44,36 @@
   background-color: white;
 }
 .forgotPassword {
-  font-size: 23px;
+  font-size: 18px;
 }
 .apply {
-  font-size: 22px;
+  font-size: 18px;
 }
 .form-part {
-  padding: 3rem;
+  padding-left: 3rem;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
 
   /* background-image: linear-gradient(to bottom right, #fcfcfe,#f0f3fa);   */
 }
-.bg-image {
+/* .bg-image {
   background: url("../images/BFS Portal Site.png");
   background-repeat: no-repeat;
   background-size: contain;
-}
+  height: 80%;
+} */
+
 @media (min-width: 200px) and (max-width: 767px) {
+ 
   .logo-text {
     font-size: 34px;
   }
-  .bg-image {
+  /* .bg-image {
     background: url("../images/BFS Portal Site.png");
-    /* background-repeat: no-repeat; */
+    background-repeat: no-repeat;
     background-size: cover;
-  }
+  } */
   .detail-text {
     font-size: 18px;
     font-weight: 700;
@@ -88,9 +94,10 @@
   .apply {
     font-size: 13px;
   }
-  img {
+  .display-part img {
     width: 80%;
     object-fit: fill;
+    margin-top: 20px;
     /* position: absolute; */
   }
   .form-part {
@@ -100,7 +107,10 @@
   .image-section {
     /* display: block; */
     position: absolute;
-    height: 100%;
+    height: -webkit-fill-available;
+  }
+  .position{
+    position: relative;
   }
   .display-part {
     opacity: 0.95;
@@ -163,11 +173,11 @@
     height: 100%;
     /* width: 100%; */
   }
-  .bg-image {
+  /* .bg-image {
     background: url("../images/BFS Portal Site.png");
-    /* background-repeat: no-repeat; */
+    background-repeat: no-repeat;
     background-size: cover;
-  }
+  } */
 
   .display-part {
     opacity: 0.95;
@@ -185,6 +195,7 @@
 
   .form-part img {
     width: 50%;
+    margin-top: 20px;
   }
   .mt-5 {
     margin: 20px 20px 2px 20px !important;
