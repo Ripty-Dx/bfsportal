@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const ApiAccess = () => {
   const [apiData, setApiData] = useState([]);
-  const fetchData = ({email,password}) => {
+  const fetchData = (email,password) => {
     fetch(" https://dev.beautyfashionsales.com/beauty/85mB&7viTC6P", {
       method: "POST",
       headers: {
@@ -28,6 +28,8 @@ const ApiAccess = () => {
   return (
     <>
       {
+        console.log(apiData)
+
         // JSON.stringify(apiData["data"]["user"]["Name"])
       }
     </>

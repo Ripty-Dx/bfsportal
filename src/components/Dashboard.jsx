@@ -1,19 +1,25 @@
 import React from "react";
 import Header1 from "./Header1";
 import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
-  const navigate = useNavigate();
   return (
     <>
       {localStorage.getItem("User name") ? (
         <>
-          <Header1 />
-          <Footer />
+          <div className="">
+            <Header1 />
+            <div className="">
+              <div className=" ">Your Accounts</div>
+              <div className=" ">Your Accounts</div>
+            </div>
+            <div className="fixed-bottom">
+              <Footer />
+            </div>
+          </div>
         </>
       ) : (
         <>
-          {window.location.href="/"}
+          {(window.location.href = "/")}
           {/* {window.location.replace("/")} */}
           {/* { navigate("/")} */}
         </>

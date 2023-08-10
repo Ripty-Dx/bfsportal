@@ -9,7 +9,7 @@ import { GrMail } from "react-icons/gr";
 const Footer = () => {
   return (
     <>
-      <div className="fixed-bottom footer-bg-color  fontFamily ">
+      <div className=" footer-bg-color  fontFamily ">
         <div className="container-fluid">
           <div className="row ">
             <div className="main p-3 pt-4">
