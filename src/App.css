@@ -7,7 +7,7 @@ body,
 #root {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  /* overflow: auto; */
 }
 :root {
   --main_app_background_color: #fafafa;
@@ -18,6 +18,9 @@ body,
   --header_font_color: #575758;
   --header_font_light_color: #b0b0b1;
   --header_font_family:Roboto, sans-serif;
+  --header_drop_down_list_background_color: white;
+  --header_drop_down_list_onHover_background_color:rgba(194, 217, 249, 0.3);
+  --header_side_navBar_background_color:#eeeeeed1;
 }
 .bg-gray {
   background-color: #6b6d6f;
