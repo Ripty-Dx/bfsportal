@@ -4,35 +4,81 @@ import "./Login.css";
 import logo from "../images/BeautyFashionLogo.png";
 import portal_login_image from "../images/BFS Portal Site.png";
 import { useEffect } from "react";
-import ApiAccess from "./ApiAccess";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
+    username: null,
+    password: null,
   });
+  const navigate = useNavigate();
   // onchange
-
   const onInputChange = (e) => {
     setLoginData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    console.log(loginData);
+  };
+  const [apiData, setApiData] = useState([]);
+  const fetchData = (email, password) => {
+    // console.log(email,password);
+    fetch(" https://dev.beautyfashionsales.com/beauty/85mB&7viTC6P", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(apiData);
+        setApiData((prev) => ({
+          ...prev,
+          data,
+        }));
+        // console.log(apiData);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const clearInput = () => {
+    document.getElementById("form-input").reset();
+    setLoginData({
+      username: null,
+      password: null,
+    });
   };
   const login = (e) => {
     e.preventDefault();
-    if(loginData.username===localStorage.getItem("BFS Portal").email && loginData.password===localStorage.getItem("BFS Portal").password){
-      alert(" Valid credentials.");
-    
+    fetchData(loginData.username, loginData.password);
+    console.log(loginData.username, loginData.password);
+    console.log("apiData", apiData);
+    console.log("apiData.status", apiData.data.status);
+    if (JSON.stringify(apiData.data.status) === "400") {
+      clearInput();
+      alert("Enter Valid Credentials");
+    } else if (JSON.stringify(apiData.data.status) === "200") {
+      // console.log(apiData.data.data.user.Name);
+      localStorage.setItem("User name", apiData.data.data.user.Name);
+      // console.log("get item",localStorage.getItem("User name"));;
+      navigate("/dashboard");
 
-    }
-    else{
-      alert("Enter valid username and password.")
+      // navigate("/dashboard",{state:{name:apiData.data.data.user.Name}});
+    } else {
+      // alert("Something went wrong. Try Again");
+      navigate("/");
     }
   };
-
+  useEffect(() => {
+    fetchData(loginData.username, loginData.password);
+    // setApiData()
+    // console.log(apiData);
+  }, [apiData, loginData]);
   return (
     <>
-    <ApiAccess/>
       <div className="container-fluid">
         <div className="row position bg-white">
           <div className="col-md-3 col-lg-6 col-12 p-0 m-0  image-section  ">
@@ -74,7 +120,6 @@ const Login = () => {
                       name="password"
                       placeholder="Password"
                       onChange={onInputChange}
-
                     />
                   </div>
                   <div className="row">
