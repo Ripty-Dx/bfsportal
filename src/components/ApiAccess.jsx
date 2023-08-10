@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 
 const ApiAccess = () => {
   const [apiData, setApiData] = useState([]);
-  const fetchData = () => {
+  const fetchData = ({email,password}) => {
     fetch(" https://dev.beautyfashionsales.com/beauty/85mB&7viTC6P", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        email: "sangeetaa@designersx.com ",
-        password: "Dxdev@575c",
+        email:email,
+        password: password,
       }),
     })
       .then((response) => response.json())
@@ -20,16 +20,9 @@ const ApiAccess = () => {
       })
       .catch((err) => console.log(err));
   };
-  const setData = () => {
-    localStorage.setItem("BFS Portal", JSON.stringify({
-      email: "sangeetaa@designersx.com",
-      password: "Dxdev@575c",
-    }));
-    console.log("data saved");
-  };
+  
   useEffect(() => {
     fetchData();
-    setData();
   }, []);
 
   return (

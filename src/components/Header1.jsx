@@ -5,7 +5,10 @@ import { IoMdCart } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
+import { useLocation } from "react-router-dom";
 const Header1 = () => {
+  const location=useLocation();
+  // console.log(location.state.name);
   const showDropDownList = () => {
     document.getElementById("drop-down-list").classList.remove("d-none");
   };
@@ -23,7 +26,6 @@ const Header1 = () => {
     document.getElementById("tripleButton").style.display = "block";
     document.getElementById("crossButton").classList.add("d-none");
     document.getElementById("mobile_header_options").classList.add("d-none");
-
   };
   return (
     <>
@@ -41,10 +43,10 @@ const Header1 = () => {
                 id="welcome_name"
                 className="col-7 d-none d-md-none fs-6 pt-1"
               >
-                <span className="lightColor"> Welcome </span> Name
+                <span className="lightColor"> Welcome </span> {localStorage.getItem("User name")}
               </div>
               {/* triple button */}
-              <div className="d-sm-flex d-md-none col-sm-9 col-1">
+              <div className="d-sm-flex d-md-none col-sm-1 col-1">
                 <button
                   id="tripleButton"
                   className="tripleButton"
@@ -77,7 +79,7 @@ const Header1 = () => {
                 </div>
                 {/* welcome name */}
                 <div>
-                  <span className="lightColor ms-3"> Welcome </span> Ripty
+                  <span className="lightColor ms-3"> Welcome </span> {localStorage.getItem("User name")}
                 </div>
                 {/* person logo and dropdown*/}
                 <div>
@@ -101,7 +103,7 @@ const Header1 = () => {
                         <a href="#12">Reports </a>
                       </li>
                       <li>
-                        <a href="#12">LogOut</a>
+                        <a href="/logout">LogOut</a>
                       </li>
                     </ul>{" "}
                   </div>
@@ -131,8 +133,9 @@ const Header1 = () => {
                   </li>
                   <li>
                     <a href="#123">Cart</a>
-                  </li><li>
-                    <a href="#123">LogOut</a>
+                  </li>
+                  <li>
+                    <a href="/logout">LogOut</a>
                   </li>
                 </ul>
               </div>
