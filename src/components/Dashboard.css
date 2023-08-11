@@ -1,0 +1,4 @@
+#resetButton{
+  background-color: var(--header_font_light_color);  
+  color: white;
+}
