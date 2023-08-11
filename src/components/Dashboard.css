@@ -1,0 +1,11 @@
+#resetButton{
+  background-color: var(--header_font_light_color);  
+  color: white;
+}
+.icon{
+    background-color: #999999;
+}
+.transition:hover{
+    color: white;
+    background-color: #999999 !important;
+   }

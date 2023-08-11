@@ -39,7 +39,7 @@ const Login = () => {
           ...prev,
           data,
         }));
-        // console.log(apiData);
+         console.log(data);
       })
       .catch((err) => console.log(err));
   };
