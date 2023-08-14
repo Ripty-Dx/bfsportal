@@ -1,10 +1,47 @@
-import React from "react";
 import Header1 from "./Header1";
 import Footer from "./Footer";
 import "./Dashboard.css";
 import { LiaSortAlphaDownSolid } from "react-icons/lia";
+import { LiaSortAlphaUpSolid } from "react-icons/lia";
 import { BsFillPersonFill } from "react-icons/bs";
+import { useRef, useState } from "react";
 const Dashboard = () => {
+  const ref = useRef(JSON.parse(localStorage.getItem("Api Data")));
+  const [sortByName, setSortByName] = useState(false);
+  // console.log(ref.current.second);
+  const sortAccounts = (e) => {
+    e.preventDefault();
+    if (sortByName) {
+      ref.current.second.sort((a, b) => {
+        const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.Name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+      });
+      setSortByName(false);
+    } else {
+      ref.current.second.sort((a, b) => {
+        const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.Name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        // names must be equal
+        return 0;
+      });
+      setSortByName(true);
+    }
+    // console.log("sort", ref.current.second);
+  };
   return (
     <>
       {localStorage.getItem("User name") ? (
@@ -22,8 +59,12 @@ const Dashboard = () => {
                 {/* sort button */}
                 <div className=" col-lg-auto p-md-0 col-md-2 d-flex p-lg-2 d-flex align-items-center justify-content-lg-center justify-content-sm-left">
                   Sort By: &nbsp;
-                  <button className="btn btn-light fs-4 px-2 shadow-sm bg-white  pt-0 m-0">
-                    <LiaSortAlphaDownSolid />
+                  <button
+                    className="btn btn-light fs-4 px-2 shadow-sm bg-white  pt-0 m-0"
+                    onClick={sortAccounts}
+                  >
+                    {sortByName? <LiaSortAlphaUpSolid/>:<LiaSortAlphaDownSolid />}
+                   
                   </button>
                 </div>
                 {/* dropdown button */}
@@ -36,19 +77,19 @@ const Dashboard = () => {
                   >
                     Manufactured By{" "}
                   </button>
-                  <ul class="dropdown-menu">
+                  <ul className="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#1">
+                      <a className="dropdown-item" href="#1">
                         1
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#1">
+                      <a className="dropdown-item" href="#1">
                         2
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#1">
+                      <a className="dropdown-item" href="#1">
                         3
                       </a>
                     </li>
@@ -72,45 +113,30 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="row d-flex gap-1 justify-content-center mt-3">
-                <div className="col-md-3 ">
-                  <div className="bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
-                    <span className="px-4  m-1 p-2">
-                      <BsFillPersonFill
-                        size={"35px"}
-                        className="p-1 text-white rounded-circle border-0 icon"
-                      />
-                    </span>
-                    <div className="transition mx-auto">
-                      <button className="btn fw-bold ">Apothe</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-3 ">
-                  <div className="bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
-                    <span className="px-4  m-1 p-2">
-                      <BsFillPersonFill
-                        size={"35px"}
-                        className="p-1 text-white rounded-circle border-0 icon"
-                      />
-                    </span>
-                    <div className="transition mx-auto">
-                      <button className="btn fw-bold ">Apothe</button>
-                    </div>
-                  </div>
-                </div><div className="col-md-3 ">
-                  <div className="bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
-                    <span className="px-4  m-1 p-2">
-                      <BsFillPersonFill
-                        size={"35px"}
-                        className="p-1 text-white rounded-circle border-0 icon"
-                      />
-                    </span>
-                    <div className="transition mx-auto">
-                      <button className="btn fw-bold ">Apothe</button>
-                    </div>
-                  </div>
-                </div>
+              <div className=" row d-flex gap-1 justify-content-center mt-3" style={{margin: '0 .5em'}}>
+                {ref.current.second.map((element, index) => {
+                  return (
+                    <>
+                      <div className="col-md-3 " key={index} style={{margin:'0 15px'}}>
+                        <div className="bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
+                          <div className="col-md-4 mx-auto">
+                            <div className="d-flex align-items-center justify-content-center">
+                              <BsFillPersonFill
+                                size={"35px"}
+                                className="p-1 text-white rounded-circle border-0 icon"
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-8 d-flex align-items-center justify-content-center transition ">
+                            <button className="btn fw-bold " key={element.Id}>
+                              {element?.Name}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
               </div>
             </div>
             {/* Footer */}
