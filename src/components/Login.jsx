@@ -63,6 +63,8 @@ const Login = () => {
     } else if (JSON.stringify(apiData.data.status) === "200") {
       // console.log(apiData.data.data.user.Name);
       localStorage.setItem("User name", apiData.data.data.user.Name);
+      localStorage.setItem("Api Data", JSON.stringify(apiData.data));
+
       // console.log("get item",localStorage.getItem("User name"));;
       navigate("/dashboard");
 

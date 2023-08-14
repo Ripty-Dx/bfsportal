@@ -1,11 +1,22 @@
-#resetButton{
-  background-color: var(--header_font_light_color);  
+#resetButton {
+  background-color: var(--header_font_light_color);
   color: white;
 }
-.icon{
-    background-color: #999999;
+.icon {
+  background-color: #999999;
 }
-.transition:hover{
-    color: white;
-    background-color: #999999 !important;
-   }
+
+.transition:hover {
+  color: white;
+  border-top-right-radius: var(--bs-border-radius-lg);
+  border-bottom-right-radius: var(--bs-border-radius-lg);
+  background: linear-gradient(
+    to right,
+    hsl(0, 1%, 81%) 0%,
+    hsl(0, 0%, 63%) 25%,
+    hsl(0, 0%, 51%) 37%,
+    hsl(0, 1%, 43%) 100%
+  ) !important; 
+  transition: background 300ms ease-out 0s;
+  /* transition: background 300ms linear; */
+} 
