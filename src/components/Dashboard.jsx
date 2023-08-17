@@ -4,15 +4,23 @@ import "./Dashboard.css";
 import { LiaSortAlphaDownSolid } from "react-icons/lia";
 import { LiaSortAlphaUpSolid } from "react-icons/lia";
 import { BsFillPersonFill } from "react-icons/bs";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const Dashboard = () => {
-  const ref = useRef(JSON.parse(localStorage.getItem("Api Data")));
-  const [sortByName, setSortByName] = useState(false);
-  // console.log(ref.current.second);
-  const sortAccounts = (e) => {
-    e.preventDefault();
-    if (sortByName) {
-      ref.current.second.sort((a, b) => {
+  const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
+  const { second } = apiData.current || {};
+  // let refApiData = {};
+  const [refApiData, setRefApiData] = useState(apiData);
+  // console.log(refApiData);
+  const [sortInDescending, setSortInDescending] = useState(false);
+  const [searchText, setSearchText] = useState(null);
+  // console.log(refApiData.current.second);
+  // console.log(sortInDescending);
+  const sortAccounts = (e, data) => {
+    e?.preventDefault();
+    if (sortInDescending) {
+      console.log("sort in descending is true");
+      //descending order
+      data.sort((a, b) => {
         const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
         const nameB = b.Name.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -24,9 +32,13 @@ const Dashboard = () => {
         // names must be equal
         return 0;
       });
-      setSortByName(false);
+      if (e.type === "input") {
+      } else setSortInDescending(false);
     } else {
-      ref.current.second.sort((a, b) => {
+      //ascending order
+      console.log("sort in descending is false");
+
+      data.sort((a, b) => {
         const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
         const nameB = b.Name.toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -38,12 +50,71 @@ const Dashboard = () => {
         // names must be equal
         return 0;
       });
-      setSortByName(true);
+      if (e.type === "input") {
+      } else setSortInDescending(true);
     }
-    // console.log("sort", ref.current.second);
+    // console.log("sort", refApiData.current.second);
   };
+  const searchButton = (e) => {
+    // console.log(e);
+    // console.log(second);
+    setSearchText(document.getElementById("searchButton").value);
+    var searchTextString = document.getElementById("searchButton").value;
+    // console.log("searchTextString", searchTextString);
+    if (searchTextString === "") {
+      refApiData.current.second = [...second];
+      document.getElementById("noData").classList.add("d-none");
+      document.getElementById("capsuleButtons").classList.remove("d-none");
+    } else {
+      let filteredObjectsArray = [];
+      second?.map((obj) => {
+        if (obj.Name.toUpperCase().match(searchTextString.toUpperCase()))
+          filteredObjectsArray.push(obj);
+        return 1;
+      });
+      // console.log({ aaa: apiData.current.second, filteredObjectsArray });
+      if (filteredObjectsArray.length > 0) {
+        // refApiData.current.second = [...filteredObjectsArray];
+        console.log("before sort", filteredObjectsArray);
+        console.log(sortInDescending);
+        // sortAccounts(e, filteredObjectsArray );
+        // console.log(filteredObjectsArray);
+       setRefApiData({ current: { second: filteredObjectsArray } });
+       if (sortInDescending) {
+
+        setSortInDescending(false);
+        sortAccounts(e, refApiData.current.second);
+      }
+      else{
+        // sortAccounts(e, filteredObjectsArray);
+
+      }
+      console.log("aftersort", filteredObjectsArray);
+      
+        document.getElementById("noData").classList.add("d-none");
+        document.getElementById("capsuleButtons").classList.remove("d-none");
+      } else {
+        document.getElementById("noData").classList.remove("d-none");
+        document.getElementById("capsuleButtons").classList.add("d-none");
+      }
+    }
+    // console.log("refApiData.current.second", refApiData.current.second);
+  };
+  const resetButton = (e) => {
+    e?.preventDefault();
+    if (sortInDescending) {
+      sortAccounts(e, refApiData.current.second);
+    }
+    document.getElementById("searchForm").reset();
+    // refApiData.current.second = [...second];
+    searchButton(e);
+  };
+  // useEffect(() => {
+  //   searchButton();
+  // }, [searchText]);
   return (
     <>
+      {console.log("sortInDescending", sortInDescending)}
       {localStorage.getItem("User name") ? (
         <>
           <div className="">
@@ -61,10 +132,13 @@ const Dashboard = () => {
                   Sort By: &nbsp;
                   <button
                     className="btn btn-light fs-4 px-2 shadow-sm bg-white  pt-0 m-0"
-                    onClick={sortAccounts}
+                    onClick={(e) => sortAccounts(e, refApiData.current.second)}
                   >
-                    {sortByName? <LiaSortAlphaUpSolid/>:<LiaSortAlphaDownSolid />}
-                   
+                    {sortInDescending ? (
+                      <LiaSortAlphaUpSolid />
+                    ) : (
+                      <LiaSortAlphaDownSolid />
+                    )}
                   </button>
                 </div>
                 {/* dropdown button */}
@@ -98,27 +172,46 @@ const Dashboard = () => {
                 </div>
                 {/* search button */}
                 <div className=" col-lg-2 col-md-2  p-lg-2 m-xs-5">
-                  <form>
+                  <form id="searchForm">
                     <input
-                      type="search"
+                      type="text"
                       className="form-control"
                       placeholder="Search"
+                      onInput={searchButton}
+                      id="searchButton"
                     />
                   </form>
                 </div>
                 {/* reset button */}
                 <div className=" col-lg-1 p-md-0 col-md-1 ">
                   {/* <button className="btn " id="resetButton"> */}
-                  <button className="btn btn-outline-secondary">Reset</button>
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={resetButton}
+                  >
+                    Reset
+                  </button>
                 </div>
               </div>
 
-              <div className=" row d-flex gap-1 justify-content-center mt-3" style={{margin: '0 .5em'}}>
-                {ref.current.second.map((element, index) => {
+              {/* no data found */}
+              <div id="noData" className="d-none">
+                <h5 className=" d-flex  align-items-center justify-content-center mt-5">
+                  No data found
+                </h5>
+              </div>
+              {/* capsule button */}
+              <div
+                id="capsuleButtons"
+                className=" row d-flex gap-1 justify-content-center mt-3"
+              >
+                {/* {console.log("inner", refApiData.current.second)} */}
+                {refApiData.current.second.map((element, index) => {
                   return (
                     <>
-                      <div className="col-md-3 " key={index} style={{margin:'0 15px'}}>
-                        <div className="bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
+                      <div className="" key={index} style={{ width: "350px" }}>
+                        <div className="mt-2 bg-white shadow rounded-3 d-flex align-items-center justify-content-center">
+                          {/* logo */}
                           <div className="col-md-4 mx-auto">
                             <div className="d-flex align-items-center justify-content-center">
                               <BsFillPersonFill
@@ -127,7 +220,11 @@ const Dashboard = () => {
                               />
                             </div>
                           </div>
-                          <div className="col-md-8 d-flex align-items-center justify-content-center transition ">
+                          {/* accounts */}
+                          <div
+                            style={{ minHeight: "65px", flex: "1 1 auto" }}
+                            className="col-md-8 d-flex align-items-center justify-content-center transition "
+                          >
                             <button className="btn fw-bold " key={element.Id}>
                               {element?.Name}
                             </button>
