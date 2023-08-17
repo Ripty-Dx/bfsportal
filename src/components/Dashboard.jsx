@@ -5,7 +5,25 @@ import { LiaSortAlphaDownSolid } from "react-icons/lia";
 import { LiaSortAlphaUpSolid } from "react-icons/lia";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
+  const fetchManufacturedByData = () => {
+    fetch("https://dev.beautyfashionsales.com/beauty/B0F9FC7237C", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        key: "00D30000001G9fh!AQMAQEb7YGJoFTEGCHe2YS0LlqEilZVAo7ZJ3KdhD5W9gVa.FN6mhAxmq_qNZtt7..pFQiFB9W8W7vu3qVcIO39o5D0MkSYy",
+        link: "https://beautyfashionsales.my.salesforce.com/services/data/v56.0/query?q=SELECT Id, Name, Manufacturer_Logo__c,IsActive__c FROM Manufacturer__c where IsActive__c= 'active'  order by name",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => setManufacturedData(data.data.records));
+  };
+  const navigate=useNavigate();
+
+  const [manufacturedData, setManufacturedData] = useState(null);
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
   const { second } = apiData.current || {};
   const [refApiData, setRefApiData] = useState(apiData);
@@ -14,6 +32,14 @@ const Dashboard = () => {
   const [resetButtonClicked, setResetButtonClicked] = useState(false);
   // console.log(refApiData.current.second);
   // console.log(sortInDescending);
+  const redirectToAccountManufacturers=(name)=>{
+    navigate("/account-manufacturers",{
+      state:{
+        acc_name:name,
+      }
+    })
+
+  }
   const sortAccounts = (e, data, type) => {
     e?.preventDefault();
     if (type === "ascending") {
@@ -100,16 +126,18 @@ const Dashboard = () => {
     searchButton(e);
     console.log(sortInDescending);
   };
-  // useEffect(() => {
-  //   setSortInDescending(false);
-  //   setResetButtonClicked(false);
-  // }, [resetButtonClicked]);
+  useEffect(() => {
+    fetchManufacturedByData();
+    //   setSortInDescending(false);
+    //   setResetButtonClicked(false);
+  }, []);
   return (
     <>
+      {console.log(manufacturedData)}
       {/* {console.log("sortInDescending", sortInDescending)} */}
       {localStorage.getItem("User name") ? (
         <>
-          <div className="">
+          <div className="position-relative">
             <Header1 />
             <div className="container-fluid">
               <div className="row d-flex align-items-center justify-content-md-center">
@@ -159,21 +187,15 @@ const Dashboard = () => {
                     Manufactured By{" "}
                   </button>
                   <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="#1">
-                        1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#1">
-                        2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#1">
-                        3
-                      </a>
-                    </li>
+                    {manufacturedData?.map((ele) => (
+                      <>
+                        <li>
+                          <a className="dropdown-item" href="#1" >
+                            {ele.Name} 
+                          </a>
+                        </li>
+                      </>
+                    ))}
                   </ul>
                   {/* </div> */}
                 </div>
@@ -232,8 +254,8 @@ const Dashboard = () => {
                             style={{ minHeight: "65px", flex: "1 1 auto" }}
                             className="col-md-8 d-flex align-items-center justify-content-center transition "
                           >
-                            <button className="btn fw-bold " key={element.Id}>
-                              {element?.Name}
+                            <button className="btn fw-bold " key={element.Id} onClick={()=>redirectToAccountManufacturers(element?.Name)} >
+                              {element?.Name} 
                             </button>
                           </div>
                         </div>
