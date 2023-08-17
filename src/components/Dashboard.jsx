@@ -8,18 +8,16 @@ import { useEffect, useRef, useState } from "react";
 const Dashboard = () => {
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
   const { second } = apiData.current || {};
-  // let refApiData = {};
   const [refApiData, setRefApiData] = useState(apiData);
-  // console.log(refApiData);
   const [sortInDescending, setSortInDescending] = useState(false);
   const [searchText, setSearchText] = useState(null);
+  const [resetButtonClicked, setResetButtonClicked] = useState(false);
   // console.log(refApiData.current.second);
   // console.log(sortInDescending);
-  const sortAccounts = (e, data) => {
+  const sortAccounts = (e, data, type) => {
     e?.preventDefault();
-    if (sortInDescending) {
-      console.log("sort in descending is true");
-      //descending order
+    if (type === "ascending") {
+      //ascending order
       data.sort((a, b) => {
         const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
         const nameB = b.Name.toUpperCase(); // ignore upper and lowercase
@@ -35,8 +33,9 @@ const Dashboard = () => {
       if (e.type === "input") {
       } else setSortInDescending(false);
     } else {
-      //ascending order
-      console.log("sort in descending is false");
+      // setResetButtonClicked(false)
+      //descending order
+      // console.log("sort in descending is false");
 
       data.sort((a, b) => {
         const nameA = a.Name.toUpperCase(); // ignore upper and lowercase
@@ -55,14 +54,15 @@ const Dashboard = () => {
     }
     // console.log("sort", refApiData.current.second);
   };
+
   const searchButton = (e) => {
-    // console.log(e);
-    // console.log(second);
     setSearchText(document.getElementById("searchButton").value);
     var searchTextString = document.getElementById("searchButton").value;
-    // console.log("searchTextString", searchTextString);
     if (searchTextString === "") {
       refApiData.current.second = [...second];
+      if (sortInDescending) {
+        sortAccounts(e, refApiData.current.second, "descending");
+      }
       document.getElementById("noData").classList.add("d-none");
       document.getElementById("capsuleButtons").classList.remove("d-none");
     } else {
@@ -72,25 +72,13 @@ const Dashboard = () => {
           filteredObjectsArray.push(obj);
         return 1;
       });
-      // console.log({ aaa: apiData.current.second, filteredObjectsArray });
       if (filteredObjectsArray.length > 0) {
-        // refApiData.current.second = [...filteredObjectsArray];
-        console.log("before sort", filteredObjectsArray);
-        console.log(sortInDescending);
-        // sortAccounts(e, filteredObjectsArray );
-        // console.log(filteredObjectsArray);
-       setRefApiData({ current: { second: filteredObjectsArray } });
-       if (sortInDescending) {
-
-        setSortInDescending(false);
-        sortAccounts(e, refApiData.current.second);
-      }
-      else{
-        // sortAccounts(e, filteredObjectsArray);
-
-      }
-      console.log("aftersort", filteredObjectsArray);
-      
+        // console.log("before sort", filteredObjectsArray);
+        if (sortInDescending) {
+          sortAccounts(e, filteredObjectsArray, "descending");
+        }
+        setRefApiData({ current: { second: filteredObjectsArray } });
+        // console.log("after sort", filteredObjectsArray);
         document.getElementById("noData").classList.add("d-none");
         document.getElementById("capsuleButtons").classList.remove("d-none");
       } else {
@@ -98,23 +86,27 @@ const Dashboard = () => {
         document.getElementById("capsuleButtons").classList.add("d-none");
       }
     }
-    // console.log("refApiData.current.second", refApiData.current.second);
   };
   const resetButton = (e) => {
+    setResetButtonClicked(true);
     e?.preventDefault();
-    if (sortInDescending) {
-      sortAccounts(e, refApiData.current.second);
-    }
+    console.log("reset clicked");
+    console.log(refApiData.current.second);
+    sortAccounts(e, refApiData.current.second, "ascending");
+    console.log(sortInDescending);
+    setSortInDescending(false);
+    setRefApiData({ current: { second: second } });
     document.getElementById("searchForm").reset();
-    // refApiData.current.second = [...second];
     searchButton(e);
+    console.log(sortInDescending);
   };
   // useEffect(() => {
-  //   searchButton();
-  // }, [searchText]);
+  //   setSortInDescending(false);
+  //   setResetButtonClicked(false);
+  // }, [resetButtonClicked]);
   return (
     <>
-      {console.log("sortInDescending", sortInDescending)}
+      {/* {console.log("sortInDescending", sortInDescending)} */}
       {localStorage.getItem("User name") ? (
         <>
           <div className="">
@@ -130,18 +122,33 @@ const Dashboard = () => {
                 {/* sort button */}
                 <div className=" col-lg-auto p-md-0 col-md-2 d-flex p-lg-2 d-flex align-items-center justify-content-lg-center justify-content-sm-left">
                   Sort By: &nbsp;
-                  <button
-                    className="btn btn-light fs-4 px-2 shadow-sm bg-white  pt-0 m-0"
-                    onClick={(e) => sortAccounts(e, refApiData.current.second)}
-                  >
+                  <button className="btn btn-light fs-4 px-2 shadow-sm bg-white  pt-0 m-0">
                     {sortInDescending ? (
-                      <LiaSortAlphaUpSolid />
+                      <>
+                        <LiaSortAlphaUpSolid
+                          onClick={(e) =>
+                            sortAccounts(
+                              e,
+                              refApiData.current.second,
+                              "ascending"
+                            )
+                          }
+                        />
+                      </>
                     ) : (
-                      <LiaSortAlphaDownSolid />
+                      <LiaSortAlphaDownSolid
+                        onClick={(e) =>
+                          sortAccounts(
+                            e,
+                            refApiData.current.second,
+                            "descending"
+                          )
+                        }
+                      />
                     )}
                   </button>
                 </div>
-                {/* dropdown button */}
+                {/* manufactured by dropdown button */}
                 <div className=" col-lg-auto col-md-auto p-md-0  p-lg-2   dropdown">
                   {/* <div className=""> */}
                   <button
