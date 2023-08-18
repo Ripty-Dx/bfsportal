@@ -20,3 +20,12 @@
   transition: background 300ms ease-out 0s;
   /* transition: background 300ms linear; */
 } 
+.back_icon{
+  background-color: var(--footer_background_color);
+  color: white;
+  border-radius: 50%;
+  /* padding: 5px; */
+  font-size: 25px;
+  font-weight: 900;
+  cursor: pointer;
+}

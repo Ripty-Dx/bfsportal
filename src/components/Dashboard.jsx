@@ -266,7 +266,7 @@ const Dashboard = () => {
               </div>
             </div>
             {/* Footer */}
-            <div className="fixed-bottom">
+            <div className="fixed-bottom mt-5">
               {/* <div className=""> */}
               <Footer />
             </div>
