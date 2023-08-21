@@ -9,12 +9,12 @@ const AccountManufacturers = () => {
   const { second } = apiData.current || {};
   const location = useLocation();
   const navigate = useNavigate();
-
+console.log(location);
   //   console.log(location);
   //   console.log(refApiData);
   //   console.log(second);
   const filteredArray = second?.filter(
-    (ele) => ele.Name === location.state.acc_name
+    (ele) => ele.Name === location?.state?.acc_name
   );
   // console.log(filteredArray[0].data[0].Name);
   const redirectToProductPage = (e, ProductName, AccountName) => {
@@ -37,7 +37,7 @@ const AccountManufacturers = () => {
               <div className="col-lg-5  p-lg-2 col-md-auto py-md-1 ps-md-3 mx-md-auto m-sm-2">
                 <h2 className="fw-bold text-decoration-underline fw-md-normal link-offset-2">
                   <BiLeftArrowAlt
-                    className="back_icon"
+                    className="back_icon me-2"
                     onClick={() => (window.location.href = "/dashboard")}
                   />{" "}
                   Account Manufacturers
@@ -54,7 +54,7 @@ const AccountManufacturers = () => {
               className=" row d-flex gap-1 justify-content-center mt-3"
             >
               {/* {console.log("inner", refApiData.current.second)} */}
-              {filteredArray[0].data.map((element, index) => {
+              {filteredArray[0]?.data.map((element, index) => {
                 return (
                   <>
                     <div className="" key={index} style={{ width: "350px" }}>
