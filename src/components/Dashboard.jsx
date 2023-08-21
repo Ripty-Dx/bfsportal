@@ -139,7 +139,7 @@ const Dashboard = () => {
         <>
           <div className="position-relative">
             <Header1 />
-            <div className="container-fluid">
+            <div className="container-fluid" style={{ minHeight: "55vh" }} >
               <div className="row d-flex align-items-center justify-content-md-center">
                 {/* Your account heading */}
                 <div className="col-lg-5 m-md-1 p-lg-2 col-md-auto py-md-1 ps-md-3 mx-md-auto m-sm-2   ">
@@ -266,7 +266,7 @@ const Dashboard = () => {
               </div>
             </div>
             {/* Footer */}
-            <div className="fixed-bottom mt-5">
+            <div className="bottom mt-5">
               {/* <div className=""> */}
               <Footer />
             </div>

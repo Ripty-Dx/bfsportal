@@ -117,6 +117,7 @@ const Login = () => {
                           name="username"
                           placeholder="Username"
                           onChange={onInputChange}
+                          onInput={onInputChange}
                         />
                       </div>
                       <div className="row mt-4 form-input">
@@ -126,6 +127,7 @@ const Login = () => {
                           name="password"
                           placeholder="Password"
                           onChange={onInputChange}
+                          onInput={onInputChange}
                         />
                       </div>
                       <div className="row">
