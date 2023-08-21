@@ -1,32 +1,46 @@
-import React, { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header1 from "./Header1";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import Footer from "./Footer";
 import "./Dashboard.css";
 const AccountManufacturers = () => {
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
-  const [refApiData, setRefApiData] = useState(apiData);
   const { second } = apiData.current || {};
   const location = useLocation();
+  const navigate = useNavigate();
+console.log(location);
   //   console.log(location);
   //   console.log(refApiData);
   //   console.log(second);
-  const filteredArray = second.filter(
-    (ele) => ele.Name === location.state.acc_name
+  const filteredArray = second?.filter(
+    (ele) => ele.Name === location?.state?.acc_name
   );
-  console.log(filteredArray[0].data[0].Name);
+  // console.log(filteredArray[0].data[0].Name);
+  const redirectToProductPage = (e, ProductName, AccountName) => {
+    e.preventDefault();
+    navigate("/product", {
+      state: {
+        ProductName: ProductName,
+        AccountName: AccountName,
+      },
+    });
+  };
   return (
     <>
       {localStorage.getItem("User name") ? (
         <>
           <Header1 />
-          <div className="container-fluid">
+          <div className="container-fluid" style={{ minHeight: "55vh" }}>
             <div className="row d-flex align-items-center justify-content-md-center">
               {/* Your account heading */}
-              <div className="col-lg-5  p-lg-2 col-md-auto py-md-1 ps-md-3 mx-md-auto m-sm-2   ">
+              <div className="col-lg-5  p-lg-2 col-md-auto py-md-1 ps-md-3 mx-md-auto m-sm-2">
                 <h2 className="fw-bold text-decoration-underline fw-md-normal link-offset-2">
-                  <BiLeftArrowAlt className="back_icon" onClick={()=>(window.location.href = "/dashboard")}/> Account Manufacturers
+                  <BiLeftArrowAlt
+                    className="back_icon me-2"
+                    onClick={() => (window.location.href = "/dashboard")}
+                  />{" "}
+                  Account Manufacturers
                 </h2>
               </div>
               <div className="col-lg-5 d-flex justify-content-center align-items-center">
@@ -40,7 +54,7 @@ const AccountManufacturers = () => {
               className=" row d-flex gap-1 justify-content-center mt-3"
             >
               {/* {console.log("inner", refApiData.current.second)} */}
-              {filteredArray[0].data.map((element, index) => {
+              {filteredArray[0]?.data.map((element, index) => {
                 return (
                   <>
                     <div className="" key={index} style={{ width: "350px" }}>
@@ -63,7 +77,17 @@ const AccountManufacturers = () => {
                           style={{ minHeight: "60px", flex: "1 1 auto" }}
                           className="col-md-6 d-flex align-items-center justify-content-center transition "
                         >
-                          <button className="btn fw-bold " key={element.Id}>
+                          <button
+                            className="btn fw-bold "
+                            key={element.Id}
+                            onClick={(e) =>
+                              redirectToProductPage(
+                                e,
+                                element?.ManufacturerName__c,
+                                location.state.acc_name
+                              )
+                            }
+                          >
                             {element?.ManufacturerName__c}
                           </button>
                         </div>

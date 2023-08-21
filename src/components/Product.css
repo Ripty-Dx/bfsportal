@@ -1,0 +1,31 @@
+.bg-darkGrey {
+  background-color: var(--footer_background_color);
+}
+.bg-darkGrey:hover{
+  background-color: var(--footer_background_color);
+}
+input[type=radio] {
+    accent-color: var(--footer_background_color);
+}
+.accordion-button:not(.collapsed) {
+    color: black;
+     background-color: white;
+}
+.accordion-button{
+    padding: 12px;
+}
+.accordion{
+    --bs-accordion-border-color: white; 
+     --bs-accordion-border-width: 0px;
+}
+input[type=checkbox] {
+    accent-color: var(--footer_background_color);
+    width: 17px;
+    height: 17px;
+}
+.table{
+    --bs-table-striped-bg: rgb(248,250,251);
+}
+.table-background-color{
+    background-color:  rgb(248,250,251);
+}
