@@ -75,7 +75,7 @@ const Login = () => {
     }
   };
   useEffect(() => {
-    fetchData(loginData.username, loginData.password);
+    if(loginData?.username && loginData?.password) fetchData(loginData.username, loginData.password);
     // setApiData()
     // console.log(apiData);
   }, [apiData, loginData]);
@@ -117,7 +117,7 @@ const Login = () => {
                           name="username"
                           placeholder="Username"
                           onChange={onInputChange}
-                          onInput={onInputChange}
+                          onPaste={onInputChange}
                         />
                       </div>
                       <div className="row mt-4 form-input">
@@ -127,7 +127,7 @@ const Login = () => {
                           name="password"
                           placeholder="Password"
                           onChange={onInputChange}
-                          onInput={onInputChange}
+                          onPaste={onInputChange}
                         />
                       </div>
                       <div className="row">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 import Header1 from "./Header1";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -9,6 +9,9 @@ import { RiInformationFill } from "react-icons/ri";
 const Product = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [productApiData, setProductApiData] = useState([]);
+  const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
+  // console.log("apidata",apiData.current);
   const searchButton = (e) => {};
   const redirectToAccountManufacturers = (e, name) => {
     e.preventDefault();
@@ -18,15 +21,57 @@ const Product = () => {
       },
     });
   };
+  const accountId = apiData.current.second.filter(
+    (ele) => ele.Name === location.state.AccountName
+  );
+  // console.log(accountId[0].Id);
+  const manufacturerId = accountId[0].data.filter(
+    (ele) => ele.ManufacturerName__c === location.state.ProductName
+  );
+  // console.log(manufacturerId[0].ManufacturerId__c );
+  const fetchProductData = () => {
+    fetch("https://dev.beautyfashionsales.com/beauty/HSc6cv4", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        Manufacturer: `${manufacturerId[0].ManufacturerId__c}`,
+        AccountId__c: `${accountId[0].Id}`,
+        Sales_Rep__c: `${apiData.current.data.user.Sales_Rep__c}`,
+        key: `${apiData?.current.data.api.access_token}`,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status === 400) {
+          console.log("bad request");
+          // window.localStorage.clear();
+          // window.location.href=("/");
+        } else if (result.status === 200) {
+          setProductApiData(result);
+          console.log("result", result);
+        } else {
+          console.log("NO result", result);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    fetchProductData();
+  }, []);
   return (
     <>
+      {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
+      {/* {console.log(("productApiData", productApiData.data?.name))} */}
+      {/* {console.log(("productApiData", productApiData))} */}
       {localStorage.getItem("User name") ? (
         <>
           <Header1 />
           <div className="container-fluid" style={{ minHeight: "55vh" }}>
             <div className="row d-flex align-items-center justify-content-md-between">
               {/* Your account heading */}
-              <div className="col-lg-auto d-flex flex-direction-column justify-content-center align-items-center p-lg-2 col-md-auto py-md-1 ps-md-3 mx-md-auto m-sm-2">
+              <div className="col-5 d-flex flex-direction-column justify-content-center align-items-center col-md-auto py-md-1  mx-md-auto m-sm-2">
                 <h3 className="fw-bold   fw-md-normal ">
                   <BiLeftArrowAlt
                     className="back_icon me-2"
@@ -45,19 +90,19 @@ const Product = () => {
                 <h5>{location.state.AccountName}</h5>
               </div>
               {/* Download Order From */}
-              <div className="col-lg-2 d-flex justify-content-center align-items-center">
+              <div className="col-2 d-flex justify-content-center align-items-center">
                 <button className="btn text-white bg-darkGrey">
                   Download Order From
                 </button>
               </div>
               {/* Upload Order From */}
-              <div className="col-lg-2 d-flex justify-content-center align-items-center">
+              <div className="col-2 d-flex justify-content-center align-items-center">
                 <button className="btn text-white bg-darkGrey">
                   Upload Order From
                 </button>
               </div>
               {/* Search button */}
-              <div className=" col-lg-2 col-md-2  p-lg-2 m-xs-5">
+              <div className=" col-2 col-md-2  p-lg-2 m-xs-5">
                 <form id="searchForm">
                   <input
                     type="text"
@@ -184,7 +229,7 @@ const Product = () => {
                             <input
                               className=""
                               type="radio"
-                              name="sortBy"
+                              name="product"
                               id="WholeSale"
                             />
                             <label
@@ -198,7 +243,7 @@ const Product = () => {
                             <input
                               className=""
                               type="radio"
-                              name="sortBy"
+                              name="product"
                               id="Pre-Order"
                             />
                             <label
@@ -233,30 +278,30 @@ const Product = () => {
                       >
                         {" "}
                         <div className="accordion-body">
-                          <div class="d-flex justify-content-start align-items-center">
+                          <div className="d-flex justify-content-start align-items-center">
                             <input
-                              class=""
+                              className=""
                               type="checkbox"
                               value=""
                               id="flexCheckDefault"
                             />
                             <label
-                              class="form-check-label ms-3"
-                              for="flexCheckDefault"
+                              className="form-check-label ms-3"
+                              htmlFor="flexCheckDefault"
                             >
                               Default checkbox
                             </label>
                           </div>
-                          <div class="d-flex justify-content-start align-items-center">
+                          <div className="d-flex justify-content-start align-items-center">
                             <input
-                              class=""
+                              className=""
                               type="checkbox"
                               value=""
                               id="flexCheckChecked"
                             />
                             <label
-                              class="form-check-label ms-3"
-                              for="flexCheckChecked"
+                              className="form-check-label ms-3"
+                              htmlFor="flexCheckChecked"
                             >
                               checkbox
                             </label>
@@ -268,7 +313,6 @@ const Product = () => {
                 </div>
               </div>
               <div className="col-9">
-                
                 <div className="table-responsive">
                   <table className="table table-striped">
                     <thead>
@@ -314,7 +358,6 @@ const Product = () => {
                       </tr>
                     </tbody>
                   </table>
-                  
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
