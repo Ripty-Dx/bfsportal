@@ -1,31 +1,43 @@
 .bg-darkGrey {
   background-color: var(--footer_background_color);
 }
-.bg-darkGrey:hover{
+.bg-darkGrey:hover {
   background-color: var(--footer_background_color);
 }
-input[type=radio] {
-    accent-color: var(--footer_background_color);
+input[type="radio"] {
+  accent-color: var(--footer_background_color);
 }
 .accordion-button:not(.collapsed) {
-    color: black;
-     background-color: white;
+  color: black;
+  background-color: white;
 }
-.accordion-button{
-    padding: 12px;
+.accordion-button {
+  padding: 12px;
 }
-.accordion{
-    --bs-accordion-border-color: white; 
-     --bs-accordion-border-width: 0px;
+.accordion {
+  --bs-accordion-border-color: white;
+  --bs-accordion-border-width: 0px;
 }
-input[type=checkbox] {
-    accent-color: var(--footer_background_color);
-    width: 17px;
-    height: 17px;
+input[type="checkbox"] {
+  accent-color: var(--footer_background_color);
+  min-width: 17px;
+  min-height: 17px;
 }
-.table{
-    --bs-table-striped-bg: rgb(248,250,251);
+.table {
+  --bs-table-striped-bg: rgb(248, 250, 251);
 }
-.table-background-color{
-    background-color:  rgb(248,250,251);
+.table-background-color {
+  background-color: rgb(248, 250, 251);
 }
+.accordion-body {
+  padding: 3px var(--bs-accordion-body-padding-x);
+}
+body{
+    background-color: #f2f2f2;
+}
+td, th {
+    text-align: left;
+  }
+ #tableRows{ .accordion-body {
+    padding: 8px 8px;
+}}

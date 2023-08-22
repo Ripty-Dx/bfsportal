@@ -12,7 +12,7 @@ const Footer = () => {
       <div className=" footer-bg-color  fontFamily ">
         <div className="container-fluid">
           <div className="row ">
-            <div className="main p-3 pt-4">
+            <div className="main p-3 pb-1">
               {/* for symbols */}
               <div id="follow">
                 <div className="titles mb-1">follow us</div>
