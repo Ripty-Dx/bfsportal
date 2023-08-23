@@ -9,10 +9,11 @@ input[type="radio"] {
 }
 .accordion-button:not(.collapsed) {
   color: black;
-  background-color: white;
+  background-color: transparent;
 }
+
 .accordion-button {
-  padding: 12px;
+  padding: 7px;
 }
 .accordion {
   --bs-accordion-border-color: white;
@@ -32,12 +33,46 @@ input[type="checkbox"] {
 .accordion-body {
   padding: 3px var(--bs-accordion-body-padding-x);
 }
-body{
-    background-color: #f2f2f2;
+body {
+  background-color: #f2f2f2;
 }
-td, th {
-    text-align: left;
-  }
- #tableRows{ .accordion-body {
+td,
+th {
+  text-align: left;
+}
+#tableRows {
+  .accordion-body {
     padding: 8px 8px;
-}}
+  }
+}
+.Button {
+  color: white;
+  background-color: var(--footer_background_color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-size: 15px;
+}
+.Button:hover {
+  color: var(--footer_background_color);
+  background-color: white;
+  border: 1px solid var(--footer_background_color);
+}
+#searchForm .form-control {
+  padding: 3px 10px;
+}
+.minAmount {
+  margin: 0px;
+  font-weight: bold;
+  font-size: 14px;
+}
+#tableAccordion ** .accordion-button {
+  background-color: red;
+}
+.accordion {
+  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-bg: transparent;
+}
+.fs-small{
+  font-size: 14px;
+}
