@@ -45,6 +45,27 @@ th {
     padding: 8px 8px;
   }
 }
+#innerTable {
+padding: 0px;
+}
+.order{
+  border: 1px solid #eeefef;
+  border-radius: 5px;
+}
+.orderDisplay{
+  border-radius: 5px;
+  width: 50px;
+  padding: 1px 8px;
+  border: 1.5px solid var(--header_font_light_color);
+}
+.orderButton{
+  background-color: white;
+  border: 1.5px solid var(--footer_light_color);
+  padding: 0px 5px 1px 5px;
+  border-radius: 5px;
+  text-align: center;
+  
+}
 .Button {
   color: white;
   background-color: var(--footer_background_color);
