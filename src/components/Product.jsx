@@ -8,42 +8,100 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { RiInformationFill } from "react-icons/ri";
 import beautyProduct from "../images/BFS Portal Site.png";
 const Product = () => {
-  const [productPageState, setProductPageState] = useState({
-    sortBy: "Relevance",
-    productType:"WholeSale",
-  });
-  // const [checkedSortBy,setCheckedSortBy]=useState(false)
   const location = useLocation();
   const navigate = useNavigate();
+  const [productPageState, setProductPageState] = useState({
+    sortBy: "Relevance",
+    productType: "WholeSale",
+    categoryType: [],
+  });
+  console.log(productPageState);
+  // const [checkedSortBy,setCheckedSortBy]=useState(false)
   const [productApiData, setProductApiData] = useState([]);
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
+
+  let categorySet;
+  const categorySetting = () => {
+    console.log("category setting");
+    categorySet = new Set(
+      productApiData.data?.records.map((item) => item.Category__c)
+    );
+    if (categorySet.has("TESTER") || categorySet.has("Samples")) {
+      categorySet.delete("TESTER");
+      categorySet.delete("Samples");
+      categorySet.add("TESTER");
+      categorySet.add("Samples");
+    }
+    if (productPageState.productType === "WholeSale")
+      categorySet.delete("PREORDER");
+    else if (productPageState.productType === "Pre-Order") {
+      categorySet.clear();
+      categorySet.add("PREORDER");
+    } else {
+      console.log("no product type selected");
+    }
+    console.log("categorySet",categorySet);
+    setCategoryArray([...categorySet]);
+    setAllCategoriesForDisplay([...categorySet]);
+    return categorySet
+  };
+  // console.log(categorySetting());
+  const [categoryArray, setCategoryArray] = useState([]);
+  // console.log(categorySet);
+  // =[...productPageState.categoryType]
+  // let categoryArray = [...categorySet];
+  const [allCategoriesForDisplay,setAllCategoriesForDisplay]=useState([])
+  // let allCategoriesForDisplay = [...categorySet];
+  // console.log(categoryArray);
+
+  // console.log(productApiData.data?.records.filter((item)=>(item.Category__c==="SERUM")))
+  // console.log(productApiData?.discount?.MinOrderAmount==null?0:productApiData?.discount?.MinOrderAmount);
   const sortByInputValue = (e) => {
-    setProductPageState(() => ({
+    setProductPageState((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
     }));
     console.log(productPageState);
   };
   const sortByProductType = (e) => {
-    setProductPageState(() => ({
+    setProductPageState((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
     }));
     console.log(productPageState);
   };
-  const categorySet = new Set(
-    productApiData.data?.records.map((item) => item.Category__c)
-  );
-  if (categorySet.has("TESTER") || categorySet.has("Samples")) {
-    // console.log("yes");
-    categorySet.delete("TESTER");
-    categorySet.delete("Samples");
-    categorySet.add("TESTER");
-    categorySet.add("Samples");
-  }
-  // console.log(categorySet);
-  let categoryArray = [...categorySet];
-  // console.log(categoryArray);
-  // console.log(productApiData.data?.records.filter((item)=>(item.Category__c==="SERUM")))
-  // console.log(productApiData?.discount?.MinOrderAmount==null?0:productApiData?.discount?.MinOrderAmount);
+  // const [categoryCheckedBoxArray, setCategoryCheckedBoxArray] = useState([]);
+  // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
+
+  const sortByCategoryType = (e) => {
+    // console.log(e);
+    if (e.target.checked) {
+      console.log(typeof e.target.value);
+      setProductPageState((prev) => ({
+        ...prev,
+        [e.target.name]: [...productPageState.categoryType, e.target.value],
+      }));
+    } else {
+      setProductPageState((prev) => ({
+        ...prev,
+        [e.target.name]: productPageState.categoryType.filter(
+          (ele) => ele !== e.target.value
+        ),
+      }));
+    }
+    // setcategoryCheckedBoxArray = [...productPageState.categoryType];
+    // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
+    console.log(productPageState);
+    // categoryCheckedBoxArray?.push(e.target.value);
+  };
+  const resetButton = (e) => {
+    e.preventDefault();
+    // setProductPageState((prev) => ({
+    //   sortBy: "Relevance",
+    //   productType: "WholeSale",
+    //   categoryType: [],
+    // }));
+  };
   const searchButton = (e) => {};
   const redirectToAccountManufacturers = (e, name) => {
     e.preventDefault();
@@ -89,6 +147,8 @@ const Product = () => {
       })
       .catch((err) => console.log(err));
   };
+  // let categoryArray = [...categorySet];
+
   const productsInCategory = (categoryName) => {
     // console.log("filter");
     if (productPageState.sortBy === "Price: Low To High") {
@@ -131,12 +191,15 @@ const Product = () => {
       );
     }
   };
-  console.log(productApiData.data?.records);
+  // console.log(productApiData.data?.records);
+  console.log(categoryArray);
   useEffect(() => {
     fetchProductData();
+    categorySetting();
+    // setProductPageState(productPageState.categoryType=[])
     // productsInCategory(null)
   }, []);
-  // useEffect(() => {}, [productPageState]);
+  useEffect(() => { categorySetting();}, [productPageState]);
   return (
     <>
       {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
@@ -225,7 +288,7 @@ const Product = () => {
                         >
                           <span className="fw-bold">Sort By:</span> &nbsp;
                           {productPageState.sortBy}
-                          {console.log(productPageState.sortBy)}
+                          {/* {console.log(productPageState.sortBy)} */}
                         </button>
                       </h2>
                       <hr className="p-0 m-0"></hr>
@@ -244,8 +307,12 @@ const Product = () => {
                               name="sortBy"
                               id="relevance"
                               value="Relevance"
-                              onClick={sortByInputValue}
-                              checked={productPageState.sortBy==="Relevance"?true:false}
+                              onChange={sortByInputValue}
+                              checked={
+                                productPageState.sortBy === "Relevance"
+                                  ? true
+                                  : false
+                              }
                             />
                             <label
                               className="form-check-label ms-3"
@@ -261,9 +328,12 @@ const Product = () => {
                               name="sortBy"
                               id="priceHighToLow"
                               value="Price: High To Low"
-                              onClick={sortByInputValue}
-                              checked={productPageState.sortBy==="Price: High To Low"?true:false}
-
+                              onChange={sortByInputValue}
+                              checked={
+                                productPageState.sortBy === "Price: High To Low"
+                                  ? true
+                                  : false
+                              }
                             />
                             <label
                               className="form-check-label ms-3"
@@ -279,8 +349,12 @@ const Product = () => {
                               name="sortBy"
                               id="priceLowToHigh"
                               value="Price: Low To High"
-                              onClick={sortByInputValue}
-                              checked={productPageState.sortBy==="Price: Low To High"?true:false}
+                              onChange={sortByInputValue}
+                              checked={
+                                productPageState.sortBy === "Price: Low To High"
+                                  ? true
+                                  : false
+                              }
                             />
                             <label
                               className="form-check-label ms-3"
@@ -298,7 +372,9 @@ const Product = () => {
                 <div className="mt-2 bg-white rounded-2 p-2 ">
                   <div className="d-flex justify-content-between align-items-center px-2">
                     <h5 className="fw-bold fs-6">Filter</h5>
-                    <button className="Button">Reset</button>
+                    <button className="Button" onClick={resetButton}>
+                      Reset
+                    </button>
                   </div>
                   {/* Product Type */}
                   <hr className="p-0 m-0"></hr>
@@ -327,10 +403,14 @@ const Product = () => {
                             <input
                               className=""
                               type="radio"
-                              name="product"
+                              name="productType"
                               id="WholeSale"
                               value="WholeSale"
-                              checked={productPageState.productType==="WholeSale"?true:false}
+                              checked={
+                                productPageState.productType === "WholeSale"
+                                  ? true
+                                  : false
+                              }
                               onChange={sortByProductType}
                             />
                             <label
@@ -344,12 +424,15 @@ const Product = () => {
                             <input
                               className=""
                               type="radio"
-                              name="product"
+                              name="productType"
                               id="Pre-Order"
                               value="Pre-Order"
                               onChange={sortByProductType}
-                              checked={productPageState.productType==="Pre-Order"?true:false}
-
+                              checked={
+                                productPageState.productType === "Pre-Order"
+                                  ? true
+                                  : false
+                              }
                             />
                             <label
                               className="form-check-label ms-3"
@@ -388,7 +471,8 @@ const Product = () => {
                           style={{ height: "25vh" }}
                         >
                           {/* {console.log(productApiData.data?.records)} */}
-                          {categoryArray?.map((ele) => {
+                          {allCategoriesForDisplay?.map((ele) => {
+                            console.log(ele, typeof ele);
                             return (
                               <div className="d-flex justify-content-start align-items-center">
                                 <input
@@ -398,6 +482,7 @@ const Product = () => {
                                   id={ele}
                                   name="categoryType"
                                   key={ele}
+                                  onChange={sortByCategoryType}
                                 />
                                 <label
                                   className="form-check-label ms-3"
@@ -456,182 +541,412 @@ const Product = () => {
                       </thead>
 
                       <tbody>
-                        {categoryArray?.map((ele) => {
-                          return (
-                            <>
-                              <tr>
-                                <td
-                                  colSpan="8"
-                                  style={{ textAlign: "left" }}
-                                  className="p-0 ps-2"
-                                >
-                                  <div
-                                    className="  accordion"
-                                    id="tableAccordion"
-                                  >
-                                    <div className="accordion-item">
-                                      <h2 className="accordion-header p-0">
-                                        <button
-                                          className="accordion-button"
-                                          type="button"
-                                          data-bs-toggle="collapse"
-                                          data-bs-target={`#tableRows${ele}`}
+                        {categoryArray.length ? (
+                          <>
+                            {" "}
+                            {productPageState.categoryType.length
+                              ? productPageState.categoryType.map((ele) => {
+                                  return (
+                                    <>
+                                      <tr>
+                                        <td
+                                          colSpan="8"
+                                          style={{ textAlign: "left" }}
+                                          className="p-0 ps-2"
                                         >
-                                          <span className="p-0">
-                                            {ele?.toUpperCase() ||
-                                              "NO CATEGORY"}
-                                          </span>
-                                        </button>
-                                      </h2>
-                                      <hr className="p-0 m-0"></hr>
-                                      <div
-                                        id={`tableRows${ele}`}
-                                        className="accordion-collapse collapse show"
-                                        data-bs-parent="#tableAccordion"
-                                      >
-                                        {" "}
-                                        <div
-                                          className="accordion-body"
-                                          id="innerTable"
-                                        >
-                                          <div className="table-responsive ">
-                                            <table className="table table-striped">
-                                              <tbody>
-                                                {productsInCategory(ele).map(
-                                                  (item) => {
-                                                    return (
-                                                      <>
-                                                        <tr>
-                                                          <td
-                                                            style={{
-                                                              width: "100px",
-                                                            }}
-                                                            className="p-0 ps-2"
-                                                          >
-                                                            <img
-                                                              src={
-                                                                beautyProduct
-                                                              }
-                                                              height={"30px"}
-                                                              width={"30px"}
-                                                              alt="img"
-                                                              className="rounded-5 border-2 mt-2"
-                                                            ></img>
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "500px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            {item.Name}
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            {item.ProductCode}
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            {item.ProductUPC__c}
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            {item.usdRetail__c.includes(
-                                                              "$"
-                                                            )
-                                                              ? `$${( +item.usdRetail__c.substring(
-                                                                1
-                                                              )).toFixed(2)}`
-                                                              : `$${item.usdRetail__c}.00`}
-                                                          </td>
-                                                          {/* *+item.usdRetail__c.substring(1) */}
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            $
-                                                            {item.usdRetail__c.includes(
-                                                              "$"
-                                                            )
-                                                              ? (
-                                                                  +item.usdRetail__c.substring(
-                                                                    1
-                                                                  ) -
-                                                                  (productApiData
-                                                                    ?.discount
-                                                                    ?.margin /
-                                                                    100) *
-                                                                    +item.usdRetail__c.substring(
-                                                                      1
-                                                                    )
-                                                                ).toFixed(2)
-                                                              : (
-                                                                  +item.usdRetail__c -
-                                                                  (productApiData
-                                                                    ?.discount
-                                                                    ?.margin /
-                                                                    100) *
-                                                                    +item.usdRetail__c
-                                                                ).toFixed(2)}
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                            className="fs-small"
-                                                          >
-                                                            {
-                                                              item.Min_Order_QTY__c
-                                                            }
-                                                          </td>
-                                                          <td
-                                                            style={{
-                                                              width: "200px",
-                                                            }}
-                                                          >
-                                                            <div className="order bg-white rounded-3 p-1 d-flex justify-content-center align-items-center gap-2">
-                                                              <button className="orderButton">
-                                                                <AiOutlineMinus />
-                                                              </button>
-                                                              <div className="orderDisplay">
-                                                                0
-                                                              </div>
-                                                              <button className="orderButton">
-                                                                <AiOutlinePlus className="" />
-                                                              </button>
-                                                            </div>
-                                                          </td>
-                                                        </tr>
-                                                      </>
-                                                    );
-                                                  }
-                                                )}
-                                              </tbody>
-                                            </table>
+                                          <div
+                                            className="  accordion"
+                                            id="tableAccordion"
+                                          >
+                                            <div className="accordion-item">
+                                              <h2 className="accordion-header p-0">
+                                                <button
+                                                  className="accordion-button"
+                                                  type="button"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target={`#tableRows${ele}`}
+                                                >
+                                                  <span className="p-0">
+                                                    {ele?.toUpperCase() ||
+                                                      "NO CATEGORY"}
+                                                  </span>
+                                                </button>
+                                              </h2>
+                                              <hr className="p-0 m-0"></hr>
+                                              <div
+                                                id={`tableRows${ele}`}
+                                                className="accordion-collapse collapse show"
+                                                data-bs-parent="#tableAccordion"
+                                              >
+                                                {" "}
+                                                <div
+                                                  className="accordion-body"
+                                                  id="innerTable"
+                                                >
+                                                  <div className="table-responsive ">
+                                                    <table className="table table-striped">
+                                                      <tbody>
+                                                        {productsInCategory(
+                                                          ele
+                                                        ).map((item) => {
+                                                          // console.log(item)
+                                                          // console.log("ele",ele)
+                                                          return (
+                                                            <>
+                                                              <tr>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "100px",
+                                                                  }}
+                                                                  className="p-0 ps-2"
+                                                                >
+                                                                  <img
+                                                                    src={
+                                                                      beautyProduct
+                                                                    }
+                                                                    height={
+                                                                      "30px"
+                                                                    }
+                                                                    width={
+                                                                      "30px"
+                                                                    }
+                                                                    alt="img"
+                                                                    className="rounded-5 border-2 mt-2"
+                                                                  ></img>
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "500px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {item.Name}
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.ProductCode
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.ProductUPC__c
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {item.usdRetail__c.includes(
+                                                                    "$"
+                                                                  )
+                                                                    ? `$${(+item.usdRetail__c.substring(
+                                                                        1
+                                                                      )).toFixed(
+                                                                        2
+                                                                      )}`
+                                                                    : `$${item.usdRetail__c}.00`}
+                                                                </td>
+                                                                {/* *+item.usdRetail__c.substring(1) */}
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  $
+                                                                  {item.usdRetail__c.includes(
+                                                                    "$"
+                                                                  )
+                                                                    ? (
+                                                                        +item.usdRetail__c.substring(
+                                                                          1
+                                                                        ) -
+                                                                        (productApiData
+                                                                          ?.discount
+                                                                          ?.margin /
+                                                                          100) *
+                                                                          +item.usdRetail__c.substring(
+                                                                            1
+                                                                          )
+                                                                      ).toFixed(
+                                                                        2
+                                                                      )
+                                                                    : (
+                                                                        +item.usdRetail__c -
+                                                                        (productApiData
+                                                                          ?.discount
+                                                                          ?.margin /
+                                                                          100) *
+                                                                          +item.usdRetail__c
+                                                                      ).toFixed(
+                                                                        2
+                                                                      )}
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.Min_Order_QTY__c
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                >
+                                                                  <div className="order bg-white rounded-3 p-1 d-flex justify-content-center align-items-center gap-2">
+                                                                    <button className="orderButton">
+                                                                      <AiOutlineMinus />
+                                                                    </button>
+                                                                    <div className="orderDisplay">
+                                                                      0
+                                                                    </div>
+                                                                    <button className="orderButton">
+                                                                      <AiOutlinePlus className="" />
+                                                                    </button>
+                                                                  </div>
+                                                                </td>
+                                                              </tr>
+                                                            </>
+                                                          );
+                                                        })}
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
+                                        </td>
+                                      </tr>
+                                    </>
+                                  );
+                                })
+                              : categoryArray?.map((ele) => {
+                                  return (
+                                    <>
+                                      <tr>
+                                        <td
+                                          colSpan="8"
+                                          style={{ textAlign: "left" }}
+                                          className="p-0 ps-2"
+                                        >
+                                          <div
+                                            className="  accordion"
+                                            id="tableAccordion"
+                                          >
+                                            <div className="accordion-item">
+                                              <h2 className="accordion-header p-0">
+                                                <button
+                                                  className="accordion-button"
+                                                  type="button"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target={`#tableRows${ele}`}
+                                                >
+                                                  <span className="p-0">
+                                                    {ele?.toUpperCase() ||
+                                                      "NO CATEGORY"}
+                                                  </span>
+                                                </button>
+                                              </h2>
+                                              <hr className="p-0 m-0"></hr>
+                                              <div
+                                                id={`tableRows${ele}`}
+                                                className="accordion-collapse collapse show"
+                                                data-bs-parent="#tableAccordion"
+                                              >
+                                                {" "}
+                                                <div
+                                                  className="accordion-body"
+                                                  id="innerTable"
+                                                >
+                                                  <div className="table-responsive ">
+                                                    <table className="table table-striped">
+                                                      <tbody>
+                                                        {productsInCategory(
+                                                          ele
+                                                        ).map((item) => {
+                                                          return (
+                                                            <>
+                                                              <tr>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "100px",
+                                                                  }}
+                                                                  className="p-0 ps-2"
+                                                                >
+                                                                  <img
+                                                                    src={
+                                                                      beautyProduct
+                                                                    }
+                                                                    height={
+                                                                      "30px"
+                                                                    }
+                                                                    width={
+                                                                      "30px"
+                                                                    }
+                                                                    alt="img"
+                                                                    className="rounded-5 border-2 mt-2"
+                                                                  ></img>
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "500px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {item.Name}
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.ProductCode
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.ProductUPC__c
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {item.usdRetail__c.includes(
+                                                                    "$"
+                                                                  )
+                                                                    ? `$${(+item.usdRetail__c.substring(
+                                                                        1
+                                                                      )).toFixed(
+                                                                        2
+                                                                      )}`
+                                                                    : `$${item.usdRetail__c}.00`}
+                                                                </td>
+                                                                {/* *+item.usdRetail__c.substring(1) */}
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  $
+                                                                  {item.usdRetail__c.includes(
+                                                                    "$"
+                                                                  )
+                                                                    ? (
+                                                                        +item.usdRetail__c.substring(
+                                                                          1
+                                                                        ) -
+                                                                        (productApiData
+                                                                          ?.discount
+                                                                          ?.margin /
+                                                                          100) *
+                                                                          +item.usdRetail__c.substring(
+                                                                            1
+                                                                          )
+                                                                      ).toFixed(
+                                                                        2
+                                                                      )
+                                                                    : (
+                                                                        +item.usdRetail__c -
+                                                                        (productApiData
+                                                                          ?.discount
+                                                                          ?.margin /
+                                                                          100) *
+                                                                          +item.usdRetail__c
+                                                                      ).toFixed(
+                                                                        2
+                                                                      )}
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                  className="fs-small"
+                                                                >
+                                                                  {
+                                                                    item.Min_Order_QTY__c
+                                                                  }
+                                                                </td>
+                                                                <td
+                                                                  style={{
+                                                                    width:
+                                                                      "200px",
+                                                                  }}
+                                                                >
+                                                                  <div className="order bg-white rounded-3 p-1 d-flex justify-content-center align-items-center gap-2">
+                                                                    <button className="orderButton">
+                                                                      <AiOutlineMinus />
+                                                                    </button>
+                                                                    <div className="orderDisplay">
+                                                                      0
+                                                                    </div>
+                                                                    <button className="orderButton">
+                                                                      <AiOutlinePlus className="" />
+                                                                    </button>
+                                                                  </div>
+                                                                </td>
+                                                              </tr>
+                                                            </>
+                                                          );
+                                                        })}
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </>
+                                  );
+                                })}
+                          </>
+                        ) : (
+                          "no data found"
+                        )}
                       </tbody>
                     </table>
                   </div>
