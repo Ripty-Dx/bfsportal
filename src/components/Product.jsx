@@ -4,13 +4,31 @@ import Header1 from "./Header1";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Product.css";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { RiInformationFill } from "react-icons/ri";
-import beautyProduct from "../images/BFS Portal Site.png"
+import beautyProduct from "../images/BFS Portal Site.png";
 const Product = () => {
+  const [productPageState, setProductPageState] = useState({
+    sortBy: "Relevance",
+    productType:"WholeSale",
+  });
+  // const [checkedSortBy,setCheckedSortBy]=useState(false)
   const location = useLocation();
   const navigate = useNavigate();
   const [productApiData, setProductApiData] = useState([]);
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
+  const sortByInputValue = (e) => {
+    setProductPageState(() => ({
+      [e.target.name]: e.target.value,
+    }));
+    console.log(productPageState);
+  };
+  const sortByProductType = (e) => {
+    setProductPageState(() => ({
+      [e.target.name]: e.target.value,
+    }));
+    console.log(productPageState);
+  };
   const categorySet = new Set(
     productApiData.data?.records.map((item) => item.Category__c)
   );
@@ -73,16 +91,52 @@ const Product = () => {
   };
   const productsInCategory = (categoryName) => {
     // console.log("filter");
-    return productApiData.data?.records.filter(
-      (item) => item.Category__c === categoryName
-    );
+    if (productPageState.sortBy === "Price: Low To High") {
+      let sortedRecords = [...productApiData.data?.records];
+      sortedRecords.sort((a, b) => {
+        if (a.usdRetail__c.includes("$") && b.usdRetail__c.includes("$")) {
+          return +a.usdRetail__c.substring(1) - +b.usdRetail__c.substring(1);
+        } else {
+          if (!a.usdRetail__c.includes("$")) {
+            return a.usdRetail__c - +b.usdRetail__c.substring(1);
+          } else if (!b.usdRetail__c.includes("$")) {
+            return +a.usdRetail__c.substring(1) - b.usdRetail__c;
+          } else {
+            return a.usdRetail__c - b.usdRetail__c;
+          }
+        }
+      });
+      // console.log(sortedRecords);
+      return sortedRecords.filter((item) => item.Category__c === categoryName);
+    } else if (productPageState.sortBy === "Price: High To Low") {
+      let sortedRecords = [...productApiData.data?.records];
+      sortedRecords.sort((a, b) => {
+        if (a.usdRetail__c.includes("$") && b.usdRetail__c.includes("$")) {
+          return +b.usdRetail__c.substring(1) - +a.usdRetail__c.substring(1);
+        } else {
+          if (!b.usdRetail__c.includes("$")) {
+            return b.usdRetail__c - +a.usdRetail__c.substring(1);
+          } else if (!a.usdRetail__c.includes("$")) {
+            return +b.usdRetail__c.substring(1) - a.usdRetail__c;
+          } else {
+            return b.usdRetail__c - a.usdRetail__c;
+          }
+        }
+      });
+      // console.log(sortedRecords);
+      return sortedRecords.filter((item) => item.Category__c === categoryName);
+    } else {
+      return productApiData.data?.records.filter(
+        (item) => item.Category__c === categoryName
+      );
+    }
   };
-
-  // console.log(s[0].Name);
+  console.log(productApiData.data?.records);
   useEffect(() => {
     fetchProductData();
     // productsInCategory(null)
   }, []);
+  // useEffect(() => {}, [productPageState]);
   return (
     <>
       {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
@@ -151,7 +205,7 @@ const Product = () => {
                   </p>
                 </div>
                 {/* Discount Offer */}
-                <div className=" mt-1 rounded-2 p-1 text-white bg-darkGrey d-flex  align-items-center justify-content-start">
+                <div className=" mt-2 rounded-2 p-1 text-white bg-darkGrey d-flex  align-items-center justify-content-start">
                   <RiInformationFill className="mx-2" size={24} />
                   <p className="p-1 minAmount">
                     Discount Offer : {productApiData?.discount?.margin}%
@@ -159,10 +213,7 @@ const Product = () => {
                   {/* {                  console.log((productApiData?.discount?.margin))}              */}
                 </div>
                 {/* sort by radio button */}
-                <div
-                  className="mt-2 bg-white rounded-2 overflow-auto"
-                  style={{ height: "12vh" }}
-                >
+                <div className="mt-3 bg-white rounded-2">
                   <div className=" accordion" id="sortType">
                     <div className="accordion-item">
                       <h2 className="accordion-header">
@@ -173,7 +224,8 @@ const Product = () => {
                           data-bs-target="#collapseOne"
                         >
                           <span className="fw-bold">Sort By:</span> &nbsp;
-                          Relevance
+                          {productPageState.sortBy}
+                          {console.log(productPageState.sortBy)}
                         </button>
                       </h2>
                       <hr className="p-0 m-0"></hr>
@@ -191,6 +243,9 @@ const Product = () => {
                               type="radio"
                               name="sortBy"
                               id="relevance"
+                              value="Relevance"
+                              onClick={sortByInputValue}
+                              checked={productPageState.sortBy==="Relevance"?true:false}
                             />
                             <label
                               className="form-check-label ms-3"
@@ -205,6 +260,10 @@ const Product = () => {
                               type="radio"
                               name="sortBy"
                               id="priceHighToLow"
+                              value="Price: High To Low"
+                              onClick={sortByInputValue}
+                              checked={productPageState.sortBy==="Price: High To Low"?true:false}
+
                             />
                             <label
                               className="form-check-label ms-3"
@@ -219,6 +278,9 @@ const Product = () => {
                               type="radio"
                               name="sortBy"
                               id="priceLowToHigh"
+                              value="Price: Low To High"
+                              onClick={sortByInputValue}
+                              checked={productPageState.sortBy==="Price: Low To High"?true:false}
                             />
                             <label
                               className="form-check-label ms-3"
@@ -233,10 +295,7 @@ const Product = () => {
                   </div>
                 </div>
                 {/* filters */}
-                <div
-                  className="mt-2 bg-white rounded-2 p-2 overflow-auto"
-                  style={{ height: "28vh" }}
-                >
+                <div className="mt-2 bg-white rounded-2 p-2 ">
                   <div className="d-flex justify-content-between align-items-center px-2">
                     <h5 className="fw-bold fs-6">Filter</h5>
                     <button className="Button">Reset</button>
@@ -270,6 +329,9 @@ const Product = () => {
                               type="radio"
                               name="product"
                               id="WholeSale"
+                              value="WholeSale"
+                              checked={productPageState.productType==="WholeSale"?true:false}
+                              onChange={sortByProductType}
                             />
                             <label
                               className="form-check-label ms-3"
@@ -284,6 +346,10 @@ const Product = () => {
                               type="radio"
                               name="product"
                               id="Pre-Order"
+                              value="Pre-Order"
+                              onChange={sortByProductType}
+                              checked={productPageState.productType==="Pre-Order"?true:false}
+
                             />
                             <label
                               className="form-check-label ms-3"
@@ -297,7 +363,7 @@ const Product = () => {
                     </div>
                   </div>
                   {/* Category Type */}
-                  <div className=" mt-1 accordion" id="categoryType">
+                  <div className=" mt-1 accordion " id="categoryType">
                     <div className="accordion-item">
                       <h2 className="accordion-header">
                         <button
@@ -317,7 +383,10 @@ const Product = () => {
                         data-bs-parent="#categoryType"
                       >
                         {" "}
-                        <div className="accordion-body">
+                        <div
+                          className="accordion-body overflow-auto"
+                          style={{ height: "25vh" }}
+                        >
                           {/* {console.log(productApiData.data?.records)} */}
                           {categoryArray?.map((ele) => {
                             return (
@@ -349,45 +418,45 @@ const Product = () => {
               <div className="col-9  ">
                 <div className="bg-white p-1 rounded-3 ">
                   <div
-                    className="table-responsive overflow-scroll"
-                    style={{ height: "50vh" }}
+                    className="table-responsive overflow-auto"
+                    style={{ height: "70vh" }}
                   >
                     <table
-                      className="table table-striped overflow-scroll"
-                      style={{ width: "80vw" }}
+                      className="table table-striped overflow-auto"
+                      style={{ width: "70vw" }}
                     >
                       <thead>
                         {/* table heading */}
                         <tr className="sticky-top">
-                          <th scope="col" style={{ width: "250px" }}>
+                          <th scope="col" style={{ width: "100px" }}>
                             Image
                           </th>
-                          <th scope="col" style={{ width: "600px" }}>
+                          <th scope="col" style={{ width: "280px" }}>
                             Title
                           </th>
-                          <th scope="col" style={{ width: "500px" }}>
+                          <th scope="col" style={{ width: "200px" }}>
                             Product Code
                           </th>
-                          <th scope="col" style={{ width: "500px" }}>
+                          <th scope="col" style={{ width: "180px" }}>
                             UPC
                           </th>
-                          <th scope="col" style={{ width: "400px" }}>
+                          <th scope="col" style={{ width: "130px" }}>
                             List Price
                           </th>
-                          <th scope="col" style={{ width: "300px" }}>
+                          <th scope="col" style={{ width: "130px" }}>
                             Sale Price
                           </th>
-                          <th scope="col" style={{ width: "400px" }}>
+                          <th scope="col" style={{ width: "200px" }}>
                             Min Qty
                           </th>
-                          <th scope="col" style={{ width: "600px" }}>
+                          <th scope="col" style={{ width: "200px" }}>
                             Qty
                           </th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {categoryArray.map((ele) => {
+                        {categoryArray?.map((ele) => {
                           return (
                             <>
                               <tr>
@@ -414,14 +483,17 @@ const Product = () => {
                                           </span>
                                         </button>
                                       </h2>
-
+                                      <hr className="p-0 m-0"></hr>
                                       <div
                                         id={`tableRows${ele}`}
                                         className="accordion-collapse collapse show"
                                         data-bs-parent="#tableAccordion"
                                       >
                                         {" "}
-                                        <div className="accordion-body">
+                                        <div
+                                          className="accordion-body"
+                                          id="innerTable"
+                                        >
                                           <div className="table-responsive ">
                                             <table className="table table-striped">
                                               <tbody>
@@ -432,19 +504,23 @@ const Product = () => {
                                                         <tr>
                                                           <td
                                                             style={{
-                                                              width: "200px",
+                                                              width: "100px",
                                                             }}
                                                             className="p-0 ps-2"
                                                           >
                                                             <img
-                                                              src={beautyProduct} height={"30px"} width={"30px"}
+                                                              src={
+                                                                beautyProduct
+                                                              }
+                                                              height={"30px"}
+                                                              width={"30px"}
                                                               alt="img"
-                                                              className="rounded-5 border-2 mt-1"
+                                                              className="rounded-5 border-2 mt-2"
                                                             ></img>
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "700px",
+                                                              width: "500px",
                                                             }}
                                                             className="fs-small"
                                                           >
@@ -452,7 +528,7 @@ const Product = () => {
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "400px",
+                                                              width: "200px",
                                                             }}
                                                             className="fs-small"
                                                           >
@@ -460,7 +536,7 @@ const Product = () => {
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "400px",
+                                                              width: "200px",
                                                             }}
                                                             className="fs-small"
                                                           >
@@ -468,36 +544,53 @@ const Product = () => {
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "400px",
+                                                              width: "200px",
                                                             }}
                                                             className="fs-small"
                                                           >
-                                                            {item.usdRetail__c}
+                                                            {item.usdRetail__c.includes(
+                                                              "$"
+                                                            )
+                                                              ? `$${( +item.usdRetail__c.substring(
+                                                                1
+                                                              )).toFixed(2)}`
+                                                              : `$${item.usdRetail__c}.00`}
                                                           </td>
                                                           {/* *+item.usdRetail__c.substring(1) */}
                                                           <td
                                                             style={{
-                                                              width: "350px",
+                                                              width: "200px",
                                                             }}
                                                             className="fs-small"
                                                           >
                                                             $
-                                                            {(
-                                                              +item.usdRetail__c.substring(
-                                                                1
-                                                              ) -
-                                                              (productApiData
-                                                                ?.discount
-                                                                ?.margin /
-                                                                100) *
-                                                                +item.usdRetail__c.substring(
-                                                                  1
-                                                                )
-                                                            ).toFixed(2)}
+                                                            {item.usdRetail__c.includes(
+                                                              "$"
+                                                            )
+                                                              ? (
+                                                                  +item.usdRetail__c.substring(
+                                                                    1
+                                                                  ) -
+                                                                  (productApiData
+                                                                    ?.discount
+                                                                    ?.margin /
+                                                                    100) *
+                                                                    +item.usdRetail__c.substring(
+                                                                      1
+                                                                    )
+                                                                ).toFixed(2)
+                                                              : (
+                                                                  +item.usdRetail__c -
+                                                                  (productApiData
+                                                                    ?.discount
+                                                                    ?.margin /
+                                                                    100) *
+                                                                    +item.usdRetail__c
+                                                                ).toFixed(2)}
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "600px",
+                                                              width: "200px",
                                                             }}
                                                             className="fs-small"
                                                           >
@@ -507,16 +600,18 @@ const Product = () => {
                                                           </td>
                                                           <td
                                                             style={{
-                                                              width: "400px",
+                                                              width: "200px",
                                                             }}
                                                           >
-                                                            <div className="bg-white rounded-3 p-1 d-flex justify-content-center align-items-center">
-                                                              <button className="Button">
-                                                                -
+                                                            <div className="order bg-white rounded-3 p-1 d-flex justify-content-center align-items-center gap-2">
+                                                              <button className="orderButton">
+                                                                <AiOutlineMinus />
                                                               </button>
-                                                              <p>0</p>
-                                                              <button className="Button">
-                                                                +
+                                                              <div className="orderDisplay">
+                                                                0
+                                                              </div>
+                                                              <button className="orderButton">
+                                                                <AiOutlinePlus className="" />
                                                               </button>
                                                             </div>
                                                           </td>
@@ -542,14 +637,12 @@ const Product = () => {
                   </div>
                 </div>
                 {/* Total Number of Product Quality:{" "} */}
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center mt-2">
                   <p className="fw-bold">
                     Total Number of Product Quality:{" "}
                     <span className="fw-normal">0</span>
                   </p>
-                  <button className="btn text-white bg-darkGrey">
-                    Generate Order
-                  </button>
+                  <button className="Button">Generate Order</button>
                 </div>
               </div>
             </div>
