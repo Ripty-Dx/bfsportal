@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Logout from "./components/Logout";
 import AccountManufacturers from "./components/AccountManufacturers";
 import Product from "./components/Product";
+import OrderPreview from "./components/OrderPreview";
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           element={<AccountManufacturers />}
         ></Route>
         <Route path="/product" element={<Product />}></Route>
+        <Route path="/preview" element={<OrderPreview />}></Route>
       </Routes>
       {/* <Login/> */}
       {/* <Dashboard/> */}

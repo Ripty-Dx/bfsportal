@@ -55,6 +55,7 @@ padding: 0px;
 .orderDisplay{
   border-radius: 5px;
   width: 50px;
+  height: 28px;
   padding: 1px 8px;
   border: 1.5px solid var(--header_font_light_color);
 }

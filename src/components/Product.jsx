@@ -208,6 +208,8 @@ const Product = () => {
     // categorySetting();
     // productsInCategory(null)
   }, [categoryArray]);
+// }, []);
+
   return (
     <>
       {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
@@ -729,8 +731,8 @@ const Product = () => {
                                                                     <button className="orderButton">
                                                                       <AiOutlineMinus />
                                                                     </button>
-                                                                    <div className="orderDisplay">
-                                                                      0
+                                                                    <div className="orderDisplay" id="orderDisplay">
+                                                                      
                                                                     </div>
                                                                     <button className="orderButton">
                                                                       <AiOutlinePlus className="" />
