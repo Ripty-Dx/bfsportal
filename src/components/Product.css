@@ -55,6 +55,7 @@ padding: 0px;
 .orderDisplay{
   border-radius: 5px;
   width: 50px;
+  height: 28px;
   padding: 1px 8px;
   border: 1.5px solid var(--header_font_light_color);
 }
@@ -97,3 +98,31 @@ padding: 0px;
 .fs-small{
   font-size: 14px;
 }
+
+/* loader start */
+.loading {
+  width: 50px;
+  height: 50px;
+  margin: 20px auto;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--footer_background_color);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  position: absolute;
+  /* top: 50%; */
+  left: 60%;
+    bottom: 40%
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* end here */

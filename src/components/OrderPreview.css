@@ -1,0 +1,96 @@
+.previewOrderMainDiv {
+  width: 90%;
+  background-color: #fff;
+  border-radius: 20px;
+  min-height: 65vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.summaryDiv {
+  background-color: #f2f2f2;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #9fabb9;
+  width: 220px;
+  margin-bottom: 5px;
+}
+.lightFontColor {
+  color: #9fabb9;
+  padding: 0px;
+  margin: 0px 0px 0px 0px;
+  font-weight: 500;
+}
+.heading {
+  margin: 0px 0px 2px 0px;
+  font-size: larger;
+}
+.previewOrder {
+  font-size: x-large;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0px;
+}
+.previewOrderDiv {
+  /* background-color: red; */
+  background-image: linear-gradient(
+    to right,
+    var(--footer_background_color),
+    var(--header_font_light_color),
+    #fafafa,
+    #fff
+  );
+  border-radius: 5px;
+  padding: 5px 0px 2px 5px;
+}
+.PONumber {
+  font-size: larger;
+  margin: 0px;
+}
+.PONumberDiv {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: end;
+}
+.PONumberValue {
+  border: 1px solid #9fabb9;
+  border-radius: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.line {
+  /* height: 12px; */
+  border-top: 1.5px solid var(--footer_background_color);
+  opacity: 0.9;
+  margin: 2px 0px 2px 0px;
+}
+.billing {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 3px 0px 2px 0px;
+}
+.total{
+    font-size: 18px;
+
+}
+.Button {
+    color: white;
+    background-color: var(--footer_background_color);
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 15px;
+    width: fit-content;
+  }
+  .Button:hover {
+    color: var(--footer_background_color);
+    background-color: white;
+    border: 1px solid var(--footer_background_color);
+  }
+  .tableHeading{
+    font-size: 14px;
+    
+  }
+  
