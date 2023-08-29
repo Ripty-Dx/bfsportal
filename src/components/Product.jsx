@@ -15,85 +15,11 @@ const Product = () => {
     productType: "WholeSale",
     categoryType: [],
   });
-  console.log(productPageState);
-  // const [checkedSortBy,setCheckedSortBy]=useState(false)
+  console.log("State",productPageState.categoryType);
   const [productApiData, setProductApiData] = useState([]);
   const apiData = useRef(JSON.parse(localStorage.getItem("Api Data")));
-
-  let categorySet;
-  const categorySetting = () => {
-    console.log("category setting");
-    categorySet = new Set(
-      productApiData.data?.records.map((item) => item.Category__c)
-    );
-    if (categorySet.has("TESTER") || categorySet.has("Samples")) {
-      categorySet.delete("TESTER");
-      categorySet.delete("Samples");
-      categorySet.add("TESTER");
-      categorySet.add("Samples");
-    }
-    if (productPageState.productType === "WholeSale")
-      categorySet.delete("PREORDER");
-    else if (productPageState.productType === "Pre-Order") {
-      categorySet.clear();
-      categorySet.add("PREORDER");
-    } else {
-      console.log("no product type selected");
-    }
-    console.log("categorySet",categorySet);
-    setCategoryArray([...categorySet]);
-    setAllCategoriesForDisplay([...categorySet]);
-    return categorySet
-  };
-  // console.log(categorySetting());
   const [categoryArray, setCategoryArray] = useState([]);
-  // console.log(categorySet);
-  // =[...productPageState.categoryType]
-  // let categoryArray = [...categorySet];
-  const [allCategoriesForDisplay,setAllCategoriesForDisplay]=useState([])
-  // let allCategoriesForDisplay = [...categorySet];
-  // console.log(categoryArray);
-
-  // console.log(productApiData.data?.records.filter((item)=>(item.Category__c==="SERUM")))
-  // console.log(productApiData?.discount?.MinOrderAmount==null?0:productApiData?.discount?.MinOrderAmount);
-  const sortByInputValue = (e) => {
-    setProductPageState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    console.log(productPageState);
-  };
-  const sortByProductType = (e) => {
-    setProductPageState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    console.log(productPageState);
-  };
-  // const [categoryCheckedBoxArray, setCategoryCheckedBoxArray] = useState([]);
-  // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
-
-  const sortByCategoryType = (e) => {
-    // console.log(e);
-    if (e.target.checked) {
-      console.log(typeof e.target.value);
-      setProductPageState((prev) => ({
-        ...prev,
-        [e.target.name]: [...productPageState.categoryType, e.target.value],
-      }));
-    } else {
-      setProductPageState((prev) => ({
-        ...prev,
-        [e.target.name]: productPageState.categoryType.filter(
-          (ele) => ele !== e.target.value
-        ),
-      }));
-    }
-    // setcategoryCheckedBoxArray = [...productPageState.categoryType];
-    // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
-    console.log(productPageState);
-    // categoryCheckedBoxArray?.push(e.target.value);
-  };
+  const [allCategoriesForDisplay, setAllCategoriesForDisplay] = useState([]);
   const resetButton = (e) => {
     e.preventDefault();
     // setProductPageState((prev) => ({
@@ -140,15 +66,55 @@ const Product = () => {
           window.location.href = "/";
         } else if (result.status === 200) {
           setProductApiData(result);
-          console.log("result", result);
+          categorySetting(result);
+          // console.log("result", result);
         } else {
           console.log("NO result", result);
         }
       })
       .catch((err) => console.log(err));
   };
-  // let categoryArray = [...categorySet];
+  // console.log(productApiData.data?.records.filter((item)=>(item.Category__c==="SERUM")))
+  // console.log(productApiData?.discount?.MinOrderAmount==null?0:productApiData?.discount?.MinOrderAmount);
+  const sortByInputValue = (e) => {
+    setProductPageState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(productPageState);
+  };
+  const sortByProductType = (e) => {
+    setProductPageState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(productPageState);
+  };
+  // const [categoryCheckedBoxArray, setCategoryCheckedBoxArray] = useState([]);
+  // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
 
+  const sortByCategoryType = (e) => {
+    // console.log(e);
+    if (e.target.checked) {
+      console.log(typeof e.target.value);
+      setProductPageState((prev) => ({
+        ...prev,
+        [e.target.name]: [...productPageState.categoryType, e.target.value],
+      }));
+    } else {
+      setProductPageState((prev) => ({
+        ...prev,
+        [e.target.name]: productPageState.categoryType.filter(
+          (ele) => ele !== e.target.value
+        ),
+      }));
+    }
+    // setcategoryCheckedBoxArray = [...productPageState.categoryType];
+    // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
+    console.log(productPageState);
+    // categoryCheckedBoxArray?.push(e.target.value);
+  };
+ 
   const productsInCategory = (categoryName) => {
     // console.log("filter");
     if (productPageState.sortBy === "Price: Low To High") {
@@ -191,15 +157,57 @@ const Product = () => {
       );
     }
   };
+  let categorySet;
+  const categorySetting = (result = []) => {
+    console.warn({ result, productApiData });
+    // console.log("category setting");
+    // console.log("product API Data", productApiData.data?.records);
+    categorySet =
+      result.length > 0
+        ? result
+        : new Set(productApiData.data?.records.map((item) => item.Category__c));
+    if (categorySet.has("TESTER") || categorySet.has("Samples")) {
+      categorySet.delete("TESTER");
+      categorySet.delete("Samples");
+      categorySet.add("TESTER");
+      categorySet.add("Samples");
+    }
+    if (productPageState.productType === "WholeSale"){
+    //  if( categorySet.has(null)){console.log("WholeSale_category",categorySet);}
+      categorySet.delete("PREORDER");
+      setProductPageState((prev) => ({
+        ...prev,
+        "categoryType": [...categorySet],
+      }));
+    }
+    else if (productPageState.productType === "Pre-Order") {
+      if (categorySet.has("PREORDER")) {
+        categorySet.clear();
+        categorySet.add("PREORDER");
+        setProductPageState((prev) => ({
+          ...prev,
+          "categoryType": ["PREORDER"],
+        }));
+      }
+      else{
+        categorySet.clear();
+      }
+    } else {
+      console.log("no product type selected");
+    }
+    console.log("categorySet", categorySet);
+    setCategoryArray([...categorySet]);
+    setAllCategoriesForDisplay([...categorySet]);
+    console.log("categoryArray", categoryArray);
+
+    return categorySet;
+  };
   // console.log(productApiData.data?.records);
-  console.log(categoryArray);
   useEffect(() => {
     fetchProductData();
-    categorySetting();
-    // setProductPageState(productPageState.categoryType=[])
+    // categorySetting();
     // productsInCategory(null)
-  }, []);
-  useEffect(() => { categorySetting();}, [productPageState]);
+  }, [categoryArray]);
   return (
     <>
       {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
@@ -472,7 +480,7 @@ const Product = () => {
                         >
                           {/* {console.log(productApiData.data?.records)} */}
                           {allCategoriesForDisplay?.map((ele) => {
-                            console.log(ele, typeof ele);
+                            // console.log(ele, typeof ele);
                             return (
                               <div className="d-flex justify-content-start align-items-center">
                                 <input
@@ -541,7 +549,7 @@ const Product = () => {
                       </thead>
 
                       <tbody>
-                        {categoryArray.length ? (
+                        {categoryArray?.length ? (
                           <>
                             {" "}
                             {productPageState.categoryType.length
@@ -945,7 +953,14 @@ const Product = () => {
                                 })}
                           </>
                         ) : (
-                          "no data found"
+                          <div className="container">
+                            <div className="row">
+                              <div className="d-flex justify-content-center align-items-center">
+                                
+                                <div className="loading"></div>
+                              </div>
+                            </div>
+                          </div>
                         )}
                       </tbody>
                     </table>
