@@ -7,7 +7,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { useLocation } from "react-router-dom";
 const Header1 = () => {
-  const location=useLocation();
+  const location = useLocation();
   // console.log(location.state.name);
   const showDropDownList = () => {
     document.getElementById("drop-down-list").classList.remove("d-none");
@@ -35,7 +35,14 @@ const Header1 = () => {
             <div className="main-header p-3">
               {/* logo */}
               <div className="col-3 col-md-2 col-lg-1" id="logo">
-                <img src={logo} alt="logo" width={"100%"} onClick={()=>{window.location.href="/dashboard"}}></img>
+                <img
+                  src={logo}
+                  alt="logo"
+                  width={"100%"}
+                  onClick={() => {
+                    window.location.href = "/dashboard";
+                  }}
+                ></img>
               </div>
 
               {/* welcome name */}
@@ -43,7 +50,8 @@ const Header1 = () => {
                 id="welcome_name"
                 className="col-7 d-none d-md-none fs-6 pt-1"
               >
-                <span className="lightColor"> Welcome </span> {localStorage.getItem("User name")}
+                <span className="lightColor"> Welcome </span>{" "}
+                {localStorage.getItem("User name")}
               </div>
               {/* triple button */}
               <div className="d-sm-flex d-md-none col-sm-1 col-1">
@@ -79,7 +87,8 @@ const Header1 = () => {
                 </div>
                 {/* welcome name */}
                 <div>
-                  <span className="lightColor ms-3"> Welcome </span> {localStorage.getItem("User name")}
+                  <span className="lightColor ms-3"> Welcome </span>{" "}
+                  {localStorage.getItem("User name")}
                 </div>
                 {/* person logo and dropdown*/}
                 <div>
@@ -109,8 +118,24 @@ const Header1 = () => {
                   </div>
                 </div>
                 {/* cart logo */}
-                <div className="text-dark">
-                  <IoMdCart style={{ fontSize: "28px" }} className="mx-3" />
+                <div className="text-dark position-relative">
+                  <IoMdCart style={{ fontSize: "30px" }} className="mx-3 " />
+                  {/* <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">
+                      99+
+                    </span> */}
+                  <div
+                    class="position-absolute top-50 start-50 translate-middle btn btn-sm text-white rounded-pill"
+                    style={{
+                      width: "2rem",
+                      height: "2rem",
+                      fontSize: "9px",
+                      paddingBottom: "22px",
+                    }}
+                  >
+                   {localStorage.getItem("Total Order in cart")==="0"?"":localStorage.getItem("Total Order in cart")}
+                  </div>
+
+                  {/* </button> */}
                 </div>
               </div>
             </div>
