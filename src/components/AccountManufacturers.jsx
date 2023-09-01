@@ -19,6 +19,7 @@ console.log(location);
   // console.log(filteredArray[0].data[0].Name);
   const redirectToProductPage = (e, ProductName, AccountName) => {
     e.preventDefault();
+    localStorage.setItem("brand",ProductName);
     navigate("/product", {
       state: {
         ProductName: ProductName,

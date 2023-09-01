@@ -5,6 +5,10 @@ import "./OrderPreview.css";
 import beautyProduct from "../images/BFS Portal Site.png";
 import Footer from "./Footer";
 const OrderPreview = () => {
+  const data = localStorage.getItem("Ordered Items");
+  const orderedItemsName = Object.keys(JSON.parse(data));
+  console.log(orderedItemsName.length,typeof(orderedItemsName));
+  console.log(Object.values(JSON.parse(data)));
   return (
     <>
       <Header1 />
@@ -17,13 +21,13 @@ const OrderPreview = () => {
                 className="back_icon me-2"
                 onClick={() => (window.location.href = "/product")}
               />{" "}
-              Account Manufacturers
+              {localStorage.getItem("brand")}
             </h2>
           </div>
           <div className="col-lg-5 d-flex justify-content-center align-items-center">
             <h5 className="fw-bolder">Account&nbsp;: &nbsp;</h5>
             {/* <h5>{location.state.acc_name}</h5> */}
-            <h5>DSX</h5>
+            <h5>{localStorage.getItem("Account")}</h5>
           </div>
         </div>
         <div className="row d-flex justify-content-around">
@@ -147,22 +151,32 @@ const OrderPreview = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td
-                        style={{
-                          width: "100px",
-                        }}
-                        className="p-0 ps-2"
-                      >
-                        <img
-                          src={beautyProduct}
-                          height={"30px"}
-                          width={"30px"}
-                          alt="img"
-                          className="rounded-5 border-2 mt-2"
-                        ></img>
-                      </td>
-                    </tr>
+                    {orderedItemsName?.map((ele,index) => {
+                      return (
+                        <>
+                          <tr key={index}>
+                            <td
+                              style={{
+                                width: "100px",
+                              }}
+                              className="p-0 ps-2"
+                            >
+                              <img
+                                src={beautyProduct}
+                                height={"30px"}
+                                width={"30px"}
+                                alt="img"
+                                className="rounded-5 border-2 mt-2"
+                              ></img>
+                            </td>
+                            <td>{ele}</td>
+                            <td>{}</td>
+                            <td>{}</td>
+
+                          </tr>
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

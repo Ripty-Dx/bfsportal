@@ -33,6 +33,7 @@ const Dashboard = () => {
   // console.log(refApiData.current.second);
   // console.log(sortInDescending);
   const redirectToAccountManufacturers=(name)=>{
+    localStorage.setItem("Account",name)
     navigate("/account-manufacturers",{
       state:{
         acc_name:name,

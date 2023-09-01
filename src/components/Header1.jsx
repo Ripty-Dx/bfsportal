@@ -124,12 +124,13 @@ const Header1 = () => {
                       99+
                     </span> */}
                   <div
-                    class="position-absolute top-50 start-50 translate-middle btn btn-sm text-white rounded-pill"
+                    className="position-absolute top-50 start-50 translate-middle btn btn-sm text-white rounded-pill"
                     style={{
                       width: "2rem",
                       height: "2rem",
                       fontSize: "9px",
                       paddingBottom: "22px",
+                      paddingLeft:"10px"
                     }}
                   >
                    {localStorage.getItem("Total Order in cart")==="0"?"":localStorage.getItem("Total Order in cart")}
