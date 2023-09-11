@@ -23,7 +23,11 @@ const Product = () => {
   const [categoryArray, setCategoryArray] = useState([]);
   const [allCategoriesForDisplay, setAllCategoriesForDisplay] = useState([]);
   const [cartOrderValue, setCartOrderValue] = useState(0);
+  const [orderedItems, setOrderedItems] = useState([]);
   // const [categoryOrder, setCategoryOrder] = useState([]);
+  const handleGenerateOrder = (item) => {
+    navigate("/preview");
+  };
   const resetButton = (e) => {
     e.preventDefault();
     // setProductPageState((prev) => ({
@@ -44,10 +48,10 @@ const Product = () => {
     });
   };
   const accountId = apiData.current.second.filter(
-    (ele) => ele.Name === location.state.AccountName
+    (ele) => ele.Name === localStorage.getItem("Account")
   );
   const manufacturerId = accountId[0].data.filter(
-    (ele) => ele.ManufacturerName__c === location.state.ProductName
+    (ele) => ele.ManufacturerName__c === localStorage.getItem("brand")
   );
   const fetchProductData = () => {
     fetch("https://dev.beautyfashionsales.com/beauty/HSc6cv4", {
@@ -198,22 +202,36 @@ const Product = () => {
     return categorySet;
   };
   const handleOrderAdded = (item) => {
-    console.log(item);
     if (document.getElementById(`orderDisplay${item.Id}`).textContent === "") {
       document.getElementById(`orderDisplay${item.Id}`).textContent =
         item.Min_Order_QTY__c;
       setCartOrderValue(cartOrderValue + +item.Min_Order_QTY__c);
+
+      // ...prev,
+      // [item.Name]:{,[`Quantity-${item.Name}`]: document.getElementById(`orderDisplay${item.Id}`).textContent},
+
       // setCategoryOrder(categoryOrder.push({`${item.Category__c}`:`${item.Min_Order_QTY__c}`}));
     } else {
       document.getElementById(`orderDisplay${item.Id}`).textContent =
         +document.getElementById(`orderDisplay${item.Id}`).textContent + 1;
       setCartOrderValue(cartOrderValue + 1);
+
+      // setOrderedItems(orderedItems.push(item));
     }
+    setOrderedItems((prevState) => ({
+      ...prevState,
+      [item.Name]: [
+        { Description: item },
+        {
+          Quantity: document.getElementById(`orderDisplay${item.Id}`)
+            .textContent,
+        },
+      ],
+    }));
   };
+  console.log("orderedItems", orderedItems);
+  // console.log("orderedItems type",orderedItems.N);
   const handleOrderRemoved = (item) => {
-    console.log(
-      typeof document.getElementById(`orderDisplay${item.Id}`).textContent
-    );
     if (document.getElementById(`orderDisplay${item.Id}`).textContent === "") {
       // document.getElementById("nullOrderModal").classList.remove("d-none");
       document.getElementById(`orderDisplay${item.Id}`).textContent = null;
@@ -224,13 +242,23 @@ const Product = () => {
     ) {
       document.getElementById(`orderDisplay${item.Id}`).textContent = null;
       setCartOrderValue(cartOrderValue - +item.Min_Order_QTY__c);
+      // delete order
+      delete orderedItems[item.Name];
+      setOrderedItems((prevState) => ({
+        ...prevState,
+      }));
     } else {
       document.getElementById(`orderDisplay${item.Id}`).textContent =
         +document.getElementById(`orderDisplay${item.Id}`).textContent - 1;
       setCartOrderValue(cartOrderValue - 1);
+      // delete orderedItems.[item.Name]
+      setOrderedItems((prevState) => ({
+        ...prevState,
+        // delete [item.Name]
+        // [item.Name]: [ {"Description": item},{"Quantity":document.getElementById(`orderDisplay${item.Id}`).textContent}]
+      }));
     }
   };
-  console.log("cartOrderValue=", cartOrderValue);
   useEffect(() => {
     fetchProductData();
   }, []);
@@ -238,8 +266,10 @@ const Product = () => {
     categorySetting(productApiData);
   }, [productApiData]);
   // }, []);
-  localStorage.setItem("Total Order in cart", cartOrderValue);
 
+  localStorage.setItem("Total Order in cart", cartOrderValue);
+  localStorage.setItem("Ordered Items", JSON.stringify(orderedItems));
+  localStorage.setItem("discount", productApiData?.discount?.margin);
   return (
     <>
       {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
@@ -263,16 +293,16 @@ const Product = () => {
                     onClick={(e) =>
                       redirectToAccountManufacturers(
                         e,
-                        location.state.AccountName
+                        localStorage.getItem("Account")
                       )
                     }
                   />{" "}
-                  {location.state.ProductName.toUpperCase()}
+                  {localStorage.getItem("brand").toUpperCase()}
                 </h3>
                 <h5 className="fw-bolder">
                   &nbsp;-&nbsp;Account&nbsp;: &nbsp;
                 </h5>
-                <h5 className="fs-5">{location.state.AccountName}</h5>
+                <h5 className="fs-5">{localStorage.getItem("Account")}</h5>
               </div>
               {/* Download Order From */}
               <div className=" col-auto d-flex justify-content-center align-items-center">
@@ -833,7 +863,14 @@ const Product = () => {
                     Total Number of Product Quality:{" "}
                     <span className="fw-normal">0</span>
                   </p>
-                  <button className="Button">Generate Order</button>
+                  <button
+                    className="Button"
+                    onClick={() => {
+                      handleGenerateOrder();
+                    }}
+                  >
+                    Generate Order
+                  </button>
                 </div>
               </div>
             </div>

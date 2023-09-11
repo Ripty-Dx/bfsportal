@@ -5,6 +5,28 @@ import "./OrderPreview.css";
 import beautyProduct from "../images/BFS Portal Site.png";
 import Footer from "./Footer";
 const OrderPreview = () => {
+  const data = localStorage.getItem("Ordered Items");
+  const discount = localStorage.getItem("discount");
+  const orderedItemsName = Object.keys(JSON.parse(data));
+  let salePrice = 0;
+  let totalPriceOfProduct = 0;
+  let subTotal=0;
+  const currentDate = new Date();
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const date = `${months[(currentDate.getMonth())]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+
+
+  // console.log();
+  // console.log(orderedItemsName.length,typeof(orderedItemsName));
+  // console.log(Object.values(Object.values(JSON.parse(data))[2][0])[0].Category__c);
+  //   const salePrice = Object.values(Object.values(JSON.parse(data))[2][0])[0]
+  //     .usdRetail__c;
+  //   console.log(salePrice);
+
+  //  console.log( salePrice.includes("$")
+  //  ? (+salePrice.substring(1) - (discount / 100) * +salePrice.substring(1)).toFixed(2)
+  //  : (+salePrice - (discount / 100) * +salePrice).toFixed(2));
+
   return (
     <>
       <Header1 />
@@ -17,13 +39,13 @@ const OrderPreview = () => {
                 className="back_icon me-2"
                 onClick={() => (window.location.href = "/product")}
               />{" "}
-              Account Manufacturers
+              {localStorage.getItem("brand")}
             </h2>
           </div>
           <div className="col-lg-5 d-flex justify-content-center align-items-center">
             <h5 className="fw-bolder">Account&nbsp;: &nbsp;</h5>
             {/* <h5>{location.state.acc_name}</h5> */}
-            <h5>DSX</h5>
+            <h5>{localStorage.getItem("Account")}</h5>
           </div>
         </div>
         <div className="row d-flex justify-content-around">
@@ -147,22 +169,93 @@ const OrderPreview = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td
-                        style={{
-                          width: "100px",
-                        }}
-                        className="p-0 ps-2"
-                      >
-                        <img
-                          src={beautyProduct}
-                          height={"30px"}
-                          width={"30px"}
-                          alt="img"
-                          className="rounded-5 border-2 mt-2"
-                        ></img>
-                      </td>
-                    </tr>
+                    {orderedItemsName?.map((ele, index) => {
+                      salePrice = Object.values(
+                        Object.values(JSON.parse(data))[index][0]
+                      )[0].usdRetail__c;
+                      totalPriceOfProduct = (+Object.values(
+                        Object.values(JSON.parse(data))[index][1]
+                      )[0])*(salePrice.includes("$")
+                      ? (
+                          +salePrice.substring(1) -
+                          (discount / 100) * +salePrice.substring(1)
+                        ).toFixed(2)
+                      : (
+                          +salePrice -
+                          (discount / 100) * +salePrice
+                        ).toFixed(2));
+                        subTotal+=totalPriceOfProduct
+                      // console.log(salePrice.substring(1)*5);
+                      // console.log(+totalPriceOfProduct);
+                      return (
+                        <>
+                          <tr key={index}>
+                            {/* image */}
+                            <td
+                              style={{
+                                width: "100px",
+                              }}
+                              className="p-0 ps-2"
+                            >
+                              <img
+                                src={beautyProduct}
+                                height={"30px"}
+                                width={"30px"}
+                                alt="img"
+                                className="rounded-5 border-2 mt-2"
+                              ></img>
+                            </td>
+                            {/* product name */}
+                            <td
+                              style={{
+                                width: "100px",
+                              }}
+                            >
+                              {ele}
+                            </td>
+                            {/* category */}
+                            <td>
+                              {
+                                Object.values(
+                                  Object.values(JSON.parse(data))[index][0]
+                                )[0].Category__c
+                              }
+                            </td>
+                            {/* quantity */}
+                            <td>
+                              {
+                                Object.values(
+                                  Object.values(JSON.parse(data))[index][1]
+                                )[0]
+                              }
+                            </td>
+                            {/* product price */}
+                            <td>
+                              {salePrice.includes("$")
+                                ? `$${(+salePrice.substring(1)).toFixed(2)}`
+                                : `$${salePrice}.00`}
+                            </td>
+                            {/* discount */}
+                            <td>{discount}</td>
+                            {/*  salePrice */}
+                            <td>
+                              $
+                              {salePrice.includes("$")
+                                ? (
+                                    +salePrice.substring(1) -
+                                    (discount / 100) * +salePrice.substring(1)
+                                  ).toFixed(2)
+                                : (
+                                    +salePrice -
+                                    (discount / 100) * +salePrice
+                                  ).toFixed(2)}
+                            </td>
+                            {/* total price */}
+                            <td>${totalPriceOfProduct.toFixed(2)}</td>
+                          </tr>
+                        </>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -172,22 +265,22 @@ const OrderPreview = () => {
               <div>
                 <div className=" m-0 ps-2 pe-3 col-12 d-flex  justify-content-between align-items-center">
                   <h5 className="billing">Sub Total :</h5>
-                  <h5 className="billing">$39.0</h5>
+                  <h5 className="billing">${subTotal.toFixed(2)}</h5>
                 </div>
                 <div className="m-0 ps-2 pe-3 col-12 d-flex  justify-content-between align-items-center">
                   <h5 className="billing">Shipping :</h5>
-                  <h5 className="billing">$39.0</h5>
+                  <h5 className="billing">$0.00</h5>
                 </div>
                 <div className=" ps-2 pe-3 col-12 d-flex  justify-content-between align-items-center">
                   <h5 className="billing">Tax (GST) :</h5>
-                  <h5 className="billing">$39.0</h5>
+                  <h5 className="billing">$0.00</h5>
                 </div>
               </div>
               <hr className="p-0 m-1" />
               {/* Total Amount */}
               <div className=" m-0 pe-3 ps-2 col-12 d-flex  justify-content-between align-items-center">
                 <h5 className="billing total">Total Price</h5>
-                <h5 className="billing total">$39.0</h5>
+                <h5 className="billing total">${subTotal.toFixed(2)}</h5>
               </div>
               <hr className="p-0 m-1" />
             </div>
@@ -196,9 +289,9 @@ const OrderPreview = () => {
               <div className="summaryDiv">
                 <h3 className="fw-bold heading">Summary</h3>
                 <p className="fs-small lightFontColor">
-                  Order Date: August 29,2023
+                  Order Date: {date}
                 </p>
-                <p className="fs-small lightFontColor">Order Total: $ 39.00</p>
+                <p className="fs-small lightFontColor">Order Total: ${subTotal.toFixed(2)}</p>
                 <h6 className="fs-6 fw-bold">Add Notes</h6>
               </div>
               {/* shipping address div */}
