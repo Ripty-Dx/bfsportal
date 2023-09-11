@@ -75,7 +75,7 @@ const Header1 = () => {
               <div className="d-none d-md-flex header-options ">
                 {/* Customer Support */}
                 <div>
-                  <a className="links-header header_font_family " href="#12">
+                  <a className="links-header header_font_family " href="/customer-support">
                     Customer Support
                   </a>
                 </div>
@@ -146,7 +146,7 @@ const Header1 = () => {
               <div className="">
                 <ul>
                   <li>
-                    <a href="#123">Customer Support</a>
+                    <a href="/customer-support">Customer Support</a>
                   </li>
                   <li>
                     <a href="#123">Sales Report</a>

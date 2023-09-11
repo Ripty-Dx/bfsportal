@@ -48,10 +48,10 @@ const Product = () => {
     });
   };
   const accountId = apiData.current.second.filter(
-    (ele) => ele.Name === location.state.AccountName
+    (ele) => ele.Name === localStorage.getItem("Account")
   );
   const manufacturerId = accountId[0].data.filter(
-    (ele) => ele.ManufacturerName__c === location.state.ProductName
+    (ele) => ele.ManufacturerName__c === localStorage.getItem("brand")
   );
   const fetchProductData = () => {
     fetch("https://dev.beautyfashionsales.com/beauty/HSc6cv4", {
@@ -293,16 +293,16 @@ const Product = () => {
                     onClick={(e) =>
                       redirectToAccountManufacturers(
                         e,
-                        location.state.AccountName
+                        localStorage.getItem("Account")
                       )
                     }
                   />{" "}
-                  {location.state.ProductName.toUpperCase()}
+                  {localStorage.getItem("brand").toUpperCase()}
                 </h3>
                 <h5 className="fw-bolder">
                   &nbsp;-&nbsp;Account&nbsp;: &nbsp;
                 </h5>
-                <h5 className="fs-5">{location.state.AccountName}</h5>
+                <h5 className="fs-5">{localStorage.getItem("Account")}</h5>
               </div>
               {/* Download Order From */}
               <div className=" col-auto d-flex justify-content-center align-items-center">
