@@ -5,7 +5,7 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 import "./CustomerSupport.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-const customerSupport = () => {
+const CustomerSupport1 = () => {
   const addInfo = () => {};
   return (
     <>
@@ -246,4 +246,4 @@ const customerSupport = () => {
   );
 };
 
-export default customerSupport;
+export default CustomerSupport1;

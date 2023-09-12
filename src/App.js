@@ -7,7 +7,7 @@ import AccountManufacturers from "./components/AccountManufacturers";
 import Product from "./components/Product";
 import OrderPreview from "./components/OrderPreview";
 import NullOrderModal from "./components/NullOrderModal";
-import CustomerSupport from "./components/CustomerSupport";
+import CustomerSupportServiceIssues from "./components/CustomerSupportServiceIssues";
 function App() {
   return (
     <>
@@ -22,7 +22,7 @@ function App() {
         <Route path="/product" element={<Product />}></Route>
         <Route path="/preview" element={<OrderPreview />}></Route>
         <Route path="/modal" element={<NullOrderModal />}></Route>
-        <Route path="/customer-support" element={<CustomerSupport />}></Route>
+        <Route path="/customer-support" element={<CustomerSupportServiceIssues />}></Route>
       </Routes>
       {/* <Login/> */}
       {/* <Dashboard/> */}
