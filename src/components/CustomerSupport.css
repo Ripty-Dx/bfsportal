@@ -13,6 +13,10 @@
   text-align: left;
   margin-bottom: 10px;
 }
+.selectedSubCategory{
+  border-left: 3px solid #4a4a4a;
+  border-bottom: 1px solid #cccccc;
+}
 .table1 {
   border: 1px solid var(--footer_background_color);
   border-radius: 5px;
