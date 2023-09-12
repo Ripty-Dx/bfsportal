@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header1 from "./Header1";
 import Footer from "./Footer";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -14,11 +14,16 @@ import MarketingSupportAddNew from "./CustomerSupport/MarketingSupportAddNew";
 import ManagementCaseAddNew from "./CustomerSupport/ManagementCaseAddNew";
 
 const CustomerSupportServiceIssues = () => {
+  const apiData = JSON.parse(localStorage.getItem("Api Data"));
+  const key = apiData.data.api.access_token;
+  const SalesRepId = apiData.data.user.Sales_Rep__c;
+  const typeId = "0123b0000007z9pAAA";
   const [addNewInfo, setAddNewInfo] = useState(false);
   const [customerServiceIssues, setCustomerServiceIssues] = useState(true);
   const [managementCaseState, setManagementCaseState] = useState(false);
   const [marketingSupportIssue, setMarketingSupportIssue] = useState(false);
   const [orderStatusState, setOrderStatusState] = useState(false);
+  const [customerSupportApiData, setCustomerSupportApiData] = useState("");
   const addInfo = () => {
     setAddNewInfo(true);
   };
@@ -53,6 +58,27 @@ const CustomerSupportServiceIssues = () => {
     setMarketingSupportIssue(false);
     setOrderStatusState(true);
   };
+  const fetchCustomerSupportServiceIssues =  (key, SalesRepId, typeId) => {
+    return  fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        key: key,
+        SalesRepId: SalesRepId,
+        typeId: typeId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => setCustomerSupportApiData(data))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchCustomerSupportServiceIssues(key, SalesRepId, typeId);
+  }, []);
+  console.log(customerSupportApiData);
   return (
     <>
       <Header1 />
@@ -150,7 +176,7 @@ const CustomerSupportServiceIssues = () => {
                   {addNewInfo ? (
                     <CustomerServiceIssuesAddNew />
                   ) : (
-                    <CustomerServiceIssueTable />
+                    <CustomerServiceIssueTable apiData={customerSupportApiData} />
                   )}
                 </>
               ) : (
