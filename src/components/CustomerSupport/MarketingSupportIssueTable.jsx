@@ -1,6 +1,8 @@
 import React from "react";
 
-const MarketingSupportIssueTable = () => {
+const MarketingSupportIssueTable = ({ apiData }) => {
+  // console.log(apiData);
+
   return (
     <>
       <div className="">
@@ -94,7 +96,33 @@ const MarketingSupportIssueTable = () => {
                 </th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {apiData?.data?.records?.length === 0 ? (
+                <>
+                  <tr className="d-flex align-items-center justify-content-center">
+                    No data
+                  </tr>
+                </>
+              ) : (
+                <>
+                  {apiData?.data?.records?.map((ele, index) => {
+                    return (
+                      <>
+                        <tr key={index}>
+                          <td>{ele.CaseNumber}</td>
+                          <td>{ele.ManufacturerName}</td>
+                          <td>{ele.AccountName}</td>
+                          <td>{ele.ContactName}</td>
+                          <td>{ele.Reason}</td>
+                          <td>{ele.Status}</td>
+                          <td>{ele.Date_Opened__c}</td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </>
+              )}
+            </tbody>
           </table>
         </div>
       </div>

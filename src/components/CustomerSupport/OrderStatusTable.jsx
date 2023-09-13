@@ -1,6 +1,8 @@
 import React from 'react'
 
-const OrderStatusTable = () => {
+const OrderStatusTable = ({apiData}) => {
+  // console.log(apiData);
+
   return (
     <>
      <div className="">
@@ -94,7 +96,13 @@ const OrderStatusTable = () => {
                 </th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {apiData?.data?.records?.length===0?<>
+              <tr className="d-flex align-items-center justify-content-center">
+                No data
+              </tr>
+              </>:""}
+            </tbody>
           </table>
         </div>
       </div>
