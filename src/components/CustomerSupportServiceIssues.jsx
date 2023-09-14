@@ -17,25 +17,35 @@ const CustomerSupportServiceIssues = () => {
   const apiData = JSON.parse(localStorage.getItem("Api Data"));
   const key = apiData.data.api.access_token;
   const SalesRepId = apiData.data.user.Sales_Rep__c;
-  const typeId = "0123b0000007z9pAAA";
+  const typeIdCustomerServiceIssues = "0123b0000007z9pAAA";
+  const typeIdOrderStatus = "0123b0000007zc8AAA";
+  const typeIdManagementCases = "0123b000000GfOEAA0";
+  const typeIdMarketingSupportIssue = "0123b0000007z9uAAA";
   const [addNewInfo, setAddNewInfo] = useState(false);
   const [customerServiceIssues, setCustomerServiceIssues] = useState(true);
   const [managementCaseState, setManagementCaseState] = useState(false);
   const [marketingSupportIssue, setMarketingSupportIssue] = useState(false);
   const [orderStatusState, setOrderStatusState] = useState(false);
   const [customerSupportApiData, setCustomerSupportApiData] = useState("");
+  const [apiDataOrderStatus, setApiDataOrderStatus] = useState("");
+  const [apiDataManagementCases, setApiDataManagementCases] = useState("");
+  const [apiDataMarketingSupportIssue, setApiDataMarketingSupportIssue] =
+    useState("");
   const addInfo = () => {
     setAddNewInfo(true);
   };
   const viewList = () => {
     setAddNewInfo(false);
   };
-  const managementCaseHandle = () => {
+  const managementCaseHandle = async () => {
     setAddNewInfo(false);
     setManagementCaseState(true);
     setCustomerServiceIssues(false);
     setMarketingSupportIssue(false);
     setOrderStatusState(false);
+    setApiDataManagementCases(
+      await fetchManagementCases(key, SalesRepId, typeIdManagementCases)
+    );
   };
   const handleCustomerServiceIssues = () => {
     setAddNewInfo(false);
@@ -44,22 +54,36 @@ const CustomerSupportServiceIssues = () => {
     setMarketingSupportIssue(false);
     setOrderStatusState(false);
   };
-  const handleMarketSupportIssue = () => {
+  const handleMarketSupportIssue = async () => {
     setAddNewInfo(false);
     setCustomerServiceIssues(false);
     setManagementCaseState(false);
     setMarketingSupportIssue(true);
     setOrderStatusState(false);
+    setApiDataMarketingSupportIssue(
+      await fetchMarketingSupportIssue(
+        key,
+        SalesRepId,
+        typeIdMarketingSupportIssue
+      )
+    );
   };
-  const handleOrderStatus = () => {
+  const handleOrderStatus = async () => {
     setAddNewInfo(false);
     setCustomerServiceIssues(false);
     setManagementCaseState(false);
     setMarketingSupportIssue(false);
     setOrderStatusState(true);
+    setApiDataOrderStatus(
+      await fetchOrderStatus(key, SalesRepId, typeIdOrderStatus)
+    );
   };
-  const fetchCustomerSupportServiceIssues =  (key, SalesRepId, typeId) => {
-    return  fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+  const fetchCustomerSupportServiceIssues = (
+    key,
+    SalesRepId,
+    typeIdCustomerServiceIssues
+  ) => {
+    return fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -67,18 +91,70 @@ const CustomerSupportServiceIssues = () => {
       body: JSON.stringify({
         key: key,
         SalesRepId: SalesRepId,
-        typeId: typeId,
+        typeId: typeIdCustomerServiceIssues,
       }),
     })
       .then((response) => response.json())
       .then((data) => setCustomerSupportApiData(data))
       .catch((err) => console.log(err));
   };
+  const fetchOrderStatus = (key, SalesRepId, typeIdOrderStatus) => {
+    return fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        key: key,
+        SalesRepId: SalesRepId,
+        typeId: typeIdOrderStatus,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((err) => console.log(err));
+  };
+  const fetchManagementCases = (key, SalesRepId, typeIdManagementCases) => {
+    return fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        key: key,
+        SalesRepId: SalesRepId,
+        typeId: typeIdManagementCases,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((err) => console.log(err));
+  };
+  const fetchMarketingSupportIssue = (
+    key,
+    SalesRepId,
+    typeIdMarketingSupportIssue
+  ) => {
+    return fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        key: key,
+        SalesRepId: SalesRepId,
+        typeId: typeIdMarketingSupportIssue,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    fetchCustomerSupportServiceIssues(key, SalesRepId, typeId);
+    fetchCustomerSupportServiceIssues(
+      key,
+      SalesRepId,
+      typeIdCustomerServiceIssues
+    );
   }, []);
-  console.log(customerSupportApiData);
   return (
     <>
       <Header1 />
@@ -176,7 +252,9 @@ const CustomerSupportServiceIssues = () => {
                   {addNewInfo ? (
                     <CustomerServiceIssuesAddNew />
                   ) : (
-                    <CustomerServiceIssueTable apiData={customerSupportApiData} />
+                    <CustomerServiceIssueTable
+                      apiData={customerSupportApiData}
+                    />
                   )}
                 </>
               ) : (
@@ -187,7 +265,7 @@ const CustomerSupportServiceIssues = () => {
                   {addNewInfo ? (
                     <ManagementCaseAddNew />
                   ) : (
-                    <ManagementCasesTable />
+                    <ManagementCasesTable apiData={apiDataManagementCases} />
                   )}
                 </>
               ) : (
@@ -198,14 +276,22 @@ const CustomerSupportServiceIssues = () => {
                   {addNewInfo ? (
                     <MarketingSupportAddNew />
                   ) : (
-                    <MarketingSupportIssueTable />
+                    <MarketingSupportIssueTable
+                      apiData={apiDataMarketingSupportIssue}
+                    />
                   )}
                 </>
               ) : (
                 ""
               )}
               {orderStatusState ? (
-                <>{addNewInfo ? <OrderStatusAddNew /> : <OrderStatusTable />}</>
+                <>
+                  {addNewInfo ? (
+                    <OrderStatusAddNew />
+                  ) : (
+                    <OrderStatusTable apiData={apiDataOrderStatus} />
+                  )}
+                </>
               ) : (
                 ""
               )}

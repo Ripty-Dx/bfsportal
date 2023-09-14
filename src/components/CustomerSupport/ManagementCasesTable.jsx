@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import ManagementCaseDetailPage from "./ManagementCaseDetailPage";
 
-const ManagementCasesTable = () => {
+const ManagementCasesTable = ({ apiData }) => {
+  const [detailState, setDetailState] = useState(false);
+  const [detailPageData,setDetailPageData]=useState("");
+  // console.log(apiData);
+  const handleDetails = (ele) => {
+    setDetailState(true);
+    setDetailPageData(ele)
+    // console.log(ele);
+  };
   return (
     <>
       <div className="">
-        <div
+        {detailState?<><ManagementCaseDetailPage details={detailPageData} apiData={apiData}/></>:<><div
           className="table-responsive overflow-scroll table1"
           style={{ minHeight: "49vh" }}
         >
@@ -94,9 +103,52 @@ const ManagementCasesTable = () => {
                 </th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {apiData?.data?.records?.length === 0 ? (
+                <>
+                  <tr className="d-flex align-items-center justify-content-center">
+                    No data
+                  </tr>
+                </>
+              ) : (
+                <>
+                  {apiData?.data?.records?.map((ele, index) => {
+                    return (
+                      <>
+                        <tr key={index}>
+                          <td className="align-middle">
+                            <button className="caseNumber" onClick={()=>handleDetails(ele)}>
+                              {" "}
+                              {ele.CaseNumber}
+                            </button>
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.ManufacturerName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.AccountName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.ContactName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Reason}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Status}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Date_Opened__c}
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </>
+              )}
+            </tbody>
           </table>
-        </div>
+        </div></>}
       </div>
     </>
   );

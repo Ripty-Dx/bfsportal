@@ -21,7 +21,7 @@ const NullOrderModal = (props) => {
              </p>
            </Modal.Body>
            <Modal.Footer>
-             <Button onClick={props.onHide}>OK</Button>
+             <Button onClick={props.onHide} style={{backgroundColor:"#636365", color:"white", border:"none"}}>OK</Button>
            </Modal.Footer>
          </Modal>
         </>

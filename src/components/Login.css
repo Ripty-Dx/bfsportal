@@ -38,6 +38,24 @@
   background-color: #4e4e50;
   font-weight: 700;
 }
+.loadingSpinner {
+	pointer-events: none;
+	width: 2.5em;
+	height: 2.5em;
+	border: 0.4em solid transparent;
+	border-color: #eee;
+	border-top-color: #fff;
+	border-radius: 50%;
+	animation: loadingSpin 1s linear infinite;
+}
+
+@keyframes loadingSpin {
+	100% {
+			transform: rotate(360deg)
+	}
+}
+
+
 .login-button:hover {
   border: 1px solid #4e4e50;
   color: #4e4e50 !important;
