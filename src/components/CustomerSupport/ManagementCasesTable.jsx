@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import ManagementCaseDetailPage from "./ManagementCaseDetailPage";
 
 const ManagementCasesTable = ({ apiData }) => {
+  const [detailState, setDetailState] = useState(false);
+  const [detailPageData,setDetailPageData]=useState("");
   // console.log(apiData);
+  const handleDetails = (ele) => {
+    setDetailState(true);
+    setDetailPageData(ele)
+    // console.log(ele);
+  };
   return (
     <>
       <div className="">
-        <div
+        {detailState?<><ManagementCaseDetailPage details={detailPageData} apiData={apiData}/></>:<><div
           className="table-responsive overflow-scroll table1"
           style={{ minHeight: "49vh" }}
         >
@@ -108,13 +116,30 @@ const ManagementCasesTable = ({ apiData }) => {
                     return (
                       <>
                         <tr key={index}>
-                          <td>{ele.CaseNumber}</td>
-                          <td>{ele.ManufacturerName}</td>
-                          <td>{ele.AccountName}</td>
-                          <td>{ele.ContactName}</td>
-                          <td>{ele.Reason}</td>
-                          <td>{ele.Status}</td>
-                          <td>{ele.Date_Opened__c}</td>
+                          <td className="align-middle">
+                            <button className="caseNumber" onClick={()=>handleDetails(ele)}>
+                              {" "}
+                              {ele.CaseNumber}
+                            </button>
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.ManufacturerName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.AccountName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.ContactName}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Reason}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Status}
+                          </td>
+                          <td className="align-middle text-center">
+                            {ele.Date_Opened__c}
+                          </td>
                         </tr>
                       </>
                     );
@@ -123,7 +148,7 @@ const ManagementCasesTable = ({ apiData }) => {
               )}
             </tbody>
           </table>
-        </div>
+        </div></>}
       </div>
     </>
   );

@@ -46,3 +46,21 @@
   top: -20px;
   width: 70%;
 }
+.caseNumber{
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+  font-size: 15px;
+  border: none;
+  background-color: transparent;
+}
+.detailInformationDiv{
+  border-bottom:1.5px solid #acacac;
+  padding-bottom: 5px;
+  font-size: 14.5px;
+  height: 30px;
+}
+.detailPageLabel{
+  font-size: 19px;
+  font-weight: 500;
+}

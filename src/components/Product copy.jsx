@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 import Header1 from "./Header1";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Product.css";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { RiInformationFill } from "react-icons/ri";
 import beautyProduct from "../images/BFS Portal Site.png";
 import NullOrderModal from "./NullOrderModal";
 const Product = () => {
-  // const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const [productPageState, setProductPageState] = useState({
     sortBy: "Relevance",
@@ -24,7 +24,6 @@ const Product = () => {
   const [allCategoriesForDisplay, setAllCategoriesForDisplay] = useState([]);
   const [cartOrderValue, setCartOrderValue] = useState(0);
   const [orderedItems, setOrderedItems] = useState([]);
-  const [checkedCategories, setCheckedCategories] = useState([]);
   // const [categoryOrder, setCategoryOrder] = useState([]);
   const handleGenerateOrder = (item) => {
     navigate("/preview");
@@ -88,49 +87,34 @@ const Product = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // console.log(productPageState);
+    console.log(productPageState);
   };
   const sortByProductType = (e) => {
     setProductPageState((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    console.log(productPageState);
   };
- 
   const sortByCategoryType = (e) => {
-    
-    // console.log(productPageState.categoryType);
-    let categories = [...checkedCategories];
     if (e.target.checked) {
-      categories.push(e.target.value);
-      setCheckedCategories(categories);
+      console.log(typeof e.target.value);
       setProductPageState((prev) => ({
         ...prev,
-        [e.target.name]: [...checkedCategories, e.target.value],
+        [e.target.name]: [...productPageState.categoryType, e.target.value],
       }));
     } else {
-      let arr=categories.filter((ele)=>ele!==e.target.value)
-      setCheckedCategories(arr);
       setProductPageState((prev) => ({
         ...prev,
-        [e.target.name]: [...arr],
+        [e.target.name]: productPageState.categoryType.filter(
+          (ele) => ele !== e.target.value
+        ),
       }));
-    
     }
-    
-    // if (e.target.checked) {
-    //   setProductPageState((prev) => ({
-    //     ...prev,
-    //     [e.target.name]: [...productPageState.categoryType, e.target.value],
-    //   }));
-    // } else {
-    //   setProductPageState((prev) => ({
-    //     ...prev,
-    //     [e.target.name]: productPageState.categoryType.filter(
-    //       (ele) => ele !== e.target.value
-    //     ),
-    //   }));
-    // }
+    // setcategoryCheckedBoxArray = [...productPageState.categoryType];
+    // console.log("categoryCheckedBoxArray", categoryCheckedBoxArray);
+    // console.log(productPageState);
+    // categoryCheckedBoxArray?.push(e.target.value);
   };
 
   const productsInCategory = (categoryName) => {
@@ -176,7 +160,9 @@ const Product = () => {
   };
   let categorySet;
   const categorySetting = (result = []) => {
-    // console.log( result, productApiData );
+    console.warn({ result, productApiData });
+    console.log("category setting");
+    // console.log("product API Data", productApiData.data?.records);
     categorySet =
       result.length > 0
         ? result
@@ -194,9 +180,7 @@ const Product = () => {
         ...prev,
         categoryType: [...categorySet],
       }));
-      // setCheckedCategories([])
     } else if (productPageState.productType === "Pre-Order") {
-      // setCheckedCategories([])
       if (categorySet.has("PREORDER")) {
         categorySet.clear();
         categorySet.add("PREORDER");
@@ -210,10 +194,10 @@ const Product = () => {
     } else {
       console.log("no product type selected");
     }
-    // console.log("categorySet", categorySet);
+    console.log("categorySet", categorySet);
     setCategoryArray([...categorySet]);
     setAllCategoriesForDisplay([...categorySet]);
-    // console.log("categoryArray", categoryArray);
+    console.log("categoryArray", categoryArray);
 
     return categorySet;
   };
@@ -245,6 +229,8 @@ const Product = () => {
       ],
     }));
   };
+  console.log("orderedItems", orderedItems);
+  // console.log("orderedItems type",orderedItems.N);
   const handleOrderRemoved = (item) => {
     if (document.getElementById(`orderDisplay${item.Id}`).textContent === "") {
       // document.getElementById("nullOrderModal").classList.remove("d-none");
@@ -273,29 +259,12 @@ const Product = () => {
       }));
     }
   };
-  console.log("checkedCategories", checkedCategories);
-  console.log("categoryType", productPageState.categoryType);
-
   useEffect(() => {
     fetchProductData();
-    setCheckedCategories([]);
   }, []);
-useEffect(()=>{
-  if(checkedCategories.length===0){
-    console.log("empry");
-    categorySetting(productApiData);
-   
-    // categorySetting(productApiData);
-    // console.log(h);
-    // setProductPageState((prev) => ({
-    //   ...prev,
-    //   [e.target.name]: [new Set(productApiData.data?.records.map((item) => item.Category__c))],
-    // }));
-  }
-},[checkedCategories])
   useEffect(() => {
     categorySetting(productApiData);
-  }, [productApiData, productPageState.productType]);
+  }, [productApiData]);
   // }, []);
 
   localStorage.setItem("Total Order in cart", cartOrderValue);
@@ -303,14 +272,18 @@ useEffect(()=>{
   localStorage.setItem("discount", productApiData?.discount?.margin);
   return (
     <>
+      {/* {console.log(("productApiData", typeof productApiData.data?.status))} */}
+      {/* {console.log(("productApiData", productApiData.data?.name))} */}
+      {/* {console.log(("productApiData", productApiData))} */}
       {localStorage.getItem("User name") ? (
         <>
+          {}
+          {/* {console.log(productsInCategory(null))} */}
           <Header1 />
           <div
             className="container-fluid mb-2"
             style={{ minHeight: "55vh", backgroundColor: "#f2f2f2" }}
           >
-            {/* Account info */}
             <div className="row d-flex align-items-center justify-content-md-between">
               {/* Your account heading */}
               <div className="col-auto p-0 d-flex flex-direction-column justify-content-center align-items-center col-md-auto   mx-md-auto m-sm-2">
@@ -472,7 +445,7 @@ useEffect(()=>{
                       Reset
                     </button>
                   </div>
-                  {/* Product Type- Wholesale / pre-order */}
+                  {/* Product Type */}
                   <hr className="p-0 m-0"></hr>
                   <div className=" mt-1 accordion" id="productType">
                     <div className="accordion-item">
@@ -555,11 +528,13 @@ useEffect(()=>{
                         </button>
                       </h2>
                       <hr className="p-0 m-0"></hr>
+
                       <div
                         id="collapseThree"
                         className="accordion-collapse collapse show"
                         data-bs-parent="#categoryType"
                       >
+                        {" "}
                         <div
                           className="accordion-body overflow-auto"
                           style={{ height: "25vh" }}
@@ -582,7 +557,7 @@ useEffect(()=>{
                                   className="form-check-label ms-3"
                                   htmlFor={ele}
                                 >
-                                  {ele?.toUpperCase() ?? "NO CATEGORY"}
+                                  {ele?.toUpperCase() || "NO CATEGORY"}
                                 </label>
                                 {/* {console.log(ele)} */}
                               </div>
@@ -594,8 +569,6 @@ useEffect(()=>{
                   </div>
                 </div>
               </div>
-
-              {/* data acc to categories */}
               <div className="col-9  ">
                 <div className="bg-white p-1 rounded-3 ">
                   <div
@@ -665,8 +638,8 @@ useEffect(()=>{
                                                 data-bs-target={`#tableRows${ele}`}
                                                 data-bs-parent="#tableAccordion"
                                               >
-                                                <span className="p-0 text-capitalize">
-                                                  {ele||
+                                                <span className="p-0">
+                                                  {ele?.toUpperCase() ||
                                                     "NO CATEGORY"}
                                                 </span>
                                               </button>
