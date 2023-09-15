@@ -11,6 +11,8 @@ import NullOrderModal from "./NullOrderModal";
 const Product = () => {
   // const location = useLocation();
   const navigate = useNavigate();
+  const inputRef = useRef();
+
   const [productPageState, setProductPageState] = useState({
     sortBy: "Relevance",
     productType: "WholeSale",
@@ -25,21 +27,46 @@ const Product = () => {
   const [cartOrderValue, setCartOrderValue] = useState(0);
   const [orderedItems, setOrderedItems] = useState([]);
   const [checkedCategories, setCheckedCategories] = useState([]);
+  const [searchState, setSearchState] = useState(false);
+  const [searchFilteredData, setSearchFilteredData] = useState([]);
   // const [categoryOrder, setCategoryOrder] = useState([]);
   const handleGenerateOrder = (item) => {
     navigate("/preview");
   };
   const resetButton = (e) => {
     e.preventDefault();
-    // setProductPageState((prev) => ({
-    //   sortBy: "Relevance",
-    //   productType: "WholeSale",
-    //   categoryType: [],
-    // }));
+    setProductPageState((prev) => ({
+      sortBy: "Relevance",
+      productType: "WholeSale",
+      categoryType: [],
+    }));
+    setCheckedCategories([]);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
   const searchHandle = (e) => {
+    setSearchState(true);
     console.log(e.target.value);
+    const value = e.target.value?.toLowerCase();
+    console.log(productPageState.categoryType);
+    // console.log(productApiData.data.records);
+    const filteredData = productApiData.data.records.filter((ele) =>
+      ele.Name.toLowerCase().includes(value)
+    );
+    console.log(filteredData);
+
+    let categorySet1 =
+      filteredData.length > 0
+        ? new Set(filteredData.map((item) => item.Category__c))
+        : "";
+    setProductPageState((prev) => ({
+      ...prev,
+      categoryType: [...categorySet1],
+    }));
+    setSearchFilteredData(filteredData);
   };
+  console.log("searchState", searchState);
   const redirectToAccountManufacturers = (e, name) => {
     e.preventDefault();
     navigate("/account-manufacturers", {
@@ -96,9 +123,8 @@ const Product = () => {
       [e.target.name]: e.target.value,
     }));
   };
- 
+
   const sortByCategoryType = (e) => {
-    
     // console.log(productPageState.categoryType);
     let categories = [...checkedCategories];
     if (e.target.checked) {
@@ -109,33 +135,20 @@ const Product = () => {
         [e.target.name]: [...checkedCategories, e.target.value],
       }));
     } else {
-      let arr=categories.filter((ele)=>ele!==e.target.value)
+      let arr = categories.filter((ele) => ele !== e.target.value);
       setCheckedCategories(arr);
       setProductPageState((prev) => ({
         ...prev,
         [e.target.name]: [...arr],
       }));
-    
     }
-    
-    // if (e.target.checked) {
-    //   setProductPageState((prev) => ({
-    //     ...prev,
-    //     [e.target.name]: [...productPageState.categoryType, e.target.value],
-    //   }));
-    // } else {
-    //   setProductPageState((prev) => ({
-    //     ...prev,
-    //     [e.target.name]: productPageState.categoryType.filter(
-    //       (ele) => ele !== e.target.value
-    //     ),
-    //   }));
-    // }
   };
-
-  const productsInCategory = (categoryName) => {
+  // [...productApiData.data?.records]
+  const productsInCategory = (categoryName, productInCategory) => {
     if (productPageState.sortBy === "Price: Low To High") {
-      let sortedRecords = [...productApiData.data?.records];
+      // let sortedRecords = [...productApiData.data?.records];
+      let sortedRecords = [...productInCategory];
+      console.log("sortedRecords", sortedRecords);
       sortedRecords.sort((a, b) => {
         if (a.usdRetail__c.includes("$") && b.usdRetail__c.includes("$")) {
           return +a.usdRetail__c.substring(1) - +b.usdRetail__c.substring(1);
@@ -152,7 +165,7 @@ const Product = () => {
       // console.log(sortedRecords);
       return sortedRecords.filter((item) => item.Category__c === categoryName);
     } else if (productPageState.sortBy === "Price: High To Low") {
-      let sortedRecords = [...productApiData.data?.records];
+      let sortedRecords = [...productInCategory];
       sortedRecords.sort((a, b) => {
         if (a.usdRetail__c.includes("$") && b.usdRetail__c.includes("$")) {
           return +b.usdRetail__c.substring(1) - +a.usdRetail__c.substring(1);
@@ -169,7 +182,7 @@ const Product = () => {
       // console.log(sortedRecords);
       return sortedRecords.filter((item) => item.Category__c === categoryName);
     } else {
-      return productApiData.data?.records.filter(
+      return productInCategory.filter(
         (item) => item.Category__c === categoryName
       );
     }
@@ -273,31 +286,29 @@ const Product = () => {
       }));
     }
   };
-  console.log("checkedCategories", checkedCategories);
-  console.log("categoryType", productPageState.categoryType);
+  // console.log("checkedCategories", checkedCategories);
+  // console.log("categoryType", productPageState.categoryType);
 
   useEffect(() => {
     fetchProductData();
     setCheckedCategories([]);
   }, []);
-useEffect(()=>{
-  if(checkedCategories.length===0){
-    console.log("empry");
-    categorySetting(productApiData);
-   
-    // categorySetting(productApiData);
-    // console.log(h);
-    // setProductPageState((prev) => ({
-    //   ...prev,
-    //   [e.target.name]: [new Set(productApiData.data?.records.map((item) => item.Category__c))],
-    // }));
-  }
-},[checkedCategories])
+  useEffect(() => {
+    setSearchState(false);
+    setCheckedCategories([]);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, [productPageState.productType]);
+  useEffect(() => {
+    if (checkedCategories.length === 0) {
+      categorySetting(productApiData);
+    }
+  }, [checkedCategories]);
   useEffect(() => {
     categorySetting(productApiData);
   }, [productApiData, productPageState.productType]);
   // }, []);
-
   localStorage.setItem("Total Order in cart", cartOrderValue);
   localStorage.setItem("Ordered Items", JSON.stringify(orderedItems));
   localStorage.setItem("discount", productApiData?.discount?.margin);
@@ -347,6 +358,7 @@ useEffect(()=>{
                     className="form-control search"
                     placeholder="Enter Product Name"
                     onChange={searchHandle}
+                    ref={inputRef}
                   />
                 </form>
               </div>
@@ -577,6 +589,7 @@ useEffect(()=>{
                                   name="categoryType"
                                   key={ele}
                                   onChange={sortByCategoryType}
+                                  checked={checkedCategories.includes(ele)}
                                 />
                                 <label
                                   className="form-check-label ms-3"
@@ -666,7 +679,7 @@ useEffect(()=>{
                                                 data-bs-parent="#tableAccordion"
                                               >
                                                 <span className="p-0 text-capitalize">
-                                                  {ele||
+                                                  {ele?.toUpperCase() ||
                                                     "NO CATEGORY"}
                                                 </span>
                                               </button>
@@ -685,10 +698,24 @@ useEffect(()=>{
                                                 <div className="table-responsive ">
                                                   <table className="table table-striped">
                                                     <tbody>
+                                                      {console.log(
+                                                        searchFilteredData
+                                                      )}
                                                       {productsInCategory(
-                                                        ele
+                                                        ele,
+                                                        searchState
+                                                          ? [
+                                                              ...searchFilteredData,
+                                                            ]
+                                                          : [
+                                                              ...productApiData
+                                                                .data?.records,
+                                                            ]
                                                       ).map((item) => {
-                                                        // console.log(item)
+                                                        console.log(
+                                                          "item",
+                                                          item
+                                                        );
                                                         // console.log("ele",ele)
                                                         return (
                                                           <>
