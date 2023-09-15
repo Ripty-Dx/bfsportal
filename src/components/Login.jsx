@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Login.css";
-// import image from "../images/BFS-login-page1.jpg";
 import logo from "../images/BeautyFashionLogo.png";
 import portal_login_image from "../images/BFS Portal Site.png";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
