@@ -9,10 +9,8 @@ import { RiInformationFill } from "react-icons/ri";
 import beautyProduct from "../images/BFS Portal Site.png";
 import NullOrderModal from "./NullOrderModal";
 const Product = () => {
-  // const location = useLocation();
   const navigate = useNavigate();
   const inputRef = useRef();
-
   const [productPageState, setProductPageState] = useState({
     sortBy: "Relevance",
     productType: "WholeSale",
@@ -54,8 +52,7 @@ const Product = () => {
     const filteredData = productApiData.data.records.filter((ele) =>
       ele.Name.toLowerCase().includes(value)
     );
-    console.log(filteredData);
-
+    // console.log(filteredData);
     let categorySet1 =
       filteredData.length > 0
         ? new Set(filteredData.map((item) => item.Category__c))
@@ -66,7 +63,6 @@ const Product = () => {
     }));
     setSearchFilteredData(filteredData);
   };
-  console.log("searchState", searchState);
   const redirectToAccountManufacturers = (e, name) => {
     e.preventDefault();
     navigate("/account-manufacturers", {
@@ -288,7 +284,6 @@ const Product = () => {
   };
   // console.log("checkedCategories", checkedCategories);
   // console.log("categoryType", productPageState.categoryType);
-
   useEffect(() => {
     fetchProductData();
     setCheckedCategories([]);
@@ -607,7 +602,6 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-
               {/* data acc to categories */}
               <div className="col-9  ">
                 <div className="bg-white p-1 rounded-3 ">
@@ -937,8 +931,6 @@ const Product = () => {
       ) : (
         <>
           {(window.location.href = "/")}
-          {/* {window.location.replace("/")} */}
-          {/* { navigate("/")} */}
         </>
       )}
     </>
