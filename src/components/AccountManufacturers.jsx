@@ -9,7 +9,7 @@ const AccountManufacturers = () => {
   const { second } = apiData.current || {};
   const location = useLocation();
   const navigate = useNavigate();
-console.log(location);
+  // console.log(location);
   //   console.log(location);
   //   console.log(refApiData);
   //   console.log(second);
@@ -19,7 +19,7 @@ console.log(location);
   // console.log(filteredArray[0].data[0].Name);
   const redirectToProductPage = (e, ProductName, AccountName) => {
     e.preventDefault();
-    localStorage.setItem("brand",ProductName);
+    localStorage.setItem("brand", ProductName);
     navigate("/product", {
       state: {
         ProductName: ProductName,
