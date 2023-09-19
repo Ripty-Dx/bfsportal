@@ -3,7 +3,7 @@ import React from "react";
 const OrderStatusAddNew = () => {
   return (
     <>
-      <div className="">
+      <div className="mt-1">
         {/* basic info */}
         <div className="basicInfo d-flex justify-content-evenly position-relative">
           <div className="basicInfoHeadingDiv ">Basic Information</div>
@@ -47,7 +47,9 @@ const OrderStatusAddNew = () => {
             <div className="col-12 d-flex justify-content-around">
               <div className="col-5">
                 <div className="mb-3 mt-4">
-                  <label className="form-label"><span className="text-danger">*</span> Associated PO Number</label>
+                  <label className="form-label">
+                    <span className="text-danger">*</span> Associated PO Number
+                  </label>
                   <input type="text" className="form-control" />
                 </div>
                 <div className="mb-3">
@@ -59,20 +61,21 @@ const OrderStatusAddNew = () => {
                 </div>
                 <div className="mb-3">
                   <label className="form-label">
-                   GWP Sample Qty and Sku Needed
+                    GWP Sample Qty and Sku Needed
                   </label>
                   <input type="text" className="form-control" />
                 </div>
               </div>
               <div className="col-5">
                 <div className="mb-3 mt-4">
-                  <label className="form-label"><span className="text-danger">*</span> Associated Order Number</label>
+                  <label className="form-label">
+                    <span className="text-danger">*</span> Associated Order
+                    Number
+                  </label>
                   <input type="text" className="form-control" />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">
-                    Where to Ship Items
-                  </label>
+                  <label className="form-label">Where to Ship Items</label>
                   <input type="text" className="form-control" />
                 </div>{" "}
               </div>

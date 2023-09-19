@@ -164,8 +164,8 @@ const CustomerSupportServiceIssues = () => {
       >
         {/* Your account heading */}
         <div className="row d-flex align-items-center justify-content-md-between pt-3">
-          <div className="col-1"></div>
-          <div className="col-8 p-0 d-flex flex-direction-column justify-content-start align-items-center">
+          {/* <div className="col-1"></div> */}
+          <div className="col-9 px-4 d-flex flex-direction-column justify-content-start align-items-center">
             <h3 className="fw-bold fs-4  fw-md-normal ">
               <BiLeftArrowAlt
                 className="back_icon me-2"
@@ -177,7 +177,7 @@ const CustomerSupportServiceIssues = () => {
               &nbsp;-&nbsp;Customer Service Issues
             </h5>
           </div>
-          <div className="col-2 ">
+          <div className="col-2 ps-4 ">
             {addNewInfo ? (
               <button
                 className=" ms-2 Button d-flex align-items-center justify-content-center"
@@ -196,13 +196,13 @@ const CustomerSupportServiceIssues = () => {
               </button>
             )}
           </div>
-          <div className="col-1"></div>
+          {/* <div className="col-1"></div> */}
         </div>
         {/* sub categories */}
         <div className="row d-flex align-items-center justify-content-md-between pt-3">
-          <div className="col-1"></div>
-          <div className="col-10 d-flex ">
-            <div className="col-4">
+          {/* <div className="col-1"></div> */}
+          <div className="col-12 d-flex ">
+            <div className="col-3">
               <div>
                 <button
                   className={
@@ -246,7 +246,7 @@ const CustomerSupportServiceIssues = () => {
                 </button>
               </div>
             </div>
-            <div className="col-8 mt-2">
+            <div className="col-9">
               {customerServiceIssues ? (
                 <>
                   {addNewInfo ? (
@@ -297,7 +297,7 @@ const CustomerSupportServiceIssues = () => {
               )}
             </div>
           </div>
-          <div className="col-1"></div>
+          {/* <div className="col-1"></div> */}
         </div>
       </div>
 

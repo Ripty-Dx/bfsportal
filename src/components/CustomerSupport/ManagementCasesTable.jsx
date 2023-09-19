@@ -1,20 +1,10 @@
 import React, { useState } from "react";
 import ManagementCaseDetailPage from "./ManagementCaseDetailPage";
-import { Pagination } from "../../utils/Pagination";
-import { usePagination } from "../../utils/usePagination";
+import "../CustomerSupport.css";
 
 const ManagementCasesTable = ({ apiData }) => {
   const [detailState, setDetailState] = useState(false);
   const [detailPageData, setDetailPageData] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const { data, buttonArray } = usePagination(
-    apiData?.data?.records?.length,
-    4,
-    currentPage,
-    apiData?.data?.records
-  );
-
-  console.log(data, buttonArray);
   const handleDetails = (ele) => {
     setDetailState(true);
     setDetailPageData(ele);
@@ -36,87 +26,49 @@ const ManagementCasesTable = ({ apiData }) => {
               className="table-responsive overflow-scroll table1"
               style={{ minHeight: "49vh" }}
             >
-              <table
-                className="table  table-striped overflow-scroll"
-                //   style={{ width: "60vw" }}
-              >
+              <table className="table table-striped overflow-scroll">
+                {/* table heading */}
                 <thead>
-                  {/* table heading */}
-                  <tr className="sticky-top">
+                  <tr className="sticky-top thStyle">
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white text-center"
+                      style={{ backgroundColor: "#828283" }}
                     >
                       Case
                     </th>
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white text-center"
+                      style={{ backgroundColor: "#828283", width: "150px" }}
                     >
                       Manufacture
                     </th>
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white align-middle text-center"
+                      style={{ backgroundColor: "#828283", width: "200px" }}
                     >
                       Account
                     </th>
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white"
+                      style={{ backgroundColor: "#828283", width: "150px" }}
                     >
                       Contact
                     </th>
                     <th
-                      style={{
-                        width: "400px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white"
+                      style={{ backgroundColor: "#828283", width: "150px" }}
                     >
                       Case Reason
                     </th>
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white"
+                      style={{ backgroundColor: "#828283" }}
                     >
                       Status
                     </th>
                     <th
-                      style={{
-                        width: "100px",
-                        backgroundColor: "#828283",
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "normal",
-                      }}
+                      className="thStyle text-white"
+                      style={{ backgroundColor: "#828283" }}
                     >
                       Date
                     </th>
@@ -132,7 +84,7 @@ const ManagementCasesTable = ({ apiData }) => {
                   ) : (
                     <>
                       {console.log(apiData?.data?.records)}
-                      {data?.map((ele, index) => {
+                      {apiData?.data?.records.map((ele, index) => {
                         return (
                           <>
                             <tr key={index}>
@@ -145,23 +97,19 @@ const ManagementCasesTable = ({ apiData }) => {
                                   {ele.CaseNumber}
                                 </button>
                               </td>
-                              <td className="align-middle text-center">
+                              <td className="align-middle">
                                 {ele.ManufacturerName}
                               </td>
-                              <td className="align-middle text-center">
+                              <td className="align-middle">
                                 {ele.AccountName}
                               </td>
-                              <td className="align-middle text-center">
+                              <td className="align-middle">
                                 {ele.ContactName}
                               </td>
-                              <td className="align-middle text-center">
-                                {ele.Reason}
-                              </td>
-                              <td className="align-middle text-center">
-                                {ele.Status}
-                              </td>
-                              <td className="align-middle text-center">
-                                {ele.Date_Opened__c}
+                              <td className="align-middle">{ele.Reason}</td>
+                              <td className="align-middle">{ele.Status}</td>
+                              <td className="align-middle">
+                                {ele.Date_Opened__c} 
                               </td>
                             </tr>
                           </>
@@ -173,13 +121,7 @@ const ManagementCasesTable = ({ apiData }) => {
               </table>
             </div>
             {/* pagination */}
-            {buttonArray?.map((ele, index) => {
-              return (
-                <button key={index} onClick={() => setCurrentPage(ele)}>
-                  {ele}
-                </button>
-              );
-            })}
+
             {/* <Pagination apiData={apiData?.data?.records}  currentPage={currentPage} buttonArray={buttonArray}/> */}
           </>
         )}
