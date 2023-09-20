@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import OrderStatusDetailPage from "./OrderStatusDetailPage";
+import Pagination from "../../utils/Pagination";
+let PageSize = 1;
 
 const OrderStatusTable = ({ apiData }) => {
+  const [currentPage, setCurrentPage] = useState(1);
   // console.log(apiData);
   const [detailState, setDetailState] = useState(false);
   const [detailPageData, setDetailPageData] = useState("");
@@ -11,7 +14,11 @@ const OrderStatusTable = ({ apiData }) => {
     setDetailPageData(ele);
     // console.log(ele);
   }; // console.log(apiData);
-
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return apiData?.data?.records.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
   return (
     <>
       <div className="">
@@ -21,7 +28,7 @@ const OrderStatusTable = ({ apiData }) => {
           </>
         ) : (
           <>
-           <div
+            <div
               className="table-responsive overflow-scroll table1"
               style={{ minHeight: "49vh" }}
             >
@@ -74,7 +81,7 @@ const OrderStatusTable = ({ apiData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.data?.records?.length === 0 ? (
+                  {currentTableData?.length === 0 ? (
                     <>
                       <tr className="d-flex align-items-center justify-content-center">
                         No data
@@ -83,7 +90,7 @@ const OrderStatusTable = ({ apiData }) => {
                   ) : (
                     <>
                       {console.log(apiData?.data?.records)}
-                      {apiData?.data?.records?.map((ele, index) => {
+                      {currentTableData?.map((ele, index) => {
                         return (
                           <>
                             <tr key={index}>
@@ -118,6 +125,15 @@ const OrderStatusTable = ({ apiData }) => {
                   )}
                 </tbody>
               </table>
+            </div>
+            <div className="mt-2">
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={apiData?.data?.records.length}
+                pageSize={PageSize}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
             </div>
           </>
         )}

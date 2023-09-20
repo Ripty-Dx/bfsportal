@@ -12,6 +12,7 @@ import OrderStatusTable from "./CustomerSupport/OrderStatusTable";
 import OrderStatusAddNew from "./CustomerSupport/OrderStatusAddNew";
 import MarketingSupportAddNew from "./CustomerSupport/MarketingSupportAddNew";
 import ManagementCaseAddNew from "./CustomerSupport/ManagementCaseAddNew";
+import Loading from "../utils/Loading";
 
 const CustomerSupportServiceIssues = () => {
   const apiData = JSON.parse(localStorage.getItem("Api Data"));
@@ -114,19 +115,22 @@ const CustomerSupportServiceIssues = () => {
       .catch((err) => console.log(err));
   };
   const fetchManagementCases = (key, SalesRepId, typeIdManagementCases) => {
-    return fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        key: key,
-        SalesRepId: SalesRepId,
-        typeId: typeIdManagementCases,
-      }),
-    })
-      .then((response) => response.json())
-      .catch((err) => console.log(err));
+    return (
+      fetch(" https://dev.beautyfashionsales.com/beauty/0BBG33MCr", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          key: key,
+          SalesRepId: SalesRepId,
+          typeId: typeIdManagementCases,
+        }),
+      })
+        .then((response) => response.json())
+        // .then((data) => setApiDataManagementCases(data))
+        .catch((err) => console.log(err))
+    );
   };
   const fetchMarketingSupportIssue = (
     key,
@@ -251,10 +255,12 @@ const CustomerSupportServiceIssues = () => {
                 <>
                   {addNewInfo ? (
                     <CustomerServiceIssuesAddNew />
-                  ) : (
+                  ) : customerSupportApiData ? (
                     <CustomerServiceIssueTable
                       apiData={customerSupportApiData}
                     />
+                  ) : (
+                  <Loading/>
                   )}
                 </>
               ) : (
@@ -262,10 +268,13 @@ const CustomerSupportServiceIssues = () => {
               )}
               {managementCaseState ? (
                 <>
+                  {/* {console.log(apiDataManagementCases)} */}
                   {addNewInfo ? (
                     <ManagementCaseAddNew />
-                  ) : (
+                  ) : apiDataManagementCases ? (
                     <ManagementCasesTable apiData={apiDataManagementCases} />
+                  ) : (
+                    <Loading/>
                   )}
                 </>
               ) : (
@@ -275,10 +284,12 @@ const CustomerSupportServiceIssues = () => {
                 <>
                   {addNewInfo ? (
                     <MarketingSupportAddNew />
-                  ) : (
+                  ) : apiDataMarketingSupportIssue ? (
                     <MarketingSupportIssueTable
                       apiData={apiDataMarketingSupportIssue}
                     />
+                  ) : (
+                    <Loading/>
                   )}
                 </>
               ) : (
@@ -288,8 +299,10 @@ const CustomerSupportServiceIssues = () => {
                 <>
                   {addNewInfo ? (
                     <OrderStatusAddNew />
-                  ) : (
+                  ) : apiDataOrderStatus ? (
                     <OrderStatusTable apiData={apiDataOrderStatus} />
+                  ) : (
+                    <Loading/>
                   )}
                 </>
               ) : (

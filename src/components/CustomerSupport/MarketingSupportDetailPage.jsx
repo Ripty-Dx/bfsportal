@@ -15,7 +15,7 @@ const MarketingSupportDetailPage = ({ details, apiData }) => {
         <MarketingSupportIssueTable apiData={apiData} />
       ) : (
         <>
-          <div className="container basicInfo">
+          <div className="container basicInfo col-10">
             {/* basic info */}
             <div className="row">
               <div className="d-flex justify-content-evenly position-relative">

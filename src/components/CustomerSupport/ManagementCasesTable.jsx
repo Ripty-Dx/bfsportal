@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, {  useMemo, useState } from "react";
 import ManagementCaseDetailPage from "./ManagementCaseDetailPage";
 import "../CustomerSupport.css";
+import Pagination from "../../utils/Pagination";
+let PageSize = 1;
 
 const ManagementCasesTable = ({ apiData }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  // console.log(apiData?.data?.records.slice(1, 3));
   const [detailState, setDetailState] = useState(false);
   const [detailPageData, setDetailPageData] = useState("");
   const handleDetails = (ele) => {
@@ -10,6 +14,12 @@ const ManagementCasesTable = ({ apiData }) => {
     setDetailPageData(ele);
     // console.log(ele);
   };
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return apiData?.data?.records.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
+
   return (
     <>
       <div className="">
@@ -75,7 +85,7 @@ const ManagementCasesTable = ({ apiData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.data?.records?.length === 0 ? (
+                  {currentTableData?.length === 0 ? (
                     <>
                       <tr className="d-flex align-items-center justify-content-center">
                         No data
@@ -83,8 +93,8 @@ const ManagementCasesTable = ({ apiData }) => {
                     </>
                   ) : (
                     <>
-                      {console.log(apiData?.data?.records)}
-                      {apiData?.data?.records.map((ele, index) => {
+                      {console.log(apiData?.data?.records.length)}
+                      {currentTableData?.map((ele, index) => {
                         return (
                           <>
                             <tr key={index}>
@@ -109,7 +119,7 @@ const ManagementCasesTable = ({ apiData }) => {
                               <td className="align-middle">{ele.Reason}</td>
                               <td className="align-middle">{ele.Status}</td>
                               <td className="align-middle">
-                                {ele.Date_Opened__c} 
+                                {ele.Date_Opened__c}
                               </td>
                             </tr>
                           </>
@@ -121,8 +131,15 @@ const ManagementCasesTable = ({ apiData }) => {
               </table>
             </div>
             {/* pagination */}
-
-            {/* <Pagination apiData={apiData?.data?.records}  currentPage={currentPage} buttonArray={buttonArray}/> */}
+            <div className="mt-2">
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={apiData?.data?.records.length}
+                pageSize={PageSize}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+            </div>
           </>
         )}
       </div>
