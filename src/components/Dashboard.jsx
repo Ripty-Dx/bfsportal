@@ -138,24 +138,18 @@ const Dashboard = () => {
               </div>
               {/* search button */}
               <div className=" col-lg-2 col-md-2  p-lg-2 m-xs-5">
-                <form id="searchForm">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search"
-                    ref={inputRef}
-                    onChange={handleSearch}
-                    id="searchButton"
-                  />
-                </form>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search"
+                  ref={inputRef}
+                  onChange={handleSearch}
+                  id="searchButton"
+                />
               </div>
               {/* reset button */}
-              <div className=" col-lg-1 p-md-0 col-md-1 ">
-                {/* <button className="btn " id="resetButton"> */}
-                <button
-                  className="btn btn-outline-secondary"
-                  onClick={resetButton}
-                >
+              <div className=" col-lg-1 p-md-2 col-md-1 ">
+                <button className="Button" onClick={resetButton}>
                   Reset
                 </button>
               </div>

@@ -318,7 +318,7 @@ const Product = () => {
             style={{ minHeight: "55vh", backgroundColor: "#f2f2f2" }}
           >
             {/* Account info */}
-            <div className="row d-flex align-items-center justify-content-md-between">
+              <div className="row d-flex align-items-center justify-content-md-between">
               {/* Your account heading */}
               <div className="col-auto p-0 d-flex flex-direction-column justify-content-center align-items-center col-md-auto   mx-md-auto m-sm-2">
                 <h3 className="fw-bold fs-4  fw-md-normal ">
