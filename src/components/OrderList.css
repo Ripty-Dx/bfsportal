@@ -1,0 +1,17 @@
+/* .dropdown-toggle{
+    margin-left: 10px;
+} */
+#month .dropdown-toggle::after {
+  margin-left: 90px;
+}
+
+#manufacturer .dropdown-toggle::after {
+  margin-left: 40px;
+}
+.monthBadge {
+  top: -4.5px;
+  left: 20px;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-image: linear-gradient(rgb(250, 250, 250), white);
+}

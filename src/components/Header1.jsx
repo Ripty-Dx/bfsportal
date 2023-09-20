@@ -75,7 +75,10 @@ const Header1 = () => {
               <div className="d-none d-md-flex header-options ">
                 {/* Customer Support */}
                 <div>
-                  <a className="links-header header_font_family " href="/customer-support">
+                  <a
+                    className="links-header header_font_family "
+                    href="/customer-support"
+                  >
                     Customer Support
                   </a>
                 </div>
@@ -106,7 +109,7 @@ const Header1 = () => {
                   >
                     <ul className="p-2">
                       <li>
-                        <a href="#12">Order List</a>
+                        <a href="/orderList">Order List</a>
                       </li>
                       <li>
                         <a href="#12">Reports </a>
@@ -130,10 +133,12 @@ const Header1 = () => {
                       height: "2rem",
                       fontSize: "9px",
                       paddingBottom: "22px",
-                      paddingLeft:"10px"
+                      paddingLeft: "10px",
                     }}
                   >
-                   {localStorage.getItem("Total Order in cart")==="0"?"":localStorage.getItem("Total Order in cart")}
+                    {localStorage.getItem("Total Order in cart") === "0"
+                      ? ""
+                      : localStorage.getItem("Total Order in cart")}
                   </div>
 
                   {/* </button> */}
@@ -152,7 +157,7 @@ const Header1 = () => {
                     <a href="#123">Sales Report</a>
                   </li>
                   <li>
-                    <a href="#123">Order List</a>
+                    <a href="/orderList">Order List</a>
                   </li>
                   <li>
                     <a href="#123">Reports</a>

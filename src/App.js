@@ -8,6 +8,7 @@ import Product from "./components/Product";
 import OrderPreview from "./components/OrderPreview";
 import NullOrderModal from "./components/NullOrderModal";
 import CustomerSupportServiceIssues from "./components/CustomerSupportServiceIssues";
+import OrderList from "./components/OrderList";
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
         <Route path="/product" element={<Product />}></Route>
         <Route path="/preview" element={<OrderPreview />}></Route>
         <Route path="/modal" element={<NullOrderModal />}></Route>
+        <Route path="/orderList" element={<OrderList />}></Route>
         <Route path="/customer-support" element={<CustomerSupportServiceIssues />}></Route>
       </Routes>
       {/* <Login/> */}
