@@ -3,7 +3,7 @@ import React from "react";
 const ManagementCaseAddNew = () => {
   return (
     <>
-      <div className="">
+      <div className="mt-1">
         {/* basic info */}
         <div className="basicInfo d-flex justify-content-evenly position-relative">
           <div className="basicInfoHeadingDiv ">Basic Information</div>

@@ -4,6 +4,8 @@ import { LiaSortAlphaUpSolid } from "react-icons/lia";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header1 from "./Header1";
+import Footer from "./Footer";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,7 +26,6 @@ const Dashboard = () => {
     } else {
       updatedBrandList.sort((a, b) => a.Name?.localeCompare(b.Name));
     }
-
     setBrandList(updatedBrandList);
   };
 
@@ -40,7 +41,8 @@ const Dashboard = () => {
       }),
     })
       .then((response) => response.json())
-      .then((data) => setManufacturerData(data.data.records));  };
+      .then((data) => setManufacturerData(data.data.records));
+  };
 
   useEffect(() => {
     fetchManufacturedByData();
@@ -52,8 +54,19 @@ const Dashboard = () => {
 
   const handleSearch = (e) => {
     const value = e.target.value?.toLowerCase();
-    const filteredData = brandListData.filter((brand) =>
-      brand?.Name?.toLowerCase().includes(value)
+    const filteredData = brandListData.filter((account) =>
+      account?.Name?.toLowerCase().includes(value)
+    );
+    setBrandListWithSorting(filteredData);
+  };
+
+  const handleManufacturedData = (ele) => {
+    setManufacturerFilter(ele);
+    const filteredData = brandListData.filter(
+      (account) =>
+        account.data.filter(
+          (brand) => !brand.ManufacturerName__c.localeCompare(ele.Name)
+        ).length > 0
     );
     setBrandListWithSorting(filteredData);
   };
@@ -72,6 +85,7 @@ const Dashboard = () => {
       {/* {console.log(manufacturerData)} */}
       {localStorage.getItem("User name") ? (
         <>
+          <Header1 />
           <div style={{ height: "100%" }}>
             <div className="row d-flex align-items-center justify-content-md-center">
               {/* Your account heading */}
@@ -107,12 +121,12 @@ const Dashboard = () => {
                   {manufacturerFilter?.Name || "Manufactured By"}
                 </button>
                 <ul className="dropdown-menu">
-                  {manufacturerData?.map((ele,index) => (
+                  {manufacturerData?.map((ele, index) => (
                     <>
                       <li key={index}>
-                        <button 
+                        <button
                           className="dropdown-item"
-                          onClick={() => setManufacturerFilter(ele)}
+                          onClick={() => handleManufacturedData(ele)}
                         >
                           {ele.Name}
                         </button>
@@ -184,6 +198,7 @@ const Dashboard = () => {
                             className="btn fw-bold "
                             key={element.Id}
                             onClick={() => {
+                              localStorage.setItem("Account", element?.Name);
                               navigate("/account-manufacturers", {
                                 state: {
                                   acc_name: element?.Name,
@@ -201,6 +216,7 @@ const Dashboard = () => {
               })}
             </div>
           </div>
+          <Footer />
         </>
       ) : (
         <>{(window.location.href = "/")}</>

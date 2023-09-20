@@ -71,10 +71,11 @@ const Product = () => {
       },
     });
   };
-  const accountId = apiData.current.second.filter(
+  const accountId = apiData?.current?.second?.filter(
     (ele) => ele.Name === localStorage.getItem("Account")
   );
-  const manufacturerId = accountId[0].data.filter(
+  // console.log(apiData);
+  const manufacturerId = accountId[0].data?.filter(
     (ele) => ele.ManufacturerName__c === localStorage.getItem("brand")
   );
   const fetchProductData = () => {
@@ -702,8 +703,7 @@ const Product = () => {
                                                               ...searchFilteredData,
                                                             ]
                                                           : [
-                                                              ...productApiData
-                                                                .data?.records,
+                                                              ...productApiData?.data?.records,
                                                             ]
                                                       ).map((item) => {
                                                         console.log(
