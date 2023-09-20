@@ -71,3 +71,8 @@
   font-size: 20px;
   font-weight: normal;
 }
+.pagination-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

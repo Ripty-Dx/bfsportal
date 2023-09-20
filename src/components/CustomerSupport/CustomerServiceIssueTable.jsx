@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import CustomerServiceDetailPage from "./CustomerServiceDetailPage";
+import Pagination from "../../utils/Pagination";
+let PageSize = 1;
 
 const CustomerServiceIssueTable = ({ apiData }) => {
-  // console.log(apiData);
+  const [currentPage, setCurrentPage] = useState(1);
   const [detailState, setDetailState] = useState(false);
   const [detailPageData, setDetailPageData] = useState("");
   // console.log(apiData);
@@ -11,6 +13,11 @@ const CustomerServiceIssueTable = ({ apiData }) => {
     setDetailPageData(ele);
     // console.log(ele);
   };
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return apiData?.data?.records.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
   return (
     <>
       <div className="">
@@ -76,7 +83,7 @@ const CustomerServiceIssueTable = ({ apiData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {apiData?.data?.records?.length === 0 ? (
+                  {currentTableData?.length === 0 ? (
                     <>
                       <tr className="d-flex align-items-center justify-content-center">
                         No data
@@ -85,7 +92,7 @@ const CustomerServiceIssueTable = ({ apiData }) => {
                   ) : (
                     <>
                       {console.log(apiData?.data?.records)}
-                      {apiData?.data?.records?.map((ele, index) => {
+                      {currentTableData?.map((ele, index) => {
                         return (
                           <>
                             <tr key={index}>
@@ -120,6 +127,15 @@ const CustomerServiceIssueTable = ({ apiData }) => {
                   )}
                 </tbody>
               </table>
+            </div>
+            <div className="mt-2">
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={apiData?.data?.records.length}
+                pageSize={PageSize}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
             </div>
           </>
         )}
