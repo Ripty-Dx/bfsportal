@@ -91,8 +91,10 @@
   }
   .tableHeading{
     font-size: 14px;
-    
+    color: #9fabb9 !important;
+    font-weight: 500 !important;
   }
   td{
     font-size: 14px;
   }
+ 

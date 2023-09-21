@@ -10,22 +10,24 @@ const OrderPreview = () => {
   const orderedItemsName = Object.keys(JSON.parse(data));
   let salePrice = 0;
   let totalPriceOfProduct = 0;
-  let subTotal=0;
+  let subTotal = 0;
   const currentDate = new Date();
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const date = `${months[(currentDate.getMonth())]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
-
-
-  // console.log();
-  // console.log(orderedItemsName.length,typeof(orderedItemsName));
-  // console.log(Object.values(Object.values(JSON.parse(data))[2][0])[0].Category__c);
-  //   const salePrice = Object.values(Object.values(JSON.parse(data))[2][0])[0]
-  //     .usdRetail__c;
-  //   console.log(salePrice);
-
-  //  console.log( salePrice.includes("$")
-  //  ? (+salePrice.substring(1) - (discount / 100) * +salePrice.substring(1)).toFixed(2)
-  //  : (+salePrice - (discount / 100) * +salePrice).toFixed(2));
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const date = `${months[currentDate.getMonth()]
+    } ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
 
   return (
     <>
@@ -73,7 +75,7 @@ const OrderPreview = () => {
               >
                 <table
                   className="table table-striped overflow-auto"
-                  //   style={{ width: "60vw" }}
+                //   style={{ width: "60vw" }}
                 >
                   <thead>
                     {/* table heading */}
@@ -82,8 +84,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "100px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -93,8 +93,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "200px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -104,8 +102,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "130px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -115,8 +111,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "100px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -126,8 +120,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "130px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -137,8 +129,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "130px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -148,8 +138,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "130px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -159,8 +147,6 @@ const OrderPreview = () => {
                         scope="col"
                         style={{
                           width: "200px",
-                          color: "#9fabb9",
-                          fontWeight: "500",
                         }}
                         className="tableHeading"
                       >
@@ -173,18 +159,20 @@ const OrderPreview = () => {
                       salePrice = Object.values(
                         Object.values(JSON.parse(data))[index][0]
                       )[0].usdRetail__c;
-                      totalPriceOfProduct = (+Object.values(
-                        Object.values(JSON.parse(data))[index][1]
-                      )[0])*(salePrice.includes("$")
-                      ? (
-                          +salePrice.substring(1) -
-                          (discount / 100) * +salePrice.substring(1)
-                        ).toFixed(2)
-                      : (
-                          +salePrice -
-                          (discount / 100) * +salePrice
-                        ).toFixed(2));
-                        subTotal+=totalPriceOfProduct
+                      totalPriceOfProduct =
+                        +Object.values(
+                          Object.values(JSON.parse(data))[index][1]
+                        )[0] *
+                        (salePrice.includes("$")
+                          ? (
+                            +salePrice.substring(1) -
+                            (discount / 100) * +salePrice.substring(1)
+                          ).toFixed(2)
+                          : (
+                            +salePrice -
+                            (discount / 100) * +salePrice
+                          ).toFixed(2));
+                      subTotal += totalPriceOfProduct;
                       // console.log(salePrice.substring(1)*5);
                       // console.log(+totalPriceOfProduct);
                       return (
@@ -242,13 +230,13 @@ const OrderPreview = () => {
                               $
                               {salePrice.includes("$")
                                 ? (
-                                    +salePrice.substring(1) -
-                                    (discount / 100) * +salePrice.substring(1)
-                                  ).toFixed(2)
+                                  +salePrice.substring(1) -
+                                  (discount / 100) * +salePrice.substring(1)
+                                ).toFixed(2)
                                 : (
-                                    +salePrice -
-                                    (discount / 100) * +salePrice
-                                  ).toFixed(2)}
+                                  +salePrice -
+                                  (discount / 100) * +salePrice
+                                ).toFixed(2)}
                             </td>
                             {/* total price */}
                             <td>${totalPriceOfProduct.toFixed(2)}</td>
@@ -288,10 +276,10 @@ const OrderPreview = () => {
               {/* summary div */}
               <div className="summaryDiv">
                 <h3 className="fw-bold heading">Summary</h3>
+                <p className="fs-small lightFontColor">Order Date: {date}</p>
                 <p className="fs-small lightFontColor">
-                  Order Date: {date}
+                  Order Total: ${subTotal.toFixed(2)}
                 </p>
-                <p className="fs-small lightFontColor">Order Total: ${subTotal.toFixed(2)}</p>
                 <h6 className="fs-6 fw-bold">Add Notes</h6>
               </div>
               {/* shipping address div */}

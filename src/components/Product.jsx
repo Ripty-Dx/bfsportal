@@ -49,14 +49,9 @@ const Product = () => {
     const value = e.target.value?.toLowerCase();
     console.log(productPageState.categoryType);
     // console.log(productApiData.data.records);
-    const filteredData = productApiData.data.records.filter((ele) =>
-      ele.Name.toLowerCase().includes(value)
-    );
+    const filteredData = productApiData.data.records.filter((ele) => ele.Name.toLowerCase().includes(value));
     // console.log(filteredData);
-    let categorySet1 =
-      filteredData.length > 0
-        ? new Set(filteredData.map((item) => item.Category__c))
-        : "";
+    let categorySet1 = filteredData.length > 0 ? new Set(filteredData.map((item) => item.Category__c)) : "";
     setProductPageState((prev) => ({
       ...prev,
       categoryType: [...categorySet1],
@@ -71,13 +66,9 @@ const Product = () => {
       },
     });
   };
-  const accountId = apiData?.current?.second?.filter(
-    (ele) => ele.Name === localStorage.getItem("Account")
-  );
+  const accountId = apiData?.current?.second?.filter((ele) => ele.Name === localStorage.getItem("Account"));
   // console.log(apiData);
-  const manufacturerId = accountId[0].data?.filter(
-    (ele) => ele.ManufacturerName__c === localStorage.getItem("brand")
-  );
+  const manufacturerId = accountId[0].data?.filter((ele) => ele.ManufacturerName__c === localStorage.getItem("brand"));
   const fetchProductData = () => {
     fetch("https://dev.beautyfashionsales.com/beauty/HSc6cv4", {
       method: "POST",
@@ -179,18 +170,13 @@ const Product = () => {
       // console.log(sortedRecords);
       return sortedRecords.filter((item) => item.Category__c === categoryName);
     } else {
-      return productInCategory.filter(
-        (item) => item.Category__c === categoryName
-      );
+      return productInCategory.filter((item) => item.Category__c === categoryName);
     }
   };
   let categorySet;
   const categorySetting = (result = []) => {
     // console.log( result, productApiData );
-    categorySet =
-      result.length > 0
-        ? result
-        : new Set(productApiData.data?.records.map((item) => item.Category__c));
+    categorySet = result.length > 0 ? result : new Set(productApiData.data?.records.map((item) => item.Category__c));
     if (categorySet.has("TESTER") || categorySet.has("Samples")) {
       categorySet.delete("TESTER");
       categorySet.delete("Samples");
@@ -229,8 +215,7 @@ const Product = () => {
   };
   const handleOrderAdded = (item) => {
     if (document.getElementById(`orderDisplay${item.Id}`).textContent === "") {
-      document.getElementById(`orderDisplay${item.Id}`).textContent =
-        item.Min_Order_QTY__c;
+      document.getElementById(`orderDisplay${item.Id}`).textContent = item.Min_Order_QTY__c;
       setCartOrderValue(cartOrderValue + +item.Min_Order_QTY__c);
 
       // ...prev,
@@ -238,8 +223,7 @@ const Product = () => {
 
       // setCategoryOrder(categoryOrder.push({`${item.Category__c}`:`${item.Min_Order_QTY__c}`}));
     } else {
-      document.getElementById(`orderDisplay${item.Id}`).textContent =
-        +document.getElementById(`orderDisplay${item.Id}`).textContent + 1;
+      document.getElementById(`orderDisplay${item.Id}`).textContent = +document.getElementById(`orderDisplay${item.Id}`).textContent + 1;
       setCartOrderValue(cartOrderValue + 1);
 
       // setOrderedItems(orderedItems.push(item));
@@ -249,8 +233,7 @@ const Product = () => {
       [item.Name]: [
         { Description: item },
         {
-          Quantity: document.getElementById(`orderDisplay${item.Id}`)
-            .textContent,
+          Quantity: document.getElementById(`orderDisplay${item.Id}`).textContent,
         },
       ],
     }));
@@ -260,10 +243,7 @@ const Product = () => {
       // document.getElementById("nullOrderModal").classList.remove("d-none");
       document.getElementById(`orderDisplay${item.Id}`).textContent = null;
       setShowModal(true);
-    } else if (
-      +document.getElementById(`orderDisplay${item.Id}`).textContent ===
-      +item.Min_Order_QTY__c
-    ) {
+    } else if (+document.getElementById(`orderDisplay${item.Id}`).textContent === +item.Min_Order_QTY__c) {
       document.getElementById(`orderDisplay${item.Id}`).textContent = null;
       setCartOrderValue(cartOrderValue - +item.Min_Order_QTY__c);
       // delete order
@@ -272,8 +252,7 @@ const Product = () => {
         ...prevState,
       }));
     } else {
-      document.getElementById(`orderDisplay${item.Id}`).textContent =
-        +document.getElementById(`orderDisplay${item.Id}`).textContent - 1;
+      document.getElementById(`orderDisplay${item.Id}`).textContent = +document.getElementById(`orderDisplay${item.Id}`).textContent - 1;
       setCartOrderValue(cartOrderValue - 1);
       // delete orderedItems.[item.Name]
       setOrderedItems((prevState) => ({
@@ -313,29 +292,15 @@ const Product = () => {
       {localStorage.getItem("User name") ? (
         <>
           <Header1 />
-          <div
-            className="container-fluid mb-2"
-            style={{ minHeight: "55vh", backgroundColor: "#f2f2f2" }}
-          >
+          <div className="container-fluid mb-2" style={{ minHeight: "55vh", backgroundColor: "#f2f2f2" }}>
             {/* Account info */}
-              <div className="row d-flex align-items-center justify-content-md-between">
+            <div className="row d-flex align-items-center justify-content-md-between">
               {/* Your account heading */}
               <div className="col-auto p-0 d-flex flex-direction-column justify-content-center align-items-center col-md-auto   mx-md-auto m-sm-2">
                 <h3 className="fw-bold fs-4  fw-md-normal ">
-                  <BiLeftArrowAlt
-                    className="back_icon me-2"
-                    onClick={(e) =>
-                      redirectToAccountManufacturers(
-                        e,
-                        localStorage.getItem("Account")
-                      )
-                    }
-                  />{" "}
-                  {localStorage.getItem("brand").toUpperCase()}
+                  <BiLeftArrowAlt className="back_icon me-2" onClick={(e) => redirectToAccountManufacturers(e, localStorage.getItem("Account"))} /> {localStorage.getItem("brand").toUpperCase()}
                 </h3>
-                <h5 className="fw-bolder">
-                  &nbsp;-&nbsp;Account&nbsp;: &nbsp;
-                </h5>
+                <h5 className="fw-bolder">&nbsp;-&nbsp;Account&nbsp;: &nbsp;</h5>
                 <h5 className="fs-5">{localStorage.getItem("Account")}</h5>
               </div>
               {/* Download Order From */}
@@ -349,13 +314,7 @@ const Product = () => {
               {/* Search button */}
               <div className=" col-2 col-md-2  m-xs-5">
                 <form id="searchForm">
-                  <input
-                    type="text"
-                    className="form-control search"
-                    placeholder="Enter Product Name"
-                    onChange={searchHandle}
-                    ref={inputRef}
-                  />
+                  <input type="text" className="form-control search" placeholder="Enter Product Name" onChange={searchHandle} ref={inputRef} />
                 </form>
               </div>
             </div>
@@ -364,19 +323,12 @@ const Product = () => {
                 {/* Minimum Order Amount */}
                 <div className="rounded-2 p-1  text-white bg-darkGrey d-flex align-items-center justify-content-start">
                   <RiInformationFill className="mx-2" size={24} />
-                  <p className="p-1 minAmount">
-                    Minimum Order Amount : $
-                    {productApiData?.discount?.MinOrderAmount == null
-                      ? 0
-                      : productApiData?.discount?.MinOrderAmount}{" "}
-                  </p>
+                  <p className="p-1 minAmount">Minimum Order Amount : ${productApiData?.discount?.MinOrderAmount == null ? 0 : productApiData?.discount?.MinOrderAmount} </p>
                 </div>
                 {/* Discount Offer */}
                 <div className=" mt-2 rounded-2 p-1 text-white bg-darkGrey d-flex  align-items-center justify-content-start">
                   <RiInformationFill className="mx-2" size={24} />
-                  <p className="p-1 minAmount">
-                    Discount Offer : {productApiData?.discount?.margin}%
-                  </p>
+                  <p className="p-1 minAmount">Discount Offer : {productApiData?.discount?.margin}%</p>
                   {/* {                  console.log((productApiData?.discount?.margin))}              */}
                 </div>
                 {/* sort by radio button */}
@@ -384,12 +336,7 @@ const Product = () => {
                   <div className=" accordion" id="sortType">
                     <div className="accordion-item">
                       <h2 className="accordion-header">
-                        <button
-                          className="accordion-button"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseOne"
-                        >
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                           <span className="fw-bold">Sort By:</span> &nbsp;
                           {productPageState.sortBy}
                           {/* {console.log(productPageState.sortBy)} */}
@@ -397,11 +344,7 @@ const Product = () => {
                       </h2>
                       <hr className="p-0 m-0"></hr>
 
-                      <div
-                        id="collapseOne"
-                        className="accordion-collapse collapse show"
-                        data-bs-parent="#sortType"
-                      >
+                      <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#sortType">
                         {" "}
                         <div className="accordion-body">
                           <div className="p-0 m-0">
@@ -412,16 +355,9 @@ const Product = () => {
                               id="relevance"
                               value="Relevance"
                               onChange={sortByInputValue}
-                              checked={
-                                productPageState.sortBy === "Relevance"
-                                  ? true
-                                  : false
-                              }
+                              checked={productPageState.sortBy === "Relevance" ? true : false}
                             />
-                            <label
-                              className="form-check-label ms-3"
-                              htmlFor="relevance"
-                            >
+                            <label className="form-check-label ms-3" htmlFor="relevance">
                               Relevance
                             </label>
                           </div>
@@ -433,16 +369,9 @@ const Product = () => {
                               id="priceHighToLow"
                               value="Price: High To Low"
                               onChange={sortByInputValue}
-                              checked={
-                                productPageState.sortBy === "Price: High To Low"
-                                  ? true
-                                  : false
-                              }
+                              checked={productPageState.sortBy === "Price: High To Low" ? true : false}
                             />
-                            <label
-                              className="form-check-label ms-3"
-                              htmlFor="priceHighToLow"
-                            >
+                            <label className="form-check-label ms-3" htmlFor="priceHighToLow">
                               Price: High To Low
                             </label>
                           </div>{" "}
@@ -454,16 +383,9 @@ const Product = () => {
                               id="priceLowToHigh"
                               value="Price: Low To High"
                               onChange={sortByInputValue}
-                              checked={
-                                productPageState.sortBy === "Price: Low To High"
-                                  ? true
-                                  : false
-                              }
+                              checked={productPageState.sortBy === "Price: Low To High" ? true : false}
                             />
-                            <label
-                              className="form-check-label ms-3"
-                              htmlFor="priceLowToHigh"
-                            >
+                            <label className="form-check-label ms-3" htmlFor="priceLowToHigh">
                               Price: Low To High
                             </label>
                           </div>
@@ -485,22 +407,13 @@ const Product = () => {
                   <div className=" mt-1 accordion" id="productType">
                     <div className="accordion-item">
                       <h2 className="accordion-header">
-                        <button
-                          className="accordion-button"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseTwo"
-                        >
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
                           <span className="fw-bold">Product Type</span>
                         </button>
                       </h2>
                       <hr className="p-0 m-0"></hr>
 
-                      <div
-                        id="collapseTwo"
-                        className="accordion-collapse collapse show"
-                        data-bs-parent="#productType"
-                      >
+                      <div id="collapseTwo" className="accordion-collapse collapse show" data-bs-parent="#productType">
                         {" "}
                         <div className="accordion-body">
                           <div className="p-0 m-0">
@@ -510,17 +423,10 @@ const Product = () => {
                               name="productType"
                               id="WholeSale"
                               value="WholeSale"
-                              checked={
-                                productPageState.productType === "WholeSale"
-                                  ? true
-                                  : false
-                              }
+                              checked={productPageState.productType === "WholeSale" ? true : false}
                               onChange={sortByProductType}
                             />
-                            <label
-                              className="form-check-label ms-3"
-                              htmlFor="WholeSale"
-                            >
+                            <label className="form-check-label ms-3" htmlFor="WholeSale">
                               WholeSale
                             </label>
                           </div>
@@ -532,16 +438,9 @@ const Product = () => {
                               id="Pre-Order"
                               value="Pre-Order"
                               onChange={sortByProductType}
-                              checked={
-                                productPageState.productType === "Pre-Order"
-                                  ? true
-                                  : false
-                              }
+                              checked={productPageState.productType === "Pre-Order" ? true : false}
                             />
-                            <label
-                              className="form-check-label ms-3"
-                              htmlFor="Pre-Order"
-                            >
+                            <label className="form-check-label ms-3" htmlFor="Pre-Order">
                               Pre-Order
                             </label>
                           </div>{" "}
@@ -553,44 +452,20 @@ const Product = () => {
                   <div className=" mt-1 accordion " id="categoryType">
                     <div className="accordion-item">
                       <h2 className="accordion-header">
-                        <button
-                          className="accordion-button"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseThree"
-                        >
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
                           <span className="fw-bold">Category</span>
                         </button>
                       </h2>
                       <hr className="p-0 m-0"></hr>
-                      <div
-                        id="collapseThree"
-                        className="accordion-collapse collapse show"
-                        data-bs-parent="#categoryType"
-                      >
-                        <div
-                          className="accordion-body overflow-auto"
-                          style={{ height: "25vh" }}
-                        >
+                      <div id="collapseThree" className="accordion-collapse collapse show" data-bs-parent="#categoryType">
+                        <div className="accordion-body overflow-auto" style={{ height: "25vh" }}>
                           {/* {console.log(productApiData.data?.records)} */}
                           {allCategoriesForDisplay?.map((ele) => {
                             // console.log(ele, typeof ele);
                             return (
                               <div className="d-flex justify-content-start align-items-center">
-                                <input
-                                  className=""
-                                  type="checkbox"
-                                  value={ele}
-                                  id={ele}
-                                  name="categoryType"
-                                  key={ele}
-                                  onChange={sortByCategoryType}
-                                  checked={checkedCategories.includes(ele)}
-                                />
-                                <label
-                                  className="form-check-label ms-3"
-                                  htmlFor={ele}
-                                >
+                                <input className="" type="checkbox" value={ele} id={ele} name="categoryType" key={ele} onChange={sortByCategoryType} checked={checkedCategories.includes(ele)} />
+                                <label className="form-check-label ms-3" htmlFor={ele}>
                                   {ele?.toUpperCase() ?? "NO CATEGORY"}
                                 </label>
                                 {/* {console.log(ele)} */}
@@ -606,14 +481,8 @@ const Product = () => {
               {/* data acc to categories */}
               <div className="col-9  ">
                 <div className="bg-white p-1 rounded-3 ">
-                  <div
-                    className="table-responsive overflow-auto"
-                    style={{ height: "70vh" }}
-                  >
-                    <table
-                      className="table table-striped overflow-auto"
-                      style={{ width: "70vw" }}
-                    >
+                  <div className="table-responsive overflow-auto" style={{ height: "70vh" }}>
+                    <table className="table table-striped overflow-auto" style={{ width: "70vw" }}>
                       <thead>
                         {/* table heading */}
                         <tr className="sticky-top">
@@ -653,211 +522,67 @@ const Product = () => {
                                 return (
                                   <>
                                     {/* {console.log("first")} */}
-
                                     <tr>
-                                      <td
-                                        colSpan="8"
-                                        style={{ textAlign: "left" }}
-                                        className="p-0 ps-2"
-                                      >
-                                        <div
-                                          className="  accordion"
-                                          id="tableAccordion"
-                                        >
+                                      <td colSpan="8" style={{ textAlign: "left" }} className="p-0 ps-2">
+                                        <div className="  accordion" id="tableAccordion">
                                           <div className="accordion-item">
                                             <h2 className="accordion-header p-0">
-                                              <button
-                                                className="accordion-button collapsed"
-                                                type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target={`#tableRows${ele}`}
-                                                data-bs-parent="#tableAccordion"
-                                              >
-                                                <span className="p-0 text-capitalize">
-                                                  {ele?.toUpperCase() ||
-                                                    "NO CATEGORY"}
-                                                </span>
+                                              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#tableRows${ele}`} data-bs-parent="#tableAccordion" >
+                                                <span className="p-0 text-capitalize">{ele?.toUpperCase() || "NO CATEGORY"}</span>
                                               </button>
                                             </h2>
                                             <hr className="p-0 m-0"></hr>
-                                            <div
-                                              id={`tableRows${ele}`}
-                                              className="accordion-collapse collapse "
-                                              data-bs-parent="#tableAccordion"
-                                            >
-                                              {" "}
-                                              <div
-                                                className="accordion-body"
-                                                id="innerTable"
-                                              >
+                                            <div id={`tableRows${ele}`} className="accordion-collapse collapse " data-bs-parent="#tableAccordion">
+                                              <div className="accordion-body" id="innerTable">
                                                 <div className="table-responsive ">
                                                   <table className="table table-striped">
                                                     <tbody>
-                                                      {console.log(
-                                                        searchFilteredData
-                                                      )}
-                                                      {productsInCategory(
-                                                        ele,
-                                                        searchState
-                                                          ? [
-                                                              ...searchFilteredData,
-                                                            ]
-                                                          : [
-                                                              ...productApiData?.data?.records,
-                                                            ]
-                                                      ).map((item) => {
-                                                        console.log(
-                                                          "item",
-                                                          item
-                                                        );
+                                                      {console.log(searchFilteredData)}
+                                                      {productsInCategory(ele, searchState ? [...searchFilteredData] : [...productApiData?.data?.records]).map((item) => {
+                                                        console.log("item", item);
                                                         // console.log("ele",ele)
                                                         return (
                                                           <>
                                                             <tr>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "100px",
-                                                                }}
-                                                                className="p-0 ps-2"
-                                                              >
-                                                                <img
-                                                                  src={
-                                                                    beautyProduct
-                                                                  }
-                                                                  height={
-                                                                    "30px"
-                                                                  }
-                                                                  width={"30px"}
-                                                                  alt="img"
-                                                                  className="rounded-5 border-2 mt-2"
-                                                                ></img>
+                                                              <td style={{ width: "100px" }} className="p-0 ps-2">
+                                                                <img src={beautyProduct} height={"30px"} width={"30px"} alt="img" className="rounded-5 border-2 mt-2"></img>
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "500px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
+                                                              <td style={{ width: "500px" }} className="fs-small">
                                                                 {item.Name}
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
-                                                                {
-                                                                  item.ProductCode
-                                                                }
+                                                              <td style={{ width: "200px", }} className="fs-small" >
+                                                                {item.ProductCode}
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
-                                                                {
-                                                                  item.ProductUPC__c
-                                                                }
+                                                              <td style={{ width: "200px", }} className="fs-small" >
+                                                                {item.ProductUPC__c}
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
-                                                                {item.usdRetail__c.includes(
-                                                                  "$"
-                                                                )
-                                                                  ? `$${(+item.usdRetail__c.substring(
-                                                                      1
-                                                                    )).toFixed(
-                                                                      2
-                                                                    )}`
-                                                                  : `$${item.usdRetail__c}.00`}
+                                                              <td style={{ width: "200px", }} className="fs-small" >
+                                                                {item.usdRetail__c.includes("$") ? `$${(+item.usdRetail__c.substring(1)).toFixed(2)}` : `$${item.usdRetail__c}.00`}
                                                               </td>
-                                                              {/* *+item.usdRetail__c.substring(1) */}
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
+                                                              <td style={{ width: "200px", }} className="fs-small" >
                                                                 $
-                                                                {item.usdRetail__c.includes(
-                                                                  "$"
-                                                                )
-                                                                  ? (
-                                                                      +item.usdRetail__c.substring(
-                                                                        1
-                                                                      ) -
-                                                                      (productApiData
-                                                                        ?.discount
-                                                                        ?.margin /
-                                                                        100) *
-                                                                        +item.usdRetail__c.substring(
-                                                                          1
-                                                                        )
-                                                                    ).toFixed(2)
-                                                                  : (
-                                                                      +item.usdRetail__c -
-                                                                      (productApiData
-                                                                        ?.discount
-                                                                        ?.margin /
-                                                                        100) *
-                                                                        +item.usdRetail__c
-                                                                    ).toFixed(
-                                                                      2
-                                                                    )}
+                                                                {item.usdRetail__c.includes("$")
+                                                                  ? (+item.usdRetail__c.substring(1) - (productApiData?.discount?.margin / 100) * +item.usdRetail__c.substring(1)).toFixed(2)
+                                                                  : (+item.usdRetail__c - (productApiData?.discount?.margin / 100) * +item.usdRetail__c).toFixed(2)}
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                                className="fs-small"
-                                                              >
-                                                                {
-                                                                  item.Min_Order_QTY__c
-                                                                }
+                                                              <td style={{ width: "200px", }} className="fs-small" >
+                                                                {item.Min_Order_QTY__c}
                                                               </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "200px",
-                                                                }}
-                                                              >
+                                                              <td style={{ width: "200px" }}>
                                                                 <div className="order bg-white rounded-3 p-1 d-flex justify-content-center align-items-center gap-2">
                                                                   <button
                                                                     className="orderButton"
                                                                     onClick={() => {
-                                                                      handleOrderRemoved(
-                                                                        item
-                                                                      );
+                                                                      handleOrderRemoved(item);
                                                                     }}
                                                                   >
                                                                     <AiOutlineMinus />
                                                                   </button>
                                                                   <div className="orderDisplay">
-                                                                    <p
-                                                                      id={`orderDisplay${item.Id}`}
-                                                                    ></p>
+                                                                    <p id={`orderDisplay${item.Id}`}></p>
                                                                   </div>
-                                                                  <button
-                                                                    className="orderButton"
-                                                                    onClick={() => {
-                                                                      handleOrderAdded(
-                                                                        item
-                                                                      );
-                                                                    }}
-                                                                  >
-                                                                    <AiOutlinePlus />
+                                                                  <button className="orderButton" onClick={() => { handleOrderAdded(item); }} >
+                                                                    <AiOutlinePlus />{" "}
                                                                   </button>
                                                                 </div>
                                                               </td>
@@ -897,19 +622,11 @@ const Product = () => {
                   </div>
                 </div>
                 {/* MOdal for removing null order */}
-                {showModal ? (
-                  <NullOrderModal
-                    show={showModal}
-                    onHide={() => setShowModal(false)}
-                  />
-                ) : (
-                  ""
-                )}
+                {showModal ? <NullOrderModal show={showModal} onHide={() => setShowModal(false)} /> : ""}
                 {/* Total Number of Product Quality:{" "} */}
                 <div className="d-flex justify-content-between align-items-center mt-2">
                   <p className="fw-bold">
-                    Total Number of Product Quality:{" "}
-                    <span className="fw-normal">0</span>
+                    Total Number of Product Quality: <span className="fw-normal">0</span>
                   </p>
                   <button
                     className="Button"
@@ -929,9 +646,7 @@ const Product = () => {
           </div>
         </>
       ) : (
-        <>
-          {(window.location.href = "/")}
-        </>
+        <>{(window.location.href = "/")}</>
       )}
     </>
   );
