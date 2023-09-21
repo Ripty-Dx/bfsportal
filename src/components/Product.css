@@ -46,26 +46,25 @@ th {
   }
 }
 #innerTable {
-padding: 0px;
+  padding: 0px;
 }
-.order{
+.order {
   border: 1px solid #eeefef;
   border-radius: 5px;
 }
-.orderDisplay{
+.orderDisplay {
   border-radius: 5px;
   width: 50px;
   height: 28px;
   padding: 1px 8px;
   border: 1.5px solid var(--header_font_light_color);
 }
-.orderButton{
+.orderButton {
   background-color: white;
   border: 1.5px solid var(--footer_light_color);
   padding: 0px 5px 1px 5px;
   border-radius: 5px;
   text-align: center;
-  
 }
 .Button {
   color: white;
@@ -95,7 +94,7 @@ padding: 0px;
   --bs-accordion-color: var(--bs-body-color);
   --bs-accordion-bg: transparent;
 }
-.fs-small{
+.fs-small {
   font-size: 14px;
 }
 
@@ -108,13 +107,9 @@ padding: 0px;
   border-top: 4px solid var(--footer_background_color);
   border-radius: 50%;
   animation: spin 1.5s linear infinite;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   position: absolute;
-  /* top: 50%; */
   left: 60%;
-    bottom: 40%
+  bottom: 40%;
 }
 
 @keyframes spin {
