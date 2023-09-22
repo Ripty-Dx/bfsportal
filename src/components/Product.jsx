@@ -513,7 +513,7 @@ const Product = () => {
                         </tr>
                       </thead>
 
-                      <tbody>
+                      <tbody className="  accordion" id="tableAccordion">
                         {categoryArray?.length ? (
                           <>
                             {" "}
@@ -524,7 +524,7 @@ const Product = () => {
                                     {/* {console.log("first")} */}
                                     <tr>
                                       <td colSpan="8" style={{ textAlign: "left" }} className="p-0 ps-2">
-                                        <div className="  accordion" id="tableAccordion">
+                                        <div >
                                           <div className="accordion-item">
                                             <h2 className="accordion-header p-0">
                                               <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#tableRows${ele}`} data-bs-parent="#tableAccordion" >
