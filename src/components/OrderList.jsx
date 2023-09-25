@@ -99,14 +99,15 @@ const order = {
   ],
 };
 const OrderList = () => {
-  useEffect(() => {}, []);
   const navigate = useNavigate();
   const originalOrderListData = order?.data || [];
   const [orderListData, setOrderListData] = useState(originalOrderListData || []);
   //  set for order accounts
   const originalOrderAccounts = new Set(originalOrderListData.map((ele) => ele.Name));
-  const [orderAccounts, setOrderAccounts] = useState(originalOrderAccounts);
-  const [manufacturerFilter, setManufacturerFilter] = useState(null);
+  const [orderAccounts, setOrderAccounts] = useState([...originalOrderAccounts]);
+  const [manufacturerFilter, setManufacturerFilter] = useState(false);
+  const [searchFilter, setSearchFilter] = useState(false);
+  const [monthFilter, setMonthFilter] = useState(false);
   const inputRef = useRef();
   const manufacturerData = useManufactureData()?.data?.records || [];
   // const orderListData = useOrderList()?.data || [];
@@ -117,47 +118,72 @@ const OrderList = () => {
     const month = months[elementDate.substring(5, 7) - 1];
     return `${elementDate.substring(8, 10)} ${month} ${elementDate.substring(0, 4)}`;
   };
-  // useEffect(() => {
-  //   dateFormat(d);
-  // }, []);
+  useEffect(() => {
+    let filteredOrderData = originalOrderListData;
+    let filteredAccounts = [...originalOrderAccounts];
+    if (manufacturerFilter) {
+      console.log("manu filter");
+      filteredOrderData = originalOrderListData.filter((element) => !element.ManufacturerName__c.localeCompare(manufacturerFilter.Name));
+      // console.log(filteredOrderData);
+      filteredAccounts = new Set(filteredOrderData.map((ele) => ele.AccountName));
+    }
+    if (monthFilter) {
+      console.log("month filter");
+      filteredOrderData = filteredOrderData.filter((element) => Number(element.CloseDate.substring(5, 7)) === months.indexOf(monthFilter) + 1);
+      filteredAccounts = new Set(filteredOrderData.map((ele) => ele.AccountName));
+    }
+    if (searchFilter) {
+      console.log("search filter");
+      const value = searchFilter?.target?.value?.toLowerCase();
+      console.log(filteredAccounts);
+      filteredAccounts = [...filteredAccounts].filter((ele) => ele.toLowerCase().includes(value));
+      // console.log(filteredAccounts);
+      // setOrderAccounts([...filteredAccounts]);
+    }
+    setOrderListData(filteredOrderData);
+    setOrderAccounts([...filteredAccounts]);
+    // setOrderListData(filteredOrderData);
+    // console.log(filteredAccounts);
+
+    // setOrderAccounts([...filteredAccounts]);
+  }, [manufacturerFilter, searchFilter, monthFilter]);
+  useEffect(() => {}, []);
+
   const handleSearch = (e) => {
-    const value = e.target.value?.toLowerCase();
-    // console.log(value);
-    const filteredData = [...originalOrderAccounts].filter((ele) => ele.toLowerCase().includes(value));
-    // console.log(filteredData);
-    setOrderAccounts(filteredData);
+    setSearchFilter(e);
+    // const value = e.target.value?.toLowerCase();
+    // const filteredAccounts = [...originalOrderAccounts].filter((ele) => ele.toLowerCase().includes(value));
+    // return filteredAccounts;
+    // setOrderAccounts(filteredAccounts);
   };
   const resetButton = (e) => {
-    setManufacturerFilter(null);
+    setManufacturerFilter(false);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-    setSelectedMonth("Select Month");
+    setSelectedMonth(false);
     setOrderListData(originalOrderListData);
-    // console.log(originalOrderAccounts, originalOrderListData);
     setOrderAccounts(originalOrderAccounts);
+    console.log(originalOrderListData);
   };
   const handleManufacturedData = (manufacturer) => {
     setManufacturerFilter(manufacturer);
-    
-    const filteredOrderData = originalOrderListData.filter((element) => !element.ManufacturerName__c.localeCompare(manufacturer.Name));
-    // console.log(filteredOrderData);
-    setOrderListData(filteredOrderData);
-    const filteredAccounts = new Set(filteredOrderData.map((ele) => ele.AccountName));
-    // console.log(filteredAccounts);
-    setOrderAccounts(filteredAccounts);
-    // if(inputRef.current){
-    //   console.log(inputRef.current.value);
-    // }
+    // const filteredOrderData = originalOrderListData.filter((element) => !element.ManufacturerName__c.localeCompare(manufacturer.Name));
+    // setOrderListData(filteredOrderData);
+    // const filteredAccounts = new Set(filteredOrderData.map((ele) => ele.AccountName));
+    // console.log({ filteredOrderData, filteredAccounts });
+    // return { filteredOrderData, filteredAccounts };
+    // setOrderAccounts(filteredAccounts);
   };
   const handleMonth = (ele) => {
-    console.log(months.indexOf(ele) + 1);
     setSelectedMonth(ele);
-    const filteredMonthData = originalOrderListData.filter((element) => Number(element.CloseDate.substring(5, 7)) === months.indexOf(ele) + 1);
-    console.log(filteredMonthData);
-    setOrderListData(filteredMonthData);
-    const filteredAccounts = new Set(filteredMonthData.map((ele) => ele.AccountName));
-    setOrderAccounts(filteredAccounts);
+    // const filteredOrderData = originalOrderListData.filter((element) => Number(element.CloseDate.substring(5, 7)) === months.indexOf(ele) + 1);
+    // const filteredAccounts = new Set(filteredOrderData.map((ele) => ele.AccountName));
+    setMonthFilter(ele);
+    // console.log("month");
+    // return { filteredOrderData, filteredAccounts };
+    // setOrderListData(filteredMonthData);
+    // setOrderAccounts(filteredAccounts);
   };
   const handleViewOrder = (ele) => {
     navigate("/orderDetail", {
@@ -181,7 +207,7 @@ const OrderList = () => {
           {/* month drop down */}
           <div className=" col-md-auto p-md-0  p-lg-2 dropdown" id="month">
             <button type="button" className="btn btn-light dropdown-toggle shadow-sm bg-white px-3 position-relative" data-bs-toggle="dropdown" style={{ border: "1.5px solid rgb(184,184,184)" }}>
-              {selectedMonth}
+              {selectedMonth || "Select Month"}
             </button>
             <div className="position-absolute monthBadge">Months</div>
             <ul className="dropdown-menu">
