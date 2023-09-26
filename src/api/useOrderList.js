@@ -24,5 +24,6 @@ export const useOrderList = () => {
       .then((result)=>setData(result))
       .catch((err) => console.log(err));
   };
+  // console.log(data);
   return data;
 };

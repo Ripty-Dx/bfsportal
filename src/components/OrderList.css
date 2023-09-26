@@ -18,3 +18,7 @@
 .dropdown-menu {
   --bs-dropdown-zindex: 10000 !important;
 }
+.tdStyle{
+  text-align: center !important;
+  vertical-align: middle !important;
+}
