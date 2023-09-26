@@ -10,6 +10,7 @@ import NullOrderModal from "./components/NullOrderModal";
 import CustomerSupportServiceIssues from "./components/CustomerSupportServiceIssues";
 import OrderList from "./components/OrderList";
 import OrderDetail from "./components/OrderDetail";
+import InvoicePDF from "./components/InvoicePDF";
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/product" element={<Product />}></Route>
         <Route path="/preview" element={<OrderPreview />}></Route>
         <Route path="/modal" element={<NullOrderModal />}></Route>
+        <Route path="/invoice" element={<InvoicePDF />}></Route>
         <Route path="/orderList" element={<OrderList />}></Route>
         <Route path="/orderDetail" element={<OrderDetail />}></Route>
         <Route
