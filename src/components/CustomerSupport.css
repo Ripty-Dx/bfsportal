@@ -66,8 +66,8 @@
 }
 .thStyle{
   width: 100px;
-  background-color: #828283;
-  color: white;
+  background-color: #828283 !important;
+  color: white !important;
   font-size: 20px;
   font-weight: normal;
 }

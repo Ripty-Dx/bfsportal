@@ -31,7 +31,7 @@ const OrderList = () => {
     const month = months[elementDate.substring(5, 7) - 1];
     return `${elementDate.substring(8, 10)} ${month} ${elementDate.substring(0, 4)}`;
   };
-  useEffect(()=>{
+  React.useEffect(()=>{
     setOrderListData(originalOrderListData)
   },[originalOrderListData])
   useEffect(() => {

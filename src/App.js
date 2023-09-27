@@ -11,6 +11,7 @@ import CustomerSupportServiceIssues from "./components/CustomerSupportServiceIss
 import OrderList from "./components/OrderList";
 import OrderDetail from "./components/OrderDetail";
 import InvoicePDF from "./components/InvoicePDF";
+import SalesReport from "./components/Sales_Report/SalesReport";
 function App() {
   return (
     <>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/invoice" element={<InvoicePDF />}></Route>
         <Route path="/orderList" element={<OrderList />}></Route>
         <Route path="/orderDetail" element={<OrderDetail />}></Route>
+        <Route path="/reports" element={<SalesReport />}></Route>
         <Route
           path="/customer-support"
           element={<CustomerSupportServiceIssues />}
