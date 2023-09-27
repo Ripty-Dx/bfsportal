@@ -84,7 +84,7 @@ const Header1 = () => {
                 </div>
                 {/* Sales Report */}
                 <div>
-                  <a className="links-header header_font_family " href="#12">
+                  <a className="links-header header_font_family " href="/reports">
                     Sales Report
                   </a>
                 </div>
@@ -112,7 +112,7 @@ const Header1 = () => {
                         <a href="/orderList">Order List</a>
                       </li>
                       <li>
-                        <a href="#12">Reports </a>
+                        <a href="/reports">Reports </a>
                       </li>
                       <li>
                         <a href="/logout">LogOut</a>
@@ -154,13 +154,13 @@ const Header1 = () => {
                     <a href="/customer-support">Customer Support</a>
                   </li>
                   <li>
-                    <a href="#123">Sales Report</a>
+                    <a href="/reports">Sales Report</a>
                   </li>
                   <li>
                     <a href="/orderList">Order List</a>
                   </li>
                   <li>
-                    <a href="#123">Reports</a>
+                    <a href="/reports">Reports</a>
                   </li>
                   <li>
                     <a href="#123">Cart</a>

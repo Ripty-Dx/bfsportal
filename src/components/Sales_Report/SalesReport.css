@@ -1,0 +1,89 @@
+.changesInButton {
+  padding: 2.2%;
+  height: fit-content;
+}
+.thSalesReport {
+  background-color: #6b6d6f !important;
+  color: white !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+.monthFirstData {
+  padding: 6px;
+  border-radius: 3px;
+  color: white;
+  background-color: #6b6d6f;
+  border: none;
+}
+.monthSecondData {
+  background-color: #de9481;
+  padding: 6px;
+  border-radius: 3px;
+  color: white;
+  border: none;
+}
+#salesReportTable tbody tr td:nth-child(1) {
+  position: sticky;
+  left: 0%;
+  z-index: 2;
+}
+#salesReportTable thead tr th:nth-child(1) {
+  position: sticky;
+  left: 0%;
+  top: 0%;
+    z-index: 5;
+}
+#salesReportTable tbody tr td:nth-child(2) {
+  position: sticky;
+  left: 10%;
+  z-index: 2;
+}
+#salesReportTable thead tr th:nth-child(2) {
+  position: sticky;
+  left: 10%;
+  top: 0%;
+    z-index: 5;
+}
+#salesReportTable tbody tr td:nth-child(3) {
+  position: sticky;
+  left: 23%;
+  z-index: 2;
+}
+#salesReportTable thead tr th:nth-child(3) {
+  position: sticky;
+  left: 23%;
+  top: 0%;
+  z-index: 5;
+}
+#salesReportTable tbody tr td:nth-last-child(1) {
+  position: sticky;
+  right: 0%;
+  z-index: 2;
+}
+#salesReportTable thead tr th:nth-last-child(1) {
+  position: sticky;
+  right: 0%;
+  top: 0%;
+  z-index: 5;
+}
+#salesReportTable tbody tr td:nth-last-child(2) {
+  position: sticky;
+  right: 10%;
+  z-index: 2;
+}
+#salesReportTable thead tr th:nth-last-child(2) {
+  position: sticky;
+  right: 10%;
+  top: 0%;
+  z-index: 5;
+}
+#salesReportTable thead tr th {
+  position: sticky;
+  top: 0%;
+  z-index: 2;
+}
+#salesReportTable tbody tr:nth-last-child(1) {
+    position: sticky;
+    bottom: 0%;
+    z-index: 6;
+  } 
