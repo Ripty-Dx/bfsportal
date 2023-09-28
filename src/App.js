@@ -12,6 +12,7 @@ import OrderList from "./components/OrderList";
 import OrderDetail from "./components/OrderDetail";
 import InvoicePDF from "./components/InvoicePDF";
 import SalesReport from "./components/Sales_Report/SalesReport";
+import RevenueReport from "./components/RevenueReport/RevenueReport";
 function App() {
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/orderList" element={<OrderList />}></Route>
         <Route path="/orderDetail" element={<OrderDetail />}></Route>
         <Route path="/reports" element={<SalesReport />}></Route>
+        <Route path="/revenue-report" element={<RevenueReport />}></Route>
         <Route
           path="/customer-support"
           element={<CustomerSupportServiceIssues />}

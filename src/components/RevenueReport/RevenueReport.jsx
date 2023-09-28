@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Header1 from "../Header1";
 import Footer from "../Footer";
-import "./SalesReport.css";
-import { useSalesReport } from "../../api/useSalesReport";
+// /revenue-report
+import "../Sales_Report/SalesReport.css";
+import { useRevenueReport } from "../../api/useRevenueReport";
 import Loading from "../../utils/Loading";
 import { CSVLink } from "react-csv";
-
-const SalesReport = () => {
-  const originalApiData = useSalesReport();
+const RevenueReport = () => {
+  const date = new Date();
+  const [year, setYear] = useState(date.getFullYear());
+  const originalApiData = useRevenueReport(year);
+  //   console.log(date.getFullYear());
   let totalOrder = 0,
     totalOrderPrice = 0;
   let monthTotalAmount = {
@@ -107,9 +110,12 @@ const SalesReport = () => {
     data: csvData,
     filename: `Sales Report ${new Date()}.csv`,
   };
-  useEffect(() => {
-    setApiData(originalApiData);
-  }, [originalApiData]);
+  const handleYearReport = (e) => {
+    setYear(e.target.value);
+  };
+  //   useEffect(() => {
+  //     setApiData(originalApiData);
+  //   }, [originalApiData]);
   return (
     <>
       <Header1 />
@@ -125,20 +131,24 @@ const SalesReport = () => {
                     <div className="fs-4 fw-bolder col-auto">Report</div>
                     {/* ManufacturerFilter */}
                     <div className="d-flex justify-content-between gap-3 col-auto">
-                     <div className="col-auto">
-																					<select className="form-select mb-3" onChange={handleManufacturerFilter}>
-                        <option selected>All Manufacturer</option>
-                        {originalApiData.data.map((ele) => {
-                          return (
-                            <option name="filter" value={ele.ManufacturerName__c}>
-                              {ele.ManufacturerName__c}
-                            </option>
-                          );
-                        })}
-                      </select>
-																					</div>
+                      <div className="col-auto">
+                        <select className="form-select mb-3" onChange={handleYearReport}>
+                          <option selected value={date.getFullYear()}>
+                            Report - {date.getFullYear()}
+                          </option>
+                          <option value={date.getFullYear() - 1}>Report - {date.getFullYear() - 1}</option>
+                        </select>
+                      </div>
+                      <div className="col-auto">
+                        <select className="form-select mb-3" onChange={handleManufacturerFilter}>
+                          <option selected>All Manufacturer</option>
+                          {originalApiData.data.map((ele) => {
+                            return <option value={ele.ManufacturerName__c}>{ele.ManufacturerName__c}</option>;
+                          })}
+                        </select>
+                      </div>
                       {/* onClick={handleDownloadReport} */}
-																						<div className="col-5">
+                      <div className="col-5">
                         <CSVLink {...csvLink}>
                           <button className="Button changesInButton">Download Report</button>
                         </CSVLink>
@@ -226,7 +236,7 @@ const SalesReport = () => {
                               return (
                                 <>
                                   <tr>
-                                    <td className="tdStyle">{ele.ManufacturerName__c}</td>
+                                    <td className="tdStyle fw-bolder">{ele.ManufacturerName__c}</td>
                                     <td className="tdStyle">{item.AccountName} </td>
                                     <td className="tdStyle">{JSON.parse(localStorage.getItem("Api Data")).data.user.Name} </td>
                                     <td className="tdStyle">
@@ -406,4 +416,4 @@ const SalesReport = () => {
   );
 };
 
-export default SalesReport;
+export default RevenueReport;

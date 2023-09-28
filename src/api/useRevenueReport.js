@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 
-export const useSalesReport = () => {
+export const useRevenueReport = (props) => {
   const [data, setData] = useState();
-  const Sales_Rep__c = JSON.parse(localStorage.getItem("Api Data")).data.user.Sales_Rep__c;
+  const key = JSON.parse(localStorage.getItem("Api Data")).data.api.access_token;
   useEffect(() => {
     fetchOrderListData();
   }, []);
   const fetchOrderListData = async () => {
-    await fetch("https://dev.beautyfashionsales.com/9kJs2I6Bn/i0IT68Q8&0", {
+    await fetch("https://dev.beautyfashionsales.com/report/4i1cKeDt9", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        salesRepId: Sales_Rep__c,
+        key: key,
+        calender:props == "2022" ? "%3D%20LAST_YEAR" : "=THIS_YEAR"
       }),
     })
       .then((response) => response.json())
