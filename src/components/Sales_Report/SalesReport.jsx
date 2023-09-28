@@ -4,6 +4,7 @@ import Footer from "../Footer";
 import "./SalesReport.css";
 import { useSalesReport } from "../../api/useSalesReport";
 import Loading from "../../utils/Loading";
+import { CSVLink } from "react-csv";
 
 const SalesReport = () => {
   const originalApiData = useSalesReport();
@@ -26,7 +27,6 @@ const SalesReport = () => {
   const [apiData, setApiData] = useState(originalApiData || {});
   console.log(apiData);
   const handleManufacturerFilter = (e) => {
-    console.log(e.target.value);
     if (e.target.value === "All Manufacturer") {
       setApiData(originalApiData);
     } else {
@@ -34,6 +34,78 @@ const SalesReport = () => {
       setApiData((prev) => ({ ...prev, data: filteredData }));
       console.log(filteredData);
     }
+  };
+  let csvData = [];
+  apiData?.data?.map((ele) =>
+    ele.Orders.map((item) =>
+      csvData.push({
+        ManufacturerName__c: ele.ManufacturerName__c,
+        AccountName: item.AccountName,
+        AccountRepo: JSON.parse(localStorage.getItem("Api Data")).data.user.Name,
+        JanOrders: item.Jan.items?.length,
+        JanAmount: item.Jan.amount,
+        FebOrders: item.Feb.items?.length,
+        FebAmount: item.Feb.amount,
+        MarOrders: item.Mar.items?.length,
+        MarAmount: item.Mar.amount,
+        AprOrders: item.Apr.items?.length,
+        AprAmount: item.Apr.amount,
+        MayOrders: item.May.items?.length,
+        MayAmount: item.May.amount,
+        JunOrders: item.Jun.items?.length,
+        JunAmount: item.Jun.amount,
+        JulOrders: item.Jul.items?.length,
+        JulAmount: item.Jul.amount,
+        AugOrders: item.Aug.items?.length,
+        AugAmount: item.Aug.amount,
+        SepOrders: item.Sep.items?.length,
+        SepAmount: item.Sep.amount,
+        OctOrders: item.Oct.items?.length,
+        OctAmount: item.Oct.amount,
+        NovOrders: item.Nov.items?.length,
+        NovAmount: item.Nov.amount,
+        DecOrders: item.Dec.items?.length,
+        DecAmount: item.Dec.amount,
+        TotalOrders: item.totalOrders,
+        totalAmount: item.totalorderPrice,
+      })
+    )
+  );
+  const headers = [
+    { label: "Manufacturer Name", key: "ManufacturerName__c" },
+    { label: "Account Name", key: "AccountName" },
+    { label: "Account Repo", key: "AccountRepo" },
+    { label: "Jan Orders", key: "JanOrders" },
+    { label: "Jan Amount", key: "JanAmount" },
+    { label: "Feb Orders", key: "FebOrders" },
+    { label: "Feb Amount", key: "FebAmount" },
+    { label: "Mar Orders", key: "MarOrders" },
+    { label: "Mar Amount", key: "MarAmount" },
+    { label: "Apr Orders", key: "AprOrders" },
+    { label: "Apr Amount", key: "AprAmount" },
+    { label: "May Orders", key: "MayOrders" },
+    { label: "May Amount", key: "MayAmount" },
+    { label: "Jun Orders", key: "JunOrders" },
+    { label: "Jun Amount", key: "JunAmount" },
+    { label: "Jul Orders", key: "JulOrders" },
+    { label: "Jul Amount", key: "JulAmount" },
+    { label: "Aug Orders", key: "AugOrders" },
+    { label: "Aug Amount", key: "AugAmount" },
+    { label: "Sep Orders", key: "SepOrders" },
+    { label: "Sep Amount", key: "SepAmount" },
+    { label: "Oct Orders", key: "OctOrders" },
+    { label: "Oct Amount", key: "OctAmount" },
+    { label: "Nov Orders", key: "NovOrders" },
+    { label: "Nov Amount", key: "NovAmount" },
+    { label: "Dec Orders", key: "DecOrders" },
+    { label: "Dec Amount", key: "DecAmount" },
+    { label: "Total Orders", key: "TotalOrders" },
+    { label: "Total Amount", key: "totalAmount" },
+  ];
+  const csvLink = {
+    headers: headers,
+    data: csvData,
+    filename: `Sales Report ${new Date()}.csv`,
   };
   useEffect(() => {
     setApiData(originalApiData);
@@ -45,12 +117,13 @@ const SalesReport = () => {
       <div style={{ minHeight: "70vh" }}>
         {apiData?.data?.length ? (
           <>
-            <div className="bg-white shadow-sm m-3 rounded-3 pb-3" style={{minHeight:"73vh"}}>
+            <div className="bg-white shadow-sm m-3 rounded-3 pb-3" style={{ minHeight: "73vh" }}>
               <div className="container">
                 {/* heading and filters */}
                 <div className="row p-2">
                   <div className="d-flex justify-content-between">
                     <div className="fs-4 fw-bolder col-auto">Report</div>
+                    {/* ManufacturerFilter */}
                     <div className="d-flex justify-content-between gap-3 col-auto">
                       <select className="form-select mb-3" onChange={handleManufacturerFilter}>
                         <option selected>All Manufacturer</option>
@@ -62,13 +135,16 @@ const SalesReport = () => {
                           );
                         })}
                       </select>
-                      <button className="Button col-auto changesInButton">Download Report</button>
+                      {/* onClick={handleDownloadReport} */}
+                      <CSVLink {...csvLink}>
+                        <button className="Button col-auto changesInButton">Download Report</button>
+                      </CSVLink>
                     </div>
                   </div>
                 </div>
                 {/* table display report */}
 
-                <div className="row table-responsive overflow-scroll table1" style={{ maxHeight: "73vh", minHeight:"20vh" }}>
+                <div className="row table-responsive overflow-scroll table1" style={{ maxHeight: "73vh", minHeight: "20vh" }}>
                   <table id="salesReportTable" className="table table-responsive table-stripped">
                     <thead>
                       <tr>
