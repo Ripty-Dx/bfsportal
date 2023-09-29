@@ -125,20 +125,20 @@ const SalesReport = () => {
                     <div className="fs-4 fw-bolder col-auto">Report</div>
                     {/* ManufacturerFilter */}
                     <div className="d-flex justify-content-between gap-3 col-auto">
-                     <div className="col-auto">
-																					<select className="form-select mb-3" onChange={handleManufacturerFilter}>
-                        <option selected>All Manufacturer</option>
-                        {originalApiData.data.map((ele) => {
-                          return (
-                            <option name="filter" value={ele.ManufacturerName__c}>
-                              {ele.ManufacturerName__c}
-                            </option>
-                          );
-                        })}
-                      </select>
-																					</div>
+                      <div className="col-auto">
+                        <select className="form-select mb-3" onChange={handleManufacturerFilter}>
+                          <option selected>All Manufacturer</option>
+                          {originalApiData.data.map((ele) => {
+                            return (
+                              <option name="filter" value={ele.ManufacturerName__c}>
+                                {ele.ManufacturerName__c}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
                       {/* onClick={handleDownloadReport} */}
-																						<div className="col-5">
+                      <div className="col-5">
                         <CSVLink {...csvLink}>
                           <button className="Button changesInButton">Download Report</button>
                         </CSVLink>
@@ -222,12 +222,11 @@ const SalesReport = () => {
                               monthTotalAmount.Oct += Number(item.Oct.amount);
                               monthTotalAmount.Nov += Number(item.Nov.amount);
                               monthTotalAmount.Dec += Number(item.Dec.amount);
-
                               return (
                                 <>
                                   <tr>
                                     <td className="tdStyle">{ele.ManufacturerName__c}</td>
-                                    <td className="tdStyle">{item.AccountName} </td>
+                                    <td className="tdStyle">{item.Name} </td>
                                     <td className="tdStyle">{JSON.parse(localStorage.getItem("Api Data")).data.user.Name} </td>
                                     <td className="tdStyle">
                                       <div className="d-flex gap-1">

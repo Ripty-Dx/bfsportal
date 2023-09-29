@@ -3,6 +3,7 @@ import Header1 from "../Header1";
 import Footer from "../Footer";
 import Loading from "../../utils/Loading";
 import "./comparisonReport.css";
+import { CSVLink } from "react-csv";
 import { useComparisonReport } from "../../api/useComparisonReport";
 const ComparisonReport = () => {
   const [filter, setFilter] = useState({
@@ -19,7 +20,6 @@ const ComparisonReport = () => {
       ManufacturerId__c: e.target.value,
     }));
   };
-
   const handleYearReport = (e) => {
     setFilter((prev) => ({
       ...prev,
@@ -32,11 +32,36 @@ const ComparisonReport = () => {
       month: e.target.value,
     }));
   };
-  console.log(JSON.stringify(originalApiData?.date?.selected) === JSON.stringify(filter)); //false
-
+  //csv Data
+  let csvData = [];
+  if (apiData?.data?.length) {
+    apiData?.data?.map((ele) => {
+      return csvData.push({
+        AccountName: ele.AccountName,
+        Estee_Lauder_Number__c: ele.Estee_Lauder_Number__c,
+        Sales_Rep__c: ele.Sales_Rep__c,
+        retail_revenue__c: `$${Number(ele.retail_revenue__c).toFixed(2)}`,
+        Whole_Sales_Amount: `$${Number(ele.Whole_Sales_Amount).toFixed(2)}`,
+      });
+    });
+  }
+  let csvHeaders = [
+    { label: "Account Name", key: "AccountName" },
+    { label: "Estee Lauder Number	", key: "Estee_Lauder_Number__c" },
+    { label: "Sales Rep", key: "Sales_Rep__c" },
+    { label: "Retail Number", key: "retail_revenue__c" },
+    { label: "Wholesale Number", key: "Whole_Sales_Amount" },
+  ];
+  const handleClearFilter = () => {
+    setFilter((prev) => ({
+      ManufacturerId__c: "a0O3b00000p7zqKEAQ",
+      month: 6,
+      year: 2023,
+    }));
+  };
   useEffect(() => {
     setApiData(originalApiData);
-  }, [originalApiData,filter]);
+  }, [originalApiData, filter]);
   return (
     <>
       <Header1 />
@@ -51,7 +76,7 @@ const ComparisonReport = () => {
                   <div className="d-flex justify-content-between">
                     <div className="fs-4 fw-bolder col-auto">Comparison Report</div>
                     {/* Filters */}
-                    <div className="d-flex justify-content-between gap-3 col-auto">
+                    <div className="d-flex justify-content-between gap-2 col-auto">
                       {/* Manufacturer Filter */}
                       <div className="col-auto">
                         <select className="form-select mb-3" onChange={handleManufacturerFilter} value={filter.ManufacturerId__c}>
@@ -60,7 +85,7 @@ const ComparisonReport = () => {
                           })}
                         </select>
                       </div>
-                      {/* Month Filter Report */}
+                      {/* Month Filter  */}
                       <div className="col-auto">
                         <select className="form-select mb-3" onChange={handleMonthReport} value={filter.month}>
                           {originalApiData?.date?.monthList?.map((ele) => {
@@ -68,13 +93,25 @@ const ComparisonReport = () => {
                           })}
                         </select>
                       </div>
-                      {/* Year Filter Report */}
+                      {/* Year Filter  */}
                       <div className="col-auto">
                         <select className="form-select mb-3" onChange={handleYearReport} value={filter.year}>
                           {originalApiData?.date?.yearList?.map((ele) => {
                             return <option value={ele.value}>{ele.name}</option>;
                           })}
                         </select>
+                      </div>
+                      {/* Download CSV Report */}
+                      <div className="col-auto" style={{width:"135px"}}>
+                        <CSVLink filename={`Comparison Report ${new Date()}.csv`} data={csvData} headers={csvHeaders}>
+                          <button className="Button p-2 ">Download Report</button>
+                        </CSVLink>
+                      </div>
+                      {/* Clear Filter  */}
+                      <div className="col-auto" style={{width:"100px"}}>
+                        <button className="Button  p-2" onClick={handleClearFilter}>
+                          Clear Filter
+                        </button>
                       </div>
                     </div>
                   </div>
