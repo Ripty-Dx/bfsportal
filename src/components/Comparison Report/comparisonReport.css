@@ -1,0 +1,10 @@
+#comparisonReportTable thead tr th {
+    position: sticky;
+    top: 0%;
+    z-index: 2;
+  }
+  .thComparisonReport {
+    background-color: #6b6d6f !important;
+    color: white !important;
+    vertical-align: middle !important;
+  }

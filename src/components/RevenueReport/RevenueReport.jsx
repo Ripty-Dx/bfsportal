@@ -159,7 +159,7 @@ const RevenueReport = () => {
                 {/* table display report */}
 
                 <div className="row table-responsive overflow-scroll table1" style={{ maxHeight: "73vh", minHeight: "20vh" }}>
-                  <table id="salesReportTable" className="table table-responsive table-stripped">
+                  <table id="salesReportTable" className="table table-responsive table-striped">
                     <thead>
                       <tr>
                         <th className="thSalesReport">Manufacturer</th>
