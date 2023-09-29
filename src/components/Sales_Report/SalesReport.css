@@ -31,7 +31,7 @@
   position: sticky;
   left: 0%;
   top: 0%;
-    z-index: 5;
+  z-index: 5;
 }
 #salesReportTable tbody tr td:nth-child(2) {
   position: sticky;
@@ -42,7 +42,7 @@
   position: sticky;
   left: 10%;
   top: 0%;
-    z-index: 5;
+  z-index: 5;
 }
 #salesReportTable tbody tr td:nth-child(3) {
   position: sticky;
@@ -83,8 +83,7 @@
   z-index: 2;
 }
 #salesReportTable tbody tr:nth-last-child(1) {
-    position: sticky;
-    bottom: 0%;
-    z-index: 6;
-  } 
-
+  position: sticky;
+  bottom: 0%;
+  z-index: 6;
+}
