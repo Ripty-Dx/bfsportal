@@ -14,6 +14,7 @@ import InvoicePDF from "./components/InvoicePDF";
 import SalesReport from "./components/Sales_Report/SalesReport";
 import RevenueReport from "./components/RevenueReport/RevenueReport";
 import ComparisonReport from "./components/Comparison Report/ComparisonReport";
+import NewnessReport from "./components/Newness Report/NewnessReport";
 function App() {
   return (
     <>
@@ -34,6 +35,7 @@ function App() {
         <Route path="/reports" element={<SalesReport />}></Route>
         <Route path="/comparison-report" element={<ComparisonReport />}></Route>
         <Route path="/revenue-report" element={<RevenueReport />}></Route>
+        <Route path="/newness-report" element={<NewnessReport />}></Route>
         <Route
           path="/customer-support"
           element={<CustomerSupportServiceIssues />}
