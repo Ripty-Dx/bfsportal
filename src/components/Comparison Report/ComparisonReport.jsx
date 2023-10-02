@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header1 from "../Header1";
 import Footer from "../Footer";
 import Loading from "../../utils/Loading";
-import "./comparisonReport.css";
+import "./ComparisonReport.css";
 import { CSVLink } from "react-csv";
 import { useComparisonReport } from "../../api/useComparisonReport";
 const ComparisonReport = () => {
@@ -110,7 +110,7 @@ const ComparisonReport = () => {
                       {/* Clear Filter  */}
                       <div className="col-auto" style={{width:"100px"}}>
                         <button className="Button  p-2" onClick={handleClearFilter}>
-                          Clear Filter
+                          Clear
                         </button>
                       </div>
                     </div>

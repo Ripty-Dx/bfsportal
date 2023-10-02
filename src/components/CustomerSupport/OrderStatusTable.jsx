@@ -32,7 +32,7 @@ const OrderStatusTable = ({ apiData }) => {
               className="table-responsive overflow-scroll table1"
               style={{ minHeight: "49vh" }}
             >
-              <table className="table table-striped overflow-scroll">
+              <table className="table table-striped overflow-scroll position-relative ">
                 {/* table heading */}
                 <thead>
                   <tr className="sticky-top thStyle">
@@ -83,7 +83,7 @@ const OrderStatusTable = ({ apiData }) => {
                 <tbody>
                   {currentTableData?.length === 0 ? (
                     <>
-                      <tr className="d-flex align-items-center justify-content-center">
+                      <tr className="position-absolute start-50">
                         No data
                       </tr>
                     </>
