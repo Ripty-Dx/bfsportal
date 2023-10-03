@@ -6,4 +6,12 @@
   position: sticky;
   top: 0%;
   z-index: 2;
+  text-align: center;
+}
+#newnessReportTable tbody tr td{
+  vertical-align: middle !important;
+  text-align: center;
+}
+#newnessReportTable tbody tr td:first-child{
+  text-align: left;
 }
