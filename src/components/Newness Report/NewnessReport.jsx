@@ -13,7 +13,6 @@ const NewnessReport = () => {
     dataDisplay: "qty",
   });
   const originalApiData = useNewnessReport(filter);
-  // console.log(originalApiData);
   const [apiData, setApiData] = useState(originalApiData || {});
   console.log(apiData);
   // To get list of manufacturers
@@ -35,98 +34,65 @@ const NewnessReport = () => {
     }));
   };
   //csv Data
-  let a = [];
-
-  if (apiData?.headers?.length) {
-    apiData?.headers?.map((item) => {
-      // a.push({
-      //   // label: `${item} Price`,
-      //   // key: `${item}_price`,
-      //   label: "ri",
-      //   key: "op",
-      // });
-      return console.log("item", item);
-    });
-  }
-  console.log("a", a);
-  let csvData = [];
-  if (apiData?.AccountList?.length) {
-    apiData?.AccountList?.map((ele) =>
-      apiData?.headers?.map((item) => {
-        return csvData.push({
+  const csvData = () => {
+    let Data = [];
+    let finalData = [];
+    if (apiData?.AccountList?.length) {
+      apiData?.AccountList?.map((ele) => {
+        return Data.push(
+          apiData?.header?.map((item) => {
+            return {
+              [item + " Price"]: PriceDisplay(ele[item]?.price),
+              [item + " Quantity"]: ele[item]["qty"],
+            };
+          })
+        );
+      });
+    }
+    console.log(Data);
+    if (apiData?.AccountList?.length) {
+      apiData?.AccountList?.map((ele, index) => {
+        return finalData.push({
           Account_Name: ele.AccountName__c,
           Account_Owner_Name: ele.OwnerName,
           Account_Status: ele.Active_Closed__c,
           Sales_Rep: ele.Sales_Rep_Name__c,
           ManufacturerName__c: ele.ManufacturerName__c,
-          // item_price: PriceDisplay(ele[item]?.price),
-          // item_quantity: ele[item]["qty"],
-
-          // EXTRA_LIP_TINT_price: PriceDisplay(ele["EXTRA LIP TINT"]?.price),
-          // Long_Wear_Brow_Pencil_price: PriceDisplay(ele["Long Wear Brow Pencil"]["price"]),
-          // VE_Pressed_Powder_price: PriceDisplay(ele["VE Pressed Powder"]["price"]),
-          // VE_Skin_Tint_price: PriceDisplay(ele["VE Skin Tint"]["price"]),
-          // Sheer_Powder_REPACK_price: PriceDisplay(ele["Sheer Powder REPACK"]["price"]),
-          // HOLIDAY_2023_price: PriceDisplay(ele["HOLIDAY 2023"]["price"]),
-          // Luxe_Matte_price: PriceDisplay(ele["Luxe Matte"]["price"]),
-          // Perfect_Pairs_LWCSS_price: PriceDisplay(ele["Perfect Pairs LWCSS"]["price"]),
-          // Extra_Lip_Tint_price: PriceDisplay(ele["Extra Lip Tint"]["price"]),
-          // Pot_Rouge_Shade_Ext_price: PriceDisplay(ele["Pot Rouge Shade Ext"]["price"]),
-          // null_price: PriceDisplay(ele["null"]["price"]),
-          // null_quantity: ele["null"]["qty"],
-
-          // EXTRA_LIP_TINT_quantity: ele["EXTRA LIP TINT"]["qty"],
-          // Long_Wear_Brow_Pencil_quantity: ele["Long Wear Brow Pencil"]["qty"],
-          // VE_Pressed_Powder_quantity: ele["VE Pressed Powder"]["qty"],
-          // VE_Skin_Tint_quantity: ele["VE Skin Tint"]["qty"],
-          // Sheer_Powder_REPACK_quantity: ele["Sheer Powder REPACK"]["qty"],
-          // HOLIDAY_2023_quantity: ele["HOLIDAY 2023"]["qty"],
-          // Luxe_Matte_quantity: ele["Luxe Matte"]["qty"],
-          // Perfect_Pairs_LWCSS_quantity: ele["Perfect Pairs LWCSS"]["qty"],
-          // Extra_Lip_Tint_quantity: ele["Extra Lip Tint"]["qty"],
-          // Pot_Rouge_Shade_Ext_quantity: ele["Pot Rouge Shade Ext"]["qty"],
+          ...Data[index],
         });
-      })
-    );
-  }
-  let csvHeaders = [
-    { label: "Account Name", key: "Account_Name" },
-    { label: "Account Status", key: "Account_Status" },
-    { label: "Manufacturer Name", key: "ManufacturerName__c" },
-    { label: "Account Owner Name", key: "Account_Owner_Name" },
-    { label: "Sales Rep", key: "Sales_Rep" },
-    // apiData?.headers?.map((item) => {
-    //   return {
-    //     label: `${item} Price`,
-    //     key: `${item}_price`,
-    //   };
-    // }),
+      });
+    }
+    return finalData;
+  };
+  console.log(csvData());
 
-    // { label: "EXTRA LIP TINT Price", key: "EXTRA_LIP_TINT_price" },
-
-    // { label: "EXTRA LIP TINT Price", key: "EXTRA_LIP_TINT_price" },
-    // { label: "EXTRA LIP TINT Quantity", key: "EXTRA_LIP_TINT_quantity" },
-    // { label: "Long Wear Brow Pencil Price", key: "Long_Wear_Brow_Pencil_price" },
-    // { label: "Long Wear Brow Pencil Quantity", key: "Long_Wear_Brow_Pencil_quantity" },
-    // { label: "VE Pressed Powder Price", key: "VE_Pressed_Powder_price" },
-    // { label: "VE Pressed Powder Quantity", key: "VE_Pressed_Powder_quantity" },
-    // { label: "VE Skin Tint Price", key: "VE_Skin_Tint_price" },
-    // { label: "VE Skin Tint Quantity", key: "VE_Skin_Tint_quantity" },
-    // { label: "Sheer Powder REPACK Price", key: "Sheer_Powder_REPACK_price" },
-    // { label: "Sheer Powder REPACK Quantity", key: "Sheer_Powder_REPACK_quantity" },
-    // { label: "HOLIDAY 2023 Price", key: "HOLIDAY_2023_price" },
-    // { label: "HOLIDAY 2023 Quantity", key: "HOLIDAY_2023_quantity" },
-    // { label: "null Price", key: "null_price" },
-    // { label: "null Quantity", key: "null_quantity" },
-    // { label: "Luxe Matte Price", key: "Luxe_Matte_price" },
-    // { label: "Luxe Matte Quantity", key: "Luxe_Matte_quantity" },
-    // { label: "Perfect Pairs LWCSS Price", key: "Perfect_Pairs_LWCSS_price" },
-    // { label: "Perfect Pairs LWCSS Quantity", key: "Perfect_Pairs_LWCSS_quantity" },
-    // { label: "Extra Lip Tint Price", key: "Extra_Lip_Tint_price" },
-    // { label: "Extra Lip Tint Quantity", key: "Extra_Lip_Tint_quantity" },
-    // { label: "Pot Rouge Shade Ext Price", key: "Pot_Rouge_Shade_Ext_price" },
-    // { label: "Pot Rouge Shade Ext Quantity", key: "Pot_Rouge_Shade_Ext_quantity" },
-  ];
+  const csvHeader = () => {
+    let dynamicCSVHeaders = [];
+    if (apiData?.header?.length) {
+      apiData?.header?.map((ele) => {
+        return dynamicCSVHeaders.push(
+          {
+            label: `${ele} Price`,
+            key: `${ele} Price`,
+          },
+          {
+            label: `${ele} Quantity`,
+            key: `${ele} Quantity`,
+          }
+        );
+      });
+    }
+    let csvHeaders = [
+      { label: "Account Name", key: "Account_Name" },
+      { label: "Account Status", key: "Account_Status" },
+      { label: "Manufacturer Name", key: "ManufacturerName__c" },
+      { label: "Account Owner Name", key: "Account_Owner_Name" },
+      { label: "Sales Rep", key: "Sales_Rep" },
+      ...dynamicCSVHeaders,
+    ];
+    return csvHeaders;
+  };
+  // console.log(csvHeader());
   const handleClearFilter = () => {
     setFilter((prev) => ({
       ManufacturerId__c: "a0O3b00000p7zqKEAQ",
@@ -202,7 +168,7 @@ const NewnessReport = () => {
                       </div>
                       {/* Download CSV Report */}
                       <div className="col-auto" style={{ width: "135px" }}>
-                        <CSVLink filename={`Newness Report ${new Date().toJSON()}.csv`} data={csvData} headers={csvHeaders}>
+                        <CSVLink filename={`Newness Report ${new Date().toJSON()}.csv`} data={csvData()} headers={csvHeader()}>
                           <button className="Button p-2 ">Download Report</button>
                         </CSVLink>
                       </div>
@@ -258,8 +224,8 @@ const NewnessReport = () => {
                               </>
                             ) : (
                               <div className="position-absolute start-50" style={{ top: "300%" }}>
-                            Loading....
-                          </div>
+                                <Loading />
+                              </div>
                             )}
                           </>
                         ) : (
