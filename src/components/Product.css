@@ -108,8 +108,8 @@ th {
   border-radius: 50%;
   animation: spin 1.5s linear infinite;
   position: absolute;
-  left: 60%;
-  bottom: 40%;
+  left: 50%;
+  top: 50%;
 }
 
 @keyframes spin {
