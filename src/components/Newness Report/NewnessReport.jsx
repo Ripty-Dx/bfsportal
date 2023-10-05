@@ -33,51 +33,37 @@ const NewnessReport = () => {
       dataDisplay: e.target.value,
     }));
   };
-  //csv Data
   const csvData = () => {
-    let Data = [];
     let finalData = [];
     if (apiData?.AccountList?.length) {
       apiData?.AccountList?.map((ele) => {
-        return Data.push(
-          apiData?.header?.map((item) => {
-            return {
-              [item + " Price"]: PriceDisplay(ele[item]?.price),
-              [item + " Quantity"]: ele[item]["qty"],
-            };
-          })
-        );
-      });
-    }
-    console.log(Data);
-    if (apiData?.AccountList?.length) {
-      apiData?.AccountList?.map((ele, index) => {
-        return finalData.push({
-          Account_Name: ele.AccountName__c,
-          Account_Owner_Name: ele.OwnerName,
-          Account_Status: ele.Active_Closed__c,
-          Sales_Rep: ele.Sales_Rep_Name__c,
-          ManufacturerName__c: ele.ManufacturerName__c,
-          ...Data[index],
+        let temp = {};
+        temp["Account_Name"] = ele.AccountName__c;
+        temp["Account_Owner_Name"] = ele.OwnerName;
+        temp["Account_Status"] = ele.Active_Closed__c;
+        temp["Sales_Rep"] = ele.Sales_Rep_Name__c;
+        temp["ManufacturerName__c"] = ele.ManufacturerName__c;
+        apiData?.header?.map((item) => {
+          temp[`${item} Price`] = ele[item]?.price;
+          temp[`${item} Quantity`] = ele[item]?.qty;
         });
+        finalData.push(temp);
       });
     }
     return finalData;
   };
-  console.log(csvData());
-
   const csvHeader = () => {
     let dynamicCSVHeaders = [];
     if (apiData?.header?.length) {
       apiData?.header?.map((ele) => {
         return dynamicCSVHeaders.push(
           {
-            label: `${ele} Price`,
-            key: `${ele} Price`,
-          },
-          {
             label: `${ele} Quantity`,
             key: `${ele} Quantity`,
+          },
+          {
+            label: `${ele} Price`,
+            key: `${ele} Price`,
           }
         );
       });
