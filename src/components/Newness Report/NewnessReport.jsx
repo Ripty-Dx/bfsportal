@@ -14,7 +14,7 @@ const NewnessReport = () => {
   });
   const originalApiData = useNewnessReport(filter);
   const [apiData, setApiData] = useState(originalApiData || {});
-  console.log(apiData);
+  // console.log(apiData);
   // To get list of manufacturers
   const ManufacturerData = useManufactureData();
   const handleManufacturerFilter = (e) => {
@@ -44,7 +44,7 @@ const NewnessReport = () => {
         temp["Sales_Rep"] = ele.Sales_Rep_Name__c;
         temp["ManufacturerName__c"] = ele.ManufacturerName__c;
         apiData?.header?.map((item) => {
-          temp[`${item} Price`] = ele[item]?.price;
+          temp[`${item} Price`] = PriceDisplay(ele[item]?.price);
           temp[`${item} Quantity`] = ele[item]?.qty;
         });
         finalData.push(temp);
@@ -78,7 +78,6 @@ const NewnessReport = () => {
     ];
     return csvHeaders;
   };
-  // console.log(csvHeader());
   const handleClearFilter = () => {
     setFilter((prev) => ({
       ManufacturerId__c: "a0O3b00000p7zqKEAQ",
@@ -164,28 +163,28 @@ const NewnessReport = () => {
                 {/* table display report */}
 
                 <div className={`border table-responsive rounded-3 w-100 m-0 ${apiData?.data?.length ? "overflow-scroll" : ""}`} style={{ height: "85vh" }}>
-                  <table id="newnessReportTable" className="position-relative table table-responsive table-striped">
-                    <thead>
-                      <tr>
-                        <th className="thNewnessReport">Account Name</th>
-                        <th className="thNewnessReport">Account Owner Name</th>
-                        <th className="thNewnessReport">Account Status</th>
-                        <th className="thNewnessReport">Sales Rep</th>
-                        <th className="thNewnessReport">Display or Assortment</th>
-                        {apiData?.header?.map((ele, index) => {
-                          return (
-                            <>
-                              <th className="thNewnessReport">{ele}</th>
-                            </>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
+                  <>
+                    {apiData?.AccountList?.length ? (
                       <>
-                        {apiData?.AccountList?.length ? (
-                          <>
-                            {apiData?.AccountList?.[0].ManufacturerId__c == filter.ManufacturerId__c ? (
+                        {apiData?.AccountList?.[0].ManufacturerId__c == filter.ManufacturerId__c ? (
+                          <table id="newnessReportTable" className="position-relative table table-responsive table-striped">
+                            <thead>
+                              <tr>
+                                <th className="thNewnessReport">Account Name</th>
+                                <th className="thNewnessReport">Account Owner Name</th>
+                                <th className="thNewnessReport">Account Status</th>
+                                <th className="thNewnessReport">Sales Rep</th>
+                                <th className="thNewnessReport">Display or Assortment</th>
+                                {apiData?.header?.map((ele, index) => {
+                                  return (
+                                    <>
+                                      <th className="thNewnessReport">{ele}</th>
+                                    </>
+                                  );
+                                })}
+                              </tr>
+                            </thead>
+                            <tbody>
                               <>
                                 {apiData?.AccountList?.map((ele, index) => {
                                   return (
@@ -208,20 +207,20 @@ const NewnessReport = () => {
                                   );
                                 })}
                               </>
-                            ) : (
-                              <div className="position-absolute start-50" style={{ top: "300%" }}>
-                                <Loading />
-                              </div>
-                            )}
-                          </>
+                            </tbody>
+                          </table>
                         ) : (
-                          <div className="position-absolute start-50" style={{ top: "300%" }}>
-                            No data found
+                          <div className="position-absolute start-50 top-50">
+                            <Loading />
                           </div>
                         )}
                       </>
-                    </tbody>
-                  </table>
+                    ) : (
+                      <div className="position-absolute start-50 top-50">
+                        No data found
+                      </div>
+                    )}
+                  </>
                 </div>
               </div>
             </div>
