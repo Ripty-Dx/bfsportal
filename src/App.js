@@ -41,8 +41,6 @@ function App() {
           element={<CustomerSupportServiceIssues />}
         ></Route>
       </Routes>
-      {/* <Login/> */}
-      {/* <Dashboard/> */}
     </>
   );
 }
